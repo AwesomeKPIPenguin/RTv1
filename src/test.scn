@@ -1,0 +1,25 @@
+
+# Structure of the scene file:
+#
+#
+
+
+
+scene {
+	name: Test Scene;
+	cam: (50, 50, 50);
+}
+
+light {
+	type: spot;
+	bright: 255;
+	origin: (0, 100, 0);
+}
+
+sphere {
+	origin: (0, 0, 0);
+	radius: 5;
+	color: 0xff0000;
+	spclr: 20;
+	trans: 0;
+}
