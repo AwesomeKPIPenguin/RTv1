@@ -4,6 +4,50 @@
 
 #include "../rtv1.h"
 
+char			*ft_search_attr_in_scope(char *content, char *attr)
+{
+	int		curve_count;
+
+	if (!ft_strcmp(attr, ""))
+		return (content);
+	curve_count = 1;
+	while (*content)
+	{
+		if (*content == '{')
+			++curve_count;
+		else if (*content == '}')
+			--curve_count;
+		if (!curve_count)
+			return (NULL);
+		if (curve_count == 1 && *content == *attr)
+			if (!ft_strncmp(content, attr, ft_strlen(attr)))
+				return (content);
+		content++;
+	}
+	return (NULL);
+}
+
+char			*ft_search_attr(char *content, char *attr)
+{
+	int		curve_count;
+
+	if (!ft_strcmp(attr, ""))
+		return (content);
+	curve_count = 0;
+	while (*content)
+	{
+		if (*content == '{')
+			++curve_count;
+		else if (*content == '}')
+			--curve_count;
+		if (!curve_count && *content == *attr)
+			if (!ft_strncmp(content, attr, ft_strlen(attr)))
+				return (content);
+		content++;
+	}
+	return (NULL);
+}
+
 void		ft_read_attr(void *dst, char *attr, int type)
 {
 	char			*data;
@@ -26,7 +70,7 @@ void		ft_read_attr(void *dst, char *attr, int type)
 	else if (type == STRING)
 		*((char **)dst) = ft_strdup(data);
 	else if (type == POINT)
-		*((t_point **)dst) = ft_atopoint(data);
+		*((t_point *)dst) = ft_atopoint(data);
 	else
-		(*((t_color *)dst)).val = ft_atoi_base(data);
+		(*((t_color *)dst)).val = ft_atoi_base(data, 16);
 }

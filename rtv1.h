@@ -45,13 +45,20 @@ typedef struct			s_point
 	double				z;
 }						t_point;
 
+typedef struct			s_light
+{
+	t_byte				bright;
+	t_point				origin;
+}						t_light;
+
 typedef struct			s_scene
 {
 	char				*name;
-	t_point				origin;
 	int					width;
 	int					height;
+	t_list				*lights;
 	t_list				*objs;
+	t_point				cam;
 }						t_scene;
 
 typedef struct			s_env
@@ -107,11 +114,35 @@ typedef struct			s_cone
 */
 
 t_scene					*ft_scenenew(void);
+t_scene					*ft_get_scene(char *file_name);
+void					ft_parse_scene(char *attr, t_scene *scn);
+
+/*
+**	light.c
+*/
+
+t_light					*ft_lightnew();
+void					ft_parse_light(char *attr, t_scene *scn);
+
+/*
+**	point.c
+*/
+
+t_point					ft_pointnew(double x, double y, double z);
+t_point					ft_atopoint(char *str);
 
 /*
 **	parse.c
 */
 
+void					ft_parse(char *content, t_scene *scn);
+
+/*
+**	attribute.c
+*/
+
 char					*ft_search_attr_in_scope(char *content, char *attr);
+char					*ft_search_attr(char *content, char *attr);
+void					ft_read_attr(void *dst, char *attr, int type);
 
 #endif
