@@ -35,17 +35,17 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@$(MAKE) -C libft
-	@$(MAKE) -C minilibx
-	@$(CC) $(CFLAGS) $(SRCS) -o $(NAME) $(LIBFT_PATH) $(LIBMLX_PATH) $(FLAGS)
+#	@$(MAKE) -C minilibx
+	@$(CC) $(CFLAGS) $(SRCS) -o $(NAME) $(LIBFT_PATH) -lm
 
 clean:
 	@/bin/rm -f src/*.o
 	@$(MAKE) clean -C libft
-	@$(MAKE) clean -C minilibx
+#	@$(MAKE) clean -C minilibx
 
 fclean: clean
 	@/bin/rm -f $(NAME)
 	@$(MAKE) fclean -C libft
-	@/bin/rm -f $(LIBMLX_PATH)
+#	@/bin/rm -f $(LIBMLX_PATH)
 
 re: fclean all

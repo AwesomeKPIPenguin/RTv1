@@ -30,17 +30,23 @@ char			*ft_search_attr_in_scope(char *content, char *attr)
 char			*ft_search_attr(char *content, char *attr)
 {
 	int		curve_count;
+	int		is_comment;
 
 	if (!ft_strcmp(attr, ""))
 		return (content);
 	curve_count = 0;
+	is_comment = 0;
 	while (*content)
 	{
 		if (*content == '{')
 			++curve_count;
 		else if (*content == '}')
 			--curve_count;
-		if (!curve_count && *content == *attr)
+		else if (*content == '#')
+			is_comment = 1;
+		else if (is_comment && *content == '\n')
+			is_comment = 0;
+		if (!curve_count && !is_comment && *content == *attr)
 			if (!ft_strncmp(content, attr, ft_strlen(attr)))
 				return (content);
 		content++;
@@ -52,12 +58,12 @@ void		ft_read_attr(void *dst, char *attr, int type)
 {
 	char			*data;
 	char			*to_free;
-	unsigned long	i;
+	long long		i;
 
 	while (*attr && *attr != ':')
 		++attr;
 	++attr;
-	if ((i = ft_strchr(attr, ';') - attr) < 0)
+	if ((i = (long long)ft_strchr(attr, ';') - (long long)attr) < 0)
 		ft_error("invalid scene file");
 	data = ft_strsub(attr, 0, i);
 	to_free = data;

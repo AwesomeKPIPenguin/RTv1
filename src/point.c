@@ -22,17 +22,17 @@ t_point		ft_atopoint(char *str)
 		++str;
 	if (!*str)
 		ft_error("invalid scene file");
-	point.x = ft_atod(&(++str));
+	point.x = ft_atod(++str);
 	while (*str && *str != ',')
 		++str;
 	if (!*str)
 		ft_error("invalid scene file");
-	point.y = ft_atod(&(++str));
+	point.y = ft_atod(++str);
 	while (*str && *str != ',')
 		++str;
 	if (!*str)
 		ft_error("invalid scene file");
-	point.z = ft_atod(&(++str));
+	point.z = ft_atod(++str);
 	while (*str && *str != ')')
 		++str;
 	if (!*str)
