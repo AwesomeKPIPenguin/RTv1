@@ -39,3 +39,10 @@ t_point		ft_atopoint(char *str)
 		ft_error("invalid scene file");
 	return (point);
 }
+
+double		ft_get_dist(t_point pnt_0, t_point pnt_1)
+{
+	return (sqrt(pow(pnt_1.x - pnt_0.x, 2) +
+				pow(pnt_1.y - pnt_0.y, 2) +
+				pow(pnt_1.z - pnt_0.z, 2)));
+}

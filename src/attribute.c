@@ -4,37 +4,14 @@
 
 #include "../rtv1.h"
 
-char			*ft_search_attr_in_scope(char *content, char *attr)
-{
-	int		curve_count;
-
-	if (!ft_strcmp(attr, ""))
-		return (content);
-	curve_count = 1;
-	while (*content)
-	{
-		if (*content == '{')
-			++curve_count;
-		else if (*content == '}')
-			--curve_count;
-		if (!curve_count)
-			return (NULL);
-		if (curve_count == 1 && *content == *attr)
-			if (!ft_strncmp(content, attr, ft_strlen(attr)))
-				return (content);
-		content++;
-	}
-	return (NULL);
-}
-
-char			*ft_search_attr(char *content, char *attr)
+char			*ft_search_attr(char *content, char *attr, int ftsa_mode)
 {
 	int		curve_count;
 	int		is_comment;
 
 	if (!ft_strcmp(attr, ""))
 		return (content);
-	curve_count = 0;
+	curve_count = ftsa_mode;
 	is_comment = 0;
 	while (*content)
 	{
@@ -46,10 +23,10 @@ char			*ft_search_attr(char *content, char *attr)
 			is_comment = 1;
 		else if (is_comment && *content == '\n')
 			is_comment = 0;
-		if (!curve_count && !is_comment && *content == *attr)
+		if (curve_count == ftsa_mode && !is_comment && *content == *attr)
 			if (!ft_strncmp(content, attr, ft_strlen(attr)))
 				return (content);
-		content++;
+		++content;
 	}
 	return (NULL);
 }

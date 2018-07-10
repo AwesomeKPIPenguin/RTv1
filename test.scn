@@ -8,6 +8,9 @@
 scene {
 	name: Test Scene;
 	cam: (50, 50, 50);
+	cam_alpha: 0;
+	cam_beta: 0;
+	cam_gamma: 1.7;
 }
 
 light {

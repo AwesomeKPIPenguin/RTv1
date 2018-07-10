@@ -17,15 +17,14 @@ void		ft_parse_light(char *attr, t_scene *scn)
 	char	*ptr;
 	t_light	*light;
 
-	while (*attr && *attr != '{')
-		++attr;
+	attr = ft_get_curve(attr);
 	if (!*attr)
 		ft_error("invalid scene file");
 	light = ft_lightnew();
 	ft_lstpush(&(scn->lights),
 		ft_nodenew((void *)light, sizeof(t_light)));
-	if ((ptr = ft_search_attr_in_scope(attr, "origin:")))
+	if ((ptr = ft_search_attr(attr, "origin:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)&(light->origin), ptr, POINT);
-	else if ((ptr = ft_search_attr_in_scope(attr, "bright:")))
+	if ((ptr = ft_search_attr(attr, "bright:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)&(light->bright), ptr, BYTE);
 }

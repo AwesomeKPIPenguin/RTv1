@@ -9,12 +9,11 @@ int 		ft_usage()
 
 int			main(int ac, char **av)
 {
-	t_scene		*scn;
+	t_env		*e;
 
 	if (ac != 2)
 		return (ft_usage());
-	scn = ft_get_scene(av[1]);
+	e = ft_envnew(av[1]);
 
-	(void)scn;
 	return (0);
 }

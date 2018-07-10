@@ -6,6 +6,9 @@ t_scene		*ft_scenenew(void)
 	t_scene	*scn;
 
 	scn = ft_smemalloc(sizeof(t_scene), "ft_scenenew [for scene]");
+	scn->dist = ft_smemalloc(1024 * sizeof(double), "ft_scenenew [for dist]");
+	scn->name = "New Scene";
+	scn->cam = ft_smemalloc(sizeof(t_camera), "ft_scenenew [for camera]");
 	return (scn);
 }
 
@@ -27,13 +30,17 @@ void		ft_parse_scene(char *attr, t_scene *scn)
 {
 	char	*ptr;
 
-	while (*attr && *attr != '{')
-		++attr;
-	if (!*attr)
-		ft_error("invalid scene file");
-	++attr;
-	if ((ptr = ft_search_attr_in_scope(attr, "name:")))
+	attr = ft_get_curve(attr);
+	if ((ptr = ft_search_attr(attr, "name:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)&(scn->name), ptr, STRING);
-	if ((ptr = ft_search_attr_in_scope(attr, "cam:")))
-		ft_read_attr((void *)&(scn->cam), ptr, POINT);
+	if ((ptr = ft_search_attr(attr, "cam:", FTSA_IN_SCOPE)))
+		ft_read_attr((void *)&(scn->cam->origin), ptr, POINT);
+	if ((ptr = ft_search_attr(attr, "cam_alpha:", FTSA_IN_SCOPE)))
+		ft_read_attr((void *)&(scn->cam->alpha), ptr, DOUBLE);
+	if ((ptr = ft_search_attr(attr, "cam_beta:", FTSA_IN_SCOPE)))
+		ft_read_attr((void *)&(scn->cam->beta), ptr, DOUBLE);
+	if ((ptr = ft_search_attr(attr, "cam_gamma:", FTSA_IN_SCOPE)))
+		ft_read_attr((void *)&(scn->cam->gamma), ptr, DOUBLE);
 }
+
+
