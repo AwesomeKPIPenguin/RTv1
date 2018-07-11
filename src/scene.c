@@ -6,8 +6,8 @@ t_scene		*ft_scenenew(void)
 	t_scene	*scn;
 
 	scn = ft_smemalloc(sizeof(t_scene), "ft_scenenew [for scene]");
-	scn->dist = ft_smemalloc(1024 * sizeof(double), "ft_scenenew [for dist]");
-	scn->name = "New Scene";
+	scn->bg_color.val = 0;
+	scn->name = ft_strdup("New Scene");
 	scn->cam = ft_smemalloc(sizeof(t_camera), "ft_scenenew [for camera]");
 	return (scn);
 }
@@ -33,14 +33,14 @@ void		ft_parse_scene(char *attr, t_scene *scn)
 	attr = ft_get_curve(attr);
 	if ((ptr = ft_search_attr(attr, "name:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)&(scn->name), ptr, STRING);
-	if ((ptr = ft_search_attr(attr, "cam:", FTSA_IN_SCOPE)))
+	if ((ptr = ft_search_attr(attr, "cam_origin:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)&(scn->cam->origin), ptr, POINT);
-	if ((ptr = ft_search_attr(attr, "cam_alpha:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)&(scn->cam->alpha), ptr, DOUBLE);
-	if ((ptr = ft_search_attr(attr, "cam_beta:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)&(scn->cam->beta), ptr, DOUBLE);
-	if ((ptr = ft_search_attr(attr, "cam_gamma:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)&(scn->cam->gamma), ptr, DOUBLE);
+	if ((ptr = ft_search_attr(attr, "cam_vector:", FTSA_IN_SCOPE)))
+		ft_read_attr((void *)&(scn->cam->vector), ptr, POINT);
+	if ((ptr = ft_search_attr(attr, "cam_rot:", FTSA_IN_SCOPE)))
+		ft_read_attr((void *)&(scn->cam->rot), ptr, DOUBLE);
+	if ((ptr = ft_search_attr(attr, "world_color:", FTSA_IN_SCOPE)))
+		ft_read_attr((void *)&(scn->bg_color), ptr, COLOR);
 }
 
 

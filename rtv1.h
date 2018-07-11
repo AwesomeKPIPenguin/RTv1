@@ -59,14 +59,14 @@ typedef struct			s_light
 
 typedef struct			s_camera
 {
-	double				alpha;
-	double				beta;
-	double				gamma;
+	double				rot;
 	t_point				origin;
+	t_point				vector;
 }						t_camera;
 
 typedef struct			s_scene
 {
+	t_color				bg_color;
 	char				*name;
 	t_list				*lights;
 	t_list				*objs;
@@ -184,5 +184,11 @@ t_object				*ft_objectnew();
 */
 
 void					ft_parse_sphere(char *attr, t_scene *scn);
+
+/*
+**	ray.c
+*/
+
+t_color					ft_cast_ray(t_env *e, int x, int y);
 
 #endif

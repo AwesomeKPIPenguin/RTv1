@@ -1,28 +1,29 @@
 
-# Structure of the scene file:
-#
-#
-
-
+# Example of the scene file
 
 scene {
-	name: Test Scene;
-	cam: (50, 50, 50);
-	cam_alpha: 0;
-	cam_beta: 0;
-	cam_gamma: 1.7;
+	name: Test Scene;				# default: New Scene
+	cam_origin: (50, 50, 50);		# default: (0, 0, 0)
+	cam_rot: 0;						# default: 0
+									# 	rotation angle of camera
+	cam_vector: (-1, -1, 0);		# default:
+	vp_dist: 500;					# default: half of the window width
+									#	distance from camera to view plane
+	world_color: 0x80ff80;			# default: 0x0 (black)
 }
 
 light {
-	type: spot;
-	bright: 255;
-	origin: (0, 100, 0);
+#	type: spot;						# default: spot
+	bright: 255;					# default: 255 (0 - 255)
+	origin: (0, 1000, 0);			# default: (0, 3000, 0)
 }
 
 sphere {
-	origin: (0, 0, 0);
-	radius: 5;
-	color: 0xff0000;
-	spclr: 20;
-	trans: 0;
+	origin: (0, 0, 0);				# default: (0, 0, 0)
+	radius: 500;					# default: 100
+	color: 0xff0000;				# default: 0xffff00 (yellow)
+	spclr: 20;						# default: 25 (0 - 255)
+									# 	specularity koef of the object
+	trans: 0;						# default: 0 (0 - 255)
+									# 	transparency koef of the object
 }
