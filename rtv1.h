@@ -11,8 +11,11 @@
 # include "libft/libft.h"
 //# include "minilibx/mlx.h"
 
-# define WIN_WIDTH		1200
-# define WIN_HEIGHT		700
+# define WIN_WIDTH		1200.0
+# define WIN_HEIGHT		700.0
+
+# define FOV_MIN		60.0
+# define FOV_MAX		120.0
 
 # define THREADS		8
 
@@ -59,9 +62,15 @@ typedef struct			s_light
 
 typedef struct			s_camera
 {
-	double				rot;
+	double				alpha;
+	double				beta;
+	double				gamma;
+	double				fov;
 	t_point				origin;
-	t_point				vector;
+	t_point				vs_start_point;
+	t_point				vs_start_vec;
+	t_point				vs_x_step_vec;
+	t_point				vs_y_step_vec;
 }						t_camera;
 
 typedef struct			s_scene
@@ -88,7 +97,7 @@ typedef struct			s_parg
 }						t_parg;
 
 /*
-**	objects
+**	--------------------------------- objects ----------------------------------
 */
 
 typedef struct			s_object
@@ -98,6 +107,8 @@ typedef struct			s_object
 	t_color				color;
 	double				cam_dist;
 	void				*fig;
+	t_point				*(*ft_get_collision_point)(
+							struct s_object *o, t_point origin, t_point direct);
 }						t_object;
 
 typedef struct			s_plane
@@ -122,6 +133,10 @@ typedef struct			s_cone
 }						t_cone;
 
 /*
+**	----------------------------------------------------------------------------
+*/
+
+/*
 **	point.c
 */
 
@@ -130,12 +145,27 @@ t_point					ft_atopoint(char *str);
 double					ft_get_dist(t_point pnt_0, t_point pnt_1);
 
 /*
+**	vector.c
+*/
+
+t_point					ft_vectornew(double x, double y, double z);
+t_point					ft_add_vector(t_point vec_1, t_point vec_2);
+t_point					ft_mul_vector(t_point vec, double k);
+
+/*
 **	scene.c
 */
 
 t_scene					*ft_scenenew(void);
 t_scene					*ft_get_scene(char *file_name);
 void					ft_parse_scene(char *attr, t_scene *scn);
+
+/*
+**	camera.c
+*/
+
+t_camera				*ft_cameranew(void);
+void					ft_parse_camera(char *attr, t_scene *scn);
 
 /*
 **	image.c
@@ -155,7 +185,6 @@ t_env					*ft_envnew(char *file_name);
 */
 
 void					ft_parse(char *content, t_scene *scn);
-void					ft_lstpush_sort(t_scene *scn, t_object *obj);
 char					*ft_get_curve(char *attr);
 
 /*
@@ -163,7 +192,7 @@ char					*ft_get_curve(char *attr);
 */
 
 char					*ft_search_attr(
-		char *content, char *attr, int ftsa_mode);
+							char *content, char *attr, int ftsa_mode);
 void					ft_read_attr(void *dst, char *attr, int type);
 
 /*
@@ -190,5 +219,14 @@ void					ft_parse_sphere(char *attr, t_scene *scn);
 */
 
 t_color					ft_cast_ray(t_env *e, int x, int y);
+
+/*
+**	utils.c
+*/
+
+t_point					ft_rotate_vector(t_point vec,
+								double alpha, double beta, double gamma);
+double					ft_torad(double degrees);
+void					ft_lstpush_sort(t_scene *scn, t_object *obj);
 
 #endif

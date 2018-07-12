@@ -3,13 +3,19 @@
 
 scene {
 	name: Test Scene;				# default: New Scene
-	cam_origin: (50, 50, 50);		# default: (0, 0, 0)
-	cam_rot: 0;						# default: 0
-									# 	rotation angle of camera
-	cam_vector: (-1, -1, 0);		# default:
-	vp_dist: 500;					# default: half of the window width
-									#	distance from camera to view plane
 	world_color: 0x80ff80;			# default: 0x0 (black)
+}
+
+camera {
+	origin: (-500, 0, 0);			# default: (-1000, 0, 0)
+	alpha: 0;						# default: 0 (in degrees)
+									# 	angle of camera rotation (near OY)
+	beta: 0;						# default: 0 (in degrees)
+									# 	angle of camera rotation (near OX)
+	gamma: 0;						# default: 0 (in degrees)
+									# 	angle of camera rotation (near OZ)
+	fov: 100;						# default: 100 (in degrees) (60 - 120)
+									# 	Field Of View
 }
 
 light {

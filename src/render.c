@@ -49,3 +49,8 @@ void	ft_render(t_env *e)
 		pthread_join(threads[i], NULL);
 	mlx_put_image_to_window(e->mlx, e->win, e->img->ptr, 0, 0);
 }
+
+t_image	*ft_smooth_img(t_image *img)
+{
+	
+}
