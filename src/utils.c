@@ -62,3 +62,12 @@ void		ft_lstpush_sort(t_scene *scn, t_object *obj)
 	else
 		ft_lstpush(&(scn->objs), node);
 }
+
+void		ft_solve_sqr(double a, double b, double c, double *res)
+{
+	double	d;
+
+	d = sqrt(pow(b, 2) - 4 * a * c);
+	res[0] = (-b + d) / (2 * a);
+	res[1] = (-b - d) / (2 * a);
+}

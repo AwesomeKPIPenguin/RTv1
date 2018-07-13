@@ -4,13 +4,16 @@
 static void	ft_get_vs_params(t_camera *cam)
 {
 	cam->vs_start_vec = ft_rotate_vector(
-		ft_vectornew(0.0, WIN_HEIGHT / 2.0, -WIN_WIDTH / 2.0),
+		ft_unitvectornew(ft_pointnew(0.0, 0.0, 0.0),
+			ft_pointnew(0.0, WIN_HEIGHT / 2.0, -WIN_WIDTH / 2.0)),
 		cam->alpha, cam->beta, cam->gamma);
 	cam->vs_x_step_vec = ft_rotate_vector(
-		ft_vectornew(0.0, 0.0, WIN_WIDTH),
+		ft_unitvectornew(ft_pointnew(0.0, 0.0, 0.0),
+			ft_pointnew(0.0, 0.0, WIN_WIDTH)),
 		cam->alpha, cam->beta, cam->gamma);
 	cam->vs_y_step_vec = ft_rotate_vector(
-		ft_vectornew(0.0, -WIN_HEIGHT, 0.0),
+		ft_unitvectornew(ft_pointnew(0.0, 0.0, 0.0),
+			ft_pointnew(0.0, -WIN_HEIGHT, 0.0)),
 		cam->alpha, cam->beta, cam->gamma);
 	cam->vs_start_point = ft_add_vector(cam->vs_start_vec,
 		ft_add_vector(cam->origin,

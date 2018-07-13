@@ -6,6 +6,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <limits.h>
+# include <float.h>
 # include <pthread.h>
 # include <stdint.h>
 # include "libft/libft.h"
@@ -57,6 +58,7 @@ typedef struct			s_point
 typedef struct			s_light
 {
 	t_byte				bright;
+	t_color				color;
 	t_point				origin;
 }						t_light;
 
@@ -107,8 +109,10 @@ typedef struct			s_object
 	t_color				color;
 	double				cam_dist;
 	void				*fig;
-	t_point				*(*ft_get_collision_point)(
-							struct s_object *o, t_point origin, t_point direct);
+	int					(*ft_is_reachable)
+							(void *fig, t_point origin, t_point direct);
+	t_point				(*ft_collide)
+							(void *fig, t_point origin, t_point direct);
 }						t_object;
 
 typedef struct			s_plane
@@ -141,16 +145,23 @@ typedef struct			s_cone
 */
 
 t_point					ft_pointnew(double x, double y, double z);
+t_point					ft_null_pointnew(void);
+int						ft_isnullpoint(t_point point);
 t_point					ft_atopoint(char *str);
 double					ft_get_dist(t_point pnt_0, t_point pnt_1);
+double					ft_linetopoint_dist
+							(t_point origin, t_point direct, t_point point);
 
 /*
 **	vector.c
 */
 
-t_point					ft_vectornew(double x, double y, double z);
+t_point					ft_vectornew(t_point origin, t_point direct);
+t_point					ft_unitvectornew(t_point origin, t_point direct);
 t_point					ft_add_vector(t_point vec_1, t_point vec_2);
-t_point					ft_mul_vector(t_point vec, double k);
+t_point					ft_mul_vector_s(t_point vec, double k);
+t_point					ft_mul_vector_v(t_point vec_1, t_point vec_2);
+double					ft_vector_len(t_point vec);
 
 /*
 **	scene.c
@@ -213,6 +224,10 @@ t_object				*ft_objectnew();
 */
 
 void					ft_parse_sphere(char *attr, t_scene *scn);
+int						ft_is_reachable_sphere
+							(void *fig, t_point origin, t_point direct);
+t_point					ft_collide_sphere
+							(void *fig, t_point origin, t_point direct);
 
 /*
 **	ray.c
@@ -224,9 +239,10 @@ t_color					ft_cast_ray(t_env *e, int x, int y);
 **	utils.c
 */
 
-t_point					ft_rotate_vector(t_point vec,
-								double alpha, double beta, double gamma);
+t_point					ft_rotate_vector
+					(t_point vec, double alpha, double beta, double gamma);
 double					ft_torad(double degrees);
 void					ft_lstpush_sort(t_scene *scn, t_object *obj);
+void					ft_solve_sqr(double a, double b, double c, double *res);
 
 #endif

@@ -4,22 +4,22 @@
 
 #include "../rtv1.h"
 
-t_point		ft_find_collision(t_list *objs, t_object *dist,
+t_point		ft_find_collision(t_list *objs, t_object **dst,
 								t_point origin, t_point direct)
 {
-	t_point		*coll;
+	t_point		coll;
 	t_list		*node;
 	t_object	*o;
 
-	coll = NULL;
 	node = objs;
 	while (node)
 	{
 		o = (t_object *)(node->content);
-		if ((coll = o->ft_get_collision_point(o, origin, direct)))
+		if (o->ft_is_reachable(o->fig, origin, direct) &&
+			!ft_isnullpoint(coll = o->ft_collide(o->fig, origin, direct)))
 		{
-			dist = o;
-			return (*coll);
+			*dst = o;
+			return (coll);
 		}
 		node = node->next;
 	}
@@ -37,8 +37,8 @@ t_color		ft_cast_ray(t_env *e, int x, int y)
 	t_point		vec;
 
 	vec = e->scn->cam->vs_start_point;
-	vec = ft_add_vector(vec, ft_mul_vector(e->scn->cam->vs_x_step_vec, x));
-	vec = ft_add_vector(vec, ft_mul_vector(e->scn->cam->vs_y_step_vec, y));
+	vec = ft_add_vector(vec, ft_mul_vector_s(e->scn->cam->vs_x_step_vec, x));
+	vec = ft_add_vector(vec, ft_mul_vector_s(e->scn->cam->vs_y_step_vec, y));
 	res = ft_throw_ray(e, e->scn->cam->origin, vec);
 
 	return (res);

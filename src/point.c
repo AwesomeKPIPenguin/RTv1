@@ -14,6 +14,17 @@ t_point		ft_pointnew(double x, double y, double z)
 	return (point);
 }
 
+t_point		ft_null_pointnew(void)
+{
+	return (ft_pointnew(DBL_MIN, DBL_MIN, DBL_MIN));
+}
+
+int			ft_isnullpoint(t_point point)
+{
+	return ((point.x == DBL_MIN && point.y == DBL_MIN && point.z == DBL_MIN) ?
+		1 : 0);
+}
+
 t_point		ft_atopoint(char *str)
 {
 	t_point		point;
@@ -45,4 +56,16 @@ double		ft_get_dist(t_point pnt_0, t_point pnt_1)
 	return (sqrt(pow(pnt_1.x - pnt_0.x, 2) +
 				pow(pnt_1.y - pnt_0.y, 2) +
 				pow(pnt_1.z - pnt_0.z, 2)));
+}
+
+double		ft_linetopoint_dist(t_point origin, t_point direct, t_point point)
+{
+	t_point		od;
+	t_point		po;
+
+	od = ft_pointnew(direct.x - origin.x, direct.y - origin.y,
+					 direct.z - origin.z);
+	po = ft_pointnew(origin.x - point.x, origin.y - point.y,
+					 origin.z - point.z);
+	return (ft_vector_len(ft_mul_vector_v(od, po)) / ft_vector_len(od));
 }
