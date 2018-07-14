@@ -19,8 +19,8 @@ camera {
 }
 
 light {
-#	type: spot;						# default: spot
-	bright: 255;					# default: 255 (0 - 255)
+#	type: point;					# default: point
+	bright: 255;					# default: 255 (1 - 255)
 	origin: (0, 1000, 0);			# default: (0, 3000, 0)
 }
 

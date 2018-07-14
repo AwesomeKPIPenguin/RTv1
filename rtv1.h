@@ -8,7 +8,7 @@
 # include <limits.h>
 # include <float.h>
 # include <pthread.h>
-# include <stdint.h>
+# include <stdint-gcc.h>
 # include "libft/libft.h"
 //# include "minilibx/mlx.h"
 
@@ -17,6 +17,8 @@
 
 # define FOV_MIN		60.0
 # define FOV_MAX		120.0
+
+# define BRIGHT_UNIT	1000.0
 
 # define THREADS		8
 
@@ -54,6 +56,14 @@ typedef struct			s_point
 	double				y;
 	double				z;
 }						t_point;
+
+typedef struct			s_collision
+{
+	t_byte				illum;
+	t_point				coll_pnt;
+	t_point				spclr_vec;
+	t_point				trans_vec;
+}						t_coll;
 
 typedef struct			s_light
 {
@@ -113,6 +123,7 @@ typedef struct			s_object
 							(void *fig, t_point origin, t_point direct);
 	t_point				(*ft_collide)
 							(void *fig, t_point origin, t_point direct);
+	t_point				(*ft_get_norm)(void *fig, t_point coll);
 }						t_object;
 
 typedef struct			s_plane
@@ -162,6 +173,9 @@ t_point					ft_add_vector(t_point vec_1, t_point vec_2);
 t_point					ft_mul_vector_s(t_point vec, double k);
 t_point					ft_mul_vector_v(t_point vec_1, t_point vec_2);
 double					ft_vector_len(t_point vec);
+double					ft_vectors_cos(t_point vec_1, t_point vec_2);
+t_point					ft_reflect_vector
+							(t_point origin, t_point coll, t_point norm);
 
 /*
 **	scene.c
@@ -228,6 +242,7 @@ int						ft_is_reachable_sphere
 							(void *fig, t_point origin, t_point direct);
 t_point					ft_collide_sphere
 							(void *fig, t_point origin, t_point direct);
+t_point					ft_get_norm_sphere(void *fig, t_point coll);
 
 /*
 **	ray.c

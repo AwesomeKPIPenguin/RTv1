@@ -48,3 +48,23 @@ double		ft_vector_len(t_point vec)
 {
 	return (sqrt(pow(vec.x, 2) + pow(vec.y, 2) + pow(vec.z, 2)));
 }
+
+double		ft_vectors_cos(t_point vec_1, t_point vec_2)
+{
+	return ((vec_1.x * vec_2.x + vec_1.y * vec_2.y + vec_1.z * vec_2.z) /
+		  (ft_vector_len(vec_1) * ft_vector_len(vec_2)));
+}
+
+t_point		ft_reflect_vector(t_point origin, t_point coll, t_point norm)
+{
+	t_point		cn;
+	t_point		oc;
+	t_point		on;
+	double		cos;
+
+	cn = ft_unitvectornew(ft_pointnew(0.0, 0.0, 0.0), norm);
+	oc = ft_vectornew(origin, coll);
+	cos = -ft_vectors_cos(oc, cn);
+	on = ft_vectornew(origin, ft_mul_vector_s(cn, (ft_vector_len(oc) * cos)));
+	return (ft_vectornew(coll, ft_add_vector(origin, ft_mul_vector_s(on, 2))));
+}

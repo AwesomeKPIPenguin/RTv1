@@ -4,10 +4,10 @@
 
 #include "../rtv1.h"
 
-t_point		ft_find_collision(t_list *objs, t_object **dst,
+t_coll		ft_find_collision(t_list *objs, t_object **dst,
 								t_point origin, t_point direct)
 {
-	t_point		coll;
+	t_coll		coll;
 	t_list		*node;
 	t_object	*o;
 
@@ -15,19 +15,31 @@ t_point		ft_find_collision(t_list *objs, t_object **dst,
 	while (node)
 	{
 		o = (t_object *)(node->content);
-		if (o->ft_is_reachable(o->fig, origin, direct) &&
-			!ft_isnullpoint(coll = o->ft_collide(o->fig, origin, direct)))
+		if (o->ft_is_reachable(o->fig, origin, direct) && !ft_isnullpoint(
+				coll.coll_pnt = o->ft_collide(o->fig, origin, direct)))
 		{
 			*dst = o;
+			if (o->spclr)
+				coll.spclr_vec = ft_reflect_vector(origin, coll.coll_pnt,
+					o->ft_get_norm(o->fig, coll.coll_pnt));
+			// get specularity
+			coll.illum = ft_illuminate();
 			return (coll);
 		}
 		node = node->next;
 	}
-	return (NULL);
+	return (coll);
 }
 
 t_color		ft_throw_ray(t_env *e, t_point origin, t_point direct)
 {
+	t_object	*o;
+	t_point		coll;
+
+	o = NULL;
+	coll = ft_find_collision(e->scn->objs, &o, origin, direct);
+	if (!o)
+		return (e->scn->bg_color);
 
 }
 

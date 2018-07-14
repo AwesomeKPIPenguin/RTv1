@@ -50,9 +50,8 @@ int			ft_is_reachable_sphere(void *fig, t_point origin, t_point direct)
 		return (1);
 	od = ft_vectornew(origin, direct);
 	os = ft_vectornew(origin, sph->origin);
-	cos = (od.x * os.x + od.y * os.y + od.z * os.z) /
-			(ft_vector_len(od) * ft_vector_len(os));
-	return ((cos > -0.5 && cos < 0.5) ? 1 : 0);
+	cos = ft_vectors_cos(od, os);
+	return ((cos > 0) ? 1 : 0);
 }
 
 t_point		ft_collide_sphere(void *fig, t_point origin, t_point direct)
@@ -79,4 +78,9 @@ t_point		ft_collide_sphere(void *fig, t_point origin, t_point direct)
 	return ((ft_get_dist(origin, coll_points[0]) >
 				ft_get_dist(origin, coll_points[1])) ?
 			coll_points[0] : coll_points[1]);
+}
+
+t_point		ft_get_norm_sphere(void *fig, t_point coll)
+{
+	return (ft_vectornew(((t_sphere *)fig)->origin, coll));
 }
