@@ -57,14 +57,6 @@ typedef struct			s_point
 	double				z;
 }						t_point;
 
-typedef struct			s_collision
-{
-	t_byte				illum;
-	t_point				coll_pnt;
-	t_point				spclr_vec;
-	t_point				trans_vec;
-}						t_coll;
-
 typedef struct			s_light
 {
 	t_byte				bright;
@@ -99,6 +91,7 @@ typedef struct			s_env
 	void				*mlx;
 	void				*win;
 	t_img				*img;
+	t_img				*smooth_img;
 	t_scene				*scn;
 }						t_env;
 
@@ -128,9 +121,8 @@ typedef struct			s_object
 
 typedef struct			s_plane
 {
-	t_point				point_0;
-	t_point				point_1;
-	t_point				point_2;
+	t_point				origin;
+	t_point				norm;
 }						t_plane;
 
 typedef struct			s_sphere
@@ -150,6 +142,15 @@ typedef struct			s_cone
 /*
 **	----------------------------------------------------------------------------
 */
+
+typedef struct			s_collision
+{
+	t_byte				illum;
+	t_object			*o;
+	t_point				coll_pnt;
+	t_point				spclr_vec;
+	t_point				trans_vec;
+}						t_coll;
 
 /*
 **	point.c
@@ -248,7 +249,20 @@ t_point					ft_get_norm_sphere(void *fig, t_point coll);
 **	ray.c
 */
 
-t_color					ft_cast_ray(t_env *e, int x, int y);
+t_color					ft_trace_ray(t_env *e, int x, int y);
+
+/*
+**	illumination.c
+*/
+
+t_byte					ft_illuminate(t_scene *scn, t_point coll, t_point norm);
+
+/*
+**	collision.c
+*/
+
+t_coll					ft_find_collision
+							(t_scene *scn, t_point origin, t_point direct);
 
 /*
 **	utils.c
@@ -259,5 +273,7 @@ t_point					ft_rotate_vector
 double					ft_torad(double degrees);
 void					ft_lstpush_sort(t_scene *scn, t_object *obj);
 void					ft_solve_sqr(double a, double b, double c, double *res);
+t_color					ft_apply_a(t_color color, t_byte bright);
+t_color					ft_add_color(t_color c_1, t_color c_2);
 
 #endif

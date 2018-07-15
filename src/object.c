@@ -9,5 +9,6 @@ t_object	*ft_objectnew()
 	t_object	*obj;
 
 	obj = ft_smemalloc(sizeof(t_object), "ft_objectnew");
+	obj->color.val = 0xffff00;
 	return (obj);
 }

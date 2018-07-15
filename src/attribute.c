@@ -4,7 +4,7 @@
 
 #include "../rtv1.h"
 
-char			*ft_search_attr(char *content, char *attr, int ftsa_mode)
+char		*ft_search_attr(char *content, char *attr, int ftsa_mode)
 {
 	int		curve_count;
 	int		is_comment;
@@ -56,4 +56,10 @@ void		ft_read_attr(void *dst, char *attr, int type)
 		*((t_point *)dst) = ft_atopoint(data);
 	else
 		(*((t_color *)dst)).val = ft_atoi_base(data, 16);
+}
+
+void		ft_search_all_attr
+		(t_scene *scn, char *content, char *attr, void (*ft_parse)(char *attr, t_scn) int ftsa_mode)
+{
+
 }

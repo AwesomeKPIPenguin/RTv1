@@ -71,3 +71,22 @@ void		ft_solve_sqr(double a, double b, double c, double *res)
 	res[0] = (-b + d) / (2 * a);
 	res[1] = (-b - d) / (2 * a);
 }
+
+t_color		ft_apply_a(t_color color, t_byte bright)
+{
+	double	k;
+
+	k = (double)bright / 255.0;
+	color.argb[2] *= k;
+	color.argb[1] *= k;
+	color.argb[0] *= k;
+	return (color);
+}
+
+t_color		ft_add_color(t_color c_1, t_color c_2)
+{
+	c_1.argb[2] += (c_2.argb[2] - c_1.argb[2]) / 2;
+	c_1.argb[1] += (c_2.argb[1] - c_1.argb[1]) / 2;
+	c_1.argb[0] += (c_2.argb[0] - c_1.argb[0]) / 2;
+	return (c_1);
+}

@@ -23,10 +23,69 @@ void	*ft_section_handle(void *arg)
 		y_iter = y[0];
 		while (++y_iter < y[1])
 			ft_pixel_put_image(parg->e, x[0], y_iter,
-				ft_cast_ray(parg->e, x[0], y_iter).val);
+				ft_trace_ray(parg->e, x[0], y_iter).val);
 	}
 	return (NULL);
 }
+
+
+/*
+
+int		*ft_get_img_color_ptr(t_img *img, int x, int y)
+{
+	return ((int *)(img->data + (y * (int)WIN_WIDTH + x) * img->bpp));
+}
+
+int		ft_sum_pxls(t_env *e, int x, int y)
+{
+	int		res;
+	int		*data;
+
+	data = ft_get_img_color_ptr(e->img, x, y);
+	res = *data;
+	if ()
+}
+
+int		ft_smooth_pixel(t_env *e, int x, int y)
+{
+	int		res;
+	int		*data;
+	int		pxls;
+
+	if (!x || x == WIN_WIDTH - 1)
+	{
+		if (!y || y == WIN_HEIGHT - 1)
+			pxls = 4;
+		else
+			pxls = 6;
+	}
+	else
+	{
+		if (!y || y == WIN_HEIGHT - 1)
+			pxls = 6;
+		else
+			pxls = 9;
+	}
+}
+
+t_img	*ft_smooth_img(t_env *e)
+{
+	int		x;
+	int		y;
+	int		*data;
+
+	y = -1;
+	while (++y)
+	{
+		x = -1;
+		while (++x)
+		{
+			data = ft_get_img_color_ptr(img, x, y);
+		}
+	}
+}
+
+*/
 
 void	ft_render(t_env *e)
 {
@@ -48,9 +107,4 @@ void	ft_render(t_env *e)
 	while (++i < THREADS)
 		pthread_join(threads[i], NULL);
 	mlx_put_image_to_window(e->mlx, e->win, e->img->ptr, 0, 0);
-}
-
-t_image	*ft_smooth_img(t_image *img)
-{
-	
 }

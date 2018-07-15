@@ -24,6 +24,17 @@ light {
 	origin: (0, 1000, 0);			# default: (0, 3000, 0)
 }
 
+plane {
+	origin: (0, -500, 0)			# default: (0, -1000, 0)
+	norm: (0, 1, 0)					# default: (0, 1, 0)
+									# 	normal vector of the plane
+	color: 0x0000ff;				# default: 0xffff00 (yellow)
+	spclr: 0;						# default: 0 (0 - 255)
+									# 	specularity koef of the object
+	trans: 0;						# default: 0 (0 - 255)
+									# 	transparency koef of the object
+}
+
 sphere {
 	origin: (0, 0, 0);				# default: (0, 0, 0)
 	radius: 500;					# default: 100

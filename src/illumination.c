@@ -5,7 +5,7 @@
 #include "../rtv1.h"
 
 /*
-**	by know, the searching ray would stop if any object will be found
+**	by now, the searching ray would stop if any object will be found
 **	(specularity and transparency will be taken into account latter)
 */
 
@@ -37,10 +37,11 @@ t_byte		ft_illuminate(t_scene *scn, t_point coll, t_point norm)
 	while (l_node)
 	{
 		l = (t_light *)(l_node->content);
-		if (!ft_iscollide(scn, coll, l->origin))
+		if (ft_vectors_cos(norm, ft_vectornew(coll, l->origin)) > 0 &&
+			!ft_iscollide(scn, coll, l->origin))
 			res += l->bright * BRIGHT_UNIT /
 				(pow(ft_get_dist(coll, l->origin), 2)) - res;
 		l_node = l_node->next;
 	}
-	return (coll);
+	return (res);
 }
