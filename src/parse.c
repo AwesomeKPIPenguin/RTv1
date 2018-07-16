@@ -37,9 +37,9 @@ void		ft_parse(char *content, t_scene *scn)
 		ft_parse_sphere(attr, scn);
 }
 
-char		*ft_get_curve(char *attr)
+char		*ft_get_curve(char *attr, char curve)
 {
-	while (*attr && *attr != '{')
+	while (*attr && *attr != curve)
 		++attr;
 	if (!*attr)
 		ft_error("invalid scene file");

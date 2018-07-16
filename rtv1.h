@@ -163,6 +163,8 @@ t_point					ft_atopoint(char *str);
 double					ft_get_dist(t_point pnt_0, t_point pnt_1);
 double					ft_linetopoint_dist
 							(t_point origin, t_point direct, t_point point);
+double					ft_planetopoint_dist
+							(t_point origin, t_point norm, t_point point);
 
 /*
 **	vector.c
@@ -211,7 +213,7 @@ t_env					*ft_envnew(char *file_name);
 */
 
 void					ft_parse(char *content, t_scene *scn);
-char					*ft_get_curve(char *attr);
+char					*ft_get_curve(char *attr, char curve);
 
 /*
 **	attribute.c
@@ -233,6 +235,18 @@ void					ft_parse_light(char *attr, t_scene *scn);
 */
 
 t_object				*ft_objectnew();
+void					ft_parse_object(char *attr, t_object *o);
+
+/*
+**	plane.c
+*/
+
+void					ft_parse_plane(char *attr, t_scene *scn);
+int						ft_is_reachable_plane
+		(void *fig, t_point origin, t_point direct);
+t_point					ft_collide_plane
+		(void *fig, t_point origin, t_point direct);
+t_point					ft_get_norm_plane(void *fig, t_point coll);
 
 /*
 **	sphere.c

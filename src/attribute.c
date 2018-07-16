@@ -59,7 +59,8 @@ void		ft_read_attr(void *dst, char *attr, int type)
 }
 
 void		ft_search_all_attr
-		(t_scene *scn, char *content, char *attr, void (*ft_parse)(char *attr, t_scn) int ftsa_mode)
+				(t_scene *scn, char *content, char *attr, 
+				void (*ft_parse)(char *attr, t_scene *scn), int ftsa_mode)
 {
 
 }

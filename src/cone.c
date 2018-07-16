@@ -1,35 +1,39 @@
 //
-// Created by Dimon on 10.07.2018.
+// Created by Dimon on 16.07.2018.
 //
 
 #include "../rtv1.h"
 
-t_sphere	*ft_spherenew()
+t_cone		*ft_conenew()
 {
-	t_sphere	*sph;
+	t_cone	*cone;
 
-	sph = ft_smemalloc(sizeof(t_sphere), "ft_spherenew");
-	return (sph);
+	cone = ft_smemalloc(sizeof(t_cone), "ft_conenew");
+	return (cone);
 }
 
-void		ft_parse_sphere(char *attr, t_scene *scn)
+void		ft_parse_cone(char *attr, t_scene *scn)
 {
 	t_object	*obj;
-	t_sphere	*sph;
+	t_cone		*cone;
 	char		*ptr;
 
 	ft_parse_object(attr, obj);
-	obj->ft_collide = ft_collide_sphere;
-	obj->ft_is_reachable = ft_is_reachable_sphere;
-	obj->ft_get_norm = ft_get_norm_sphere;
-	sph = ft_spherenew();
+	obj->ft_collide = ft_collide_cone;
+	obj->ft_is_reachable = ft_is_reachable_cone;
+	obj->ft_get_norm = ft_get_norm_cone;
+	cone = ft_conenew();
 	attr = ft_get_curve(attr, '{');
-	if ((ptr = ft_search_attr(attr, "origin:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)(&(sph->origin)), ptr, POINT);
-	if ((ptr = ft_search_attr(attr, "radius:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)(&(sph->radius)), ptr, DOUBLE);
-	obj->fig = sph;
-	obj->cam_dist = ft_get_dist(scn->cam->origin, sph->origin) - sph->radius;
+	if ((ptr = ft_search_attr(attr, "base:", FTSA_IN_SCOPE)))
+		ft_read_attr((void *)(&(cone->base)), ptr, POINT);
+	if ((ptr = ft_search_attr(attr, "base_rad:", FTSA_IN_SCOPE)))
+		ft_read_attr((void *)(&(cone->base_rad)), ptr, DOUBLE);
+	if ((ptr = ft_search_attr(attr, "vert:", FTSA_IN_SCOPE)))
+		ft_read_attr((void *)(&(cone->vert)), ptr, POINT);
+	if ((ptr = ft_search_attr(attr, "vert_rad:", FTSA_IN_SCOPE)))
+		ft_read_attr((void *)(&(cone->vert_rad)), ptr, DOUBLE);
+	obj->fig = cone;
+	obj->cam_dist = ;
 	ft_lstpush_sort(scn, obj);
 }
 
@@ -63,15 +67,15 @@ t_point		ft_collide_sphere(void *fig, t_point origin, t_point direct)
 		return (ft_null_pointnew());
 	od = ft_vectornew(origin, direct);
 	ft_solve_sqr((pow(od.x, 2) + pow(od.y, 2) + pow(od.z, 2)),
-				(origin.x * od.x + origin.y * od.y + origin.z * od.z),
-				(pow(origin.x, 2) + pow(origin.y, 2) + pow(origin.z, 2) -
-					pow(sph->radius, 2)), sqr_res);
+				 (origin.x * od.x + origin.y * od.y + origin.z * od.z),
+				 (pow(origin.x, 2) + pow(origin.y, 2) + pow(origin.z, 2) -
+				  pow(sph->radius, 2)), sqr_res);
 	coll_points[0] = ft_pointnew(od.x * sqr_res[0] + origin.x,
-		od.y * sqr_res[0] + origin.y, od.z * sqr_res[0] + origin.z);
+								 od.y * sqr_res[0] + origin.y, od.z * sqr_res[0] + origin.z);
 	coll_points[1] = ft_pointnew(od.x * sqr_res[1] + origin.x,
-		od.y * sqr_res[1] + origin.y, od.z * sqr_res[1] + origin.z);
+								 od.y * sqr_res[1] + origin.y, od.z * sqr_res[1] + origin.z);
 	return ((ft_get_dist(origin, coll_points[0]) >
-				ft_get_dist(origin, coll_points[1])) ?
+			 ft_get_dist(origin, coll_points[1])) ?
 			coll_points[0] : coll_points[1]);
 }
 

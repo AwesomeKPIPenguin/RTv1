@@ -31,15 +31,16 @@ t_byte		ft_illuminate(t_scene *scn, t_point coll, t_point norm)
 	t_list		*l_node;
 	t_light		*l;
 	t_byte		res;
+	double		cos;
 
 	l_node = scn->lights;
 	res = 0;
 	while (l_node)
 	{
 		l = (t_light *)(l_node->content);
-		if (ft_vectors_cos(norm, ft_vectornew(coll, l->origin)) > 0 &&
-			!ft_iscollide(scn, coll, l->origin))
-			res += l->bright * BRIGHT_UNIT /
+		cos = ft_vectors_cos(norm, ft_vectornew(coll, l->origin));
+		if (cos > 0 && !ft_iscollide(scn, coll, l->origin))
+			res += l->bright * BRIGHT_UNIT * cos /
 				(pow(ft_get_dist(coll, l->origin), 2)) - res;
 		l_node = l_node->next;
 	}
