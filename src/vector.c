@@ -17,7 +17,7 @@ t_point		ft_unitvectornew(t_point origin, t_point direct)
 
 	vec = ft_vectornew(origin, direct);
 	len = ft_vector_len(vec);
-	ft_mul_vector_s(vec, 1.0 / len);
+	ft_scale_vector(vec, 1.0 / len);
 	return (vec);
 }
 
@@ -29,6 +29,11 @@ t_point		ft_add_vector(t_point vec_1, t_point vec_2)
 	return (vec_1);
 }
 
+double		ft_mul_vector_s(t_point vec_1, t_point vec_2)
+{
+	return (vec_1.x * vec_2.x + vec_1.y * vec_2.y + vec_1.z * vec_2.z);
+}
+
 t_point		ft_mul_vector_v(t_point vec_1, t_point vec_2)
 {
 	return (ft_pointnew(vec_1.y * vec_2.z - vec_1.z * vec_2.y,
@@ -36,7 +41,7 @@ t_point		ft_mul_vector_v(t_point vec_1, t_point vec_2)
 						vec_1.y * vec_2.x - vec_1.x * vec_2.y));
 }
 
-t_point		ft_mul_vector_s(t_point vec, double k)
+t_point		ft_scale_vector(t_point vec, double k)
 {
 	vec.x *= k;
 	vec.y *= k;
@@ -65,6 +70,7 @@ t_point		ft_reflect_vector(t_point origin, t_point coll, t_point norm)
 	cn = ft_unitvectornew(ft_pointnew(0.0, 0.0, 0.0), norm);
 	oc = ft_vectornew(origin, coll);
 	cos = -ft_vectors_cos(oc, cn);
-	on = ft_vectornew(origin, ft_mul_vector_s(cn, (ft_vector_len(oc) * cos)));
-	return (ft_vectornew(coll, ft_add_vector(origin, ft_mul_vector_s(on, 2))));
+	on = ft_vectornew(origin, ft_scale_vector(cn, (ft_vector_len(oc) * cos)));
+	return (
+		ft_unitvectornew(coll, ft_add_vector(origin, ft_scale_vector(on, 2))));
 }

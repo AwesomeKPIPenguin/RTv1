@@ -63,13 +63,20 @@ void		ft_lstpush_sort(t_scene *scn, t_object *obj)
 		ft_lstpush(&(scn->objs), node);
 }
 
-void		ft_solve_sqr(double a, double b, double c, double *res)
+void		ft_solve_sqr(double a, double b, double c, double (*res)[3])
 {
 	double	d;
 
-	d = sqrt(pow(b, 2) - 4 * a * c);
-	res[0] = (-b + d) / (2 * a);
-	res[1] = (-b - d) / (2 * a);
+	d = pow(b, 2) - 4 * a * c;
+	if (d < 0)
+	{
+		*res[0] = 0;
+		return ;
+	}
+	d = sqrt(d);
+	*res[0] = 1;
+	*res[1] = (-b + d) / (2 * a);
+	*res[2] = (-b - d) / (2 * a);
 }
 
 t_color		ft_apply_a(t_color color, t_byte bright)

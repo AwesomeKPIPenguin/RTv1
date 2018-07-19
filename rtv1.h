@@ -173,7 +173,8 @@ double					ft_planetopoint_dist
 t_point					ft_vectornew(t_point origin, t_point direct);
 t_point					ft_unitvectornew(t_point origin, t_point direct);
 t_point					ft_add_vector(t_point vec_1, t_point vec_2);
-t_point					ft_mul_vector_s(t_point vec, double k);
+t_point					ft_scale_vector(t_point vec, double k);
+double					ft_mul_vector_s(t_point vec_1, t_point vec_2);
 t_point					ft_mul_vector_v(t_point vec_1, t_point vec_2);
 double					ft_vector_len(t_point vec);
 double					ft_vectors_cos(t_point vec_1, t_point vec_2);
@@ -286,7 +287,8 @@ t_point					ft_rotate_vector
 					(t_point vec, double alpha, double beta, double gamma);
 double					ft_torad(double degrees);
 void					ft_lstpush_sort(t_scene *scn, t_object *obj);
-void					ft_solve_sqr(double a, double b, double c, double *res);
+void					ft_solve_sqr
+							(double a, double b, double c, double (*res)[3]);
 t_color					ft_apply_a(t_color color, t_byte bright);
 t_color					ft_add_color(t_color c_1, t_color c_2);
 

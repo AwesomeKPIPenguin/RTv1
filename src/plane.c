@@ -48,19 +48,18 @@ t_point		ft_collide_plane(void *fig, t_point origin, t_point direct)
 {
 	t_plane		*pln;
 	t_point		coll;
-	t_point		od;
 	double		t;
 
 	pln = (t_plane *)fig;
-	od = ft_vectornew(origin, direct);
-	if (!ft_vectors_cos(od, pln->norm))
+	if (!ft_vectors_cos(direct, pln->norm))
 		return (ft_null_pointnew());
 	t = -(pln->norm.x * origin.x + pln->norm.y * origin.y +
 			pln->norm.z * origin.z) /
-		(pln->norm.x * od.x + pln->norm.y * od.y + pln->norm.z * od.z);
-	coll = ft_pointnew(origin.x + t * od.x, origin.y + t * od.y,
-		origin.z + t * od.z);
-	return ((ft_vectornew(origin, coll).x * od.x < 0) ?
+		(pln->norm.x * direct.x + pln->norm.y * direct.y +
+			pln->norm.z * direct.z);
+	coll = ft_pointnew(origin.x + t * direct.x, origin.y + t * direct.y,
+		origin.z + t * direct.z);
+	return ((ft_vectornew(origin, coll).x * direct.x < 0) ?
 			ft_null_pointnew() : coll);
 }
 

@@ -69,8 +69,9 @@ t_color			ft_trace_ray(t_env *e, int x, int y)
 	t_point		vec;
 
 	vec = e->scn->cam->vs_start_point;
-	vec = ft_add_vector(vec, ft_mul_vector_s(e->scn->cam->vs_x_step_vec, x));
-	vec = ft_add_vector(vec, ft_mul_vector_s(e->scn->cam->vs_y_step_vec, y));
+	vec = ft_add_vector(vec, ft_scale_vector(e->scn->cam->vs_x_step_vec, x));
+	vec = ft_add_vector(vec, ft_scale_vector(e->scn->cam->vs_y_step_vec, y));
+	vec = ft_unitvectornew(e->scn->cam->origin, vec);
 	res = ft_throw_ray(e, e->scn->cam->origin, vec);
 	return (res);
 }
