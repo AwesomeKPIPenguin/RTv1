@@ -25,16 +25,25 @@ static void	ft_get_vs_params(t_camera *cam)
 void		ft_parse(char *content, t_scene *scn)
 {
 	char	*attr;
+	char	*tmp;
 
 	if ((attr = ft_search_attr(content, "scene", FTSA_GLOBALLY)))
 		ft_parse_scene(attr, scn);
 	if ((attr = ft_search_attr(content, "camera", FTSA_GLOBALLY)))
 		ft_parse_camera(attr, scn);
 	ft_get_vs_params(scn->cam);
-	if ((attr = ft_search_attr(content, "light", FTSA_GLOBALLY)))
-		ft_parse_light(attr, scn);
-	if ((attr = ft_search_attr(content, "sphere", FTSA_GLOBALLY)))
-		ft_parse_sphere(attr, scn);
+	tmp = content;
+	while ((attr = ft_search_attr(tmp, "light", FTSA_GLOBALLY)))
+		tmp = ft_parse_light(attr, scn);
+	tmp = content;
+	while ((attr = ft_search_attr(tmp, "plane", FTSA_GLOBALLY)))
+		tmp = ft_parse_plane(attr, scn);
+	tmp = content;
+	while ((attr = ft_search_attr(tmp, "sphere", FTSA_GLOBALLY)))
+		tmp = ft_parse_sphere(attr, scn);
+	tmp = content;
+	while ((attr = ft_search_attr(tmp, "cone", FTSA_GLOBALLY)))
+		tmp = ft_parse_cone(attr, scn);
 }
 
 char		*ft_get_curve(char *attr, char curve)

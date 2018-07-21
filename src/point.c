@@ -75,3 +75,20 @@ double		ft_planetopoint_dist(t_point origin, t_point norm, t_point point)
 	return (norm.x * (point.x - origin.x) + norm.y * (point.y - origin.y) +
 		norm.z * (point.z - origin.z)) / ft_vector_len(norm);
 }
+
+t_point		ft_project_point(t_point origin, t_point direct, t_point point)
+{
+	t_plane		*pln;
+
+	pln = ft_planenew();
+	pln->origin = point;
+	pln->norm = direct;
+	return (ft_collide_plane((void *)pln, origin, direct));
+}
+
+int			ft_pointcmp(t_point pnt_0, t_point pnt_1)
+{
+	return (fabs(pnt_0.x - pnt_1.x) < PRECISION &&
+			fabs(pnt_0.y - pnt_1.y) < PRECISION &&
+			fabs(pnt_0.z - pnt_1.z) < PRECISION);
+}

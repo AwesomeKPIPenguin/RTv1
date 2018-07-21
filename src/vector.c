@@ -21,6 +21,14 @@ t_point		ft_unitvectornew(t_point origin, t_point direct)
 	return (vec);
 }
 
+t_point		ft_tounitvector(t_point vec)
+{
+	double	len;
+
+	len = ft_vector_len(vec);
+	return (ft_pointnew(vec.x / len, vec.y / len, vec.z / len));
+}
+
 t_point		ft_add_vector(t_point vec_1, t_point vec_2)
 {
 	vec_1.x += vec_2.x;

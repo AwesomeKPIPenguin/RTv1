@@ -22,6 +22,8 @@
 
 # define THREADS		8
 
+# define PRECISION		1e-3
+
 # define BYTE			0
 # define DOUBLE			1
 # define STRING			2
@@ -165,6 +167,9 @@ double					ft_linetopoint_dist
 							(t_point origin, t_point direct, t_point point);
 double					ft_planetopoint_dist
 							(t_point origin, t_point norm, t_point point);
+t_point					ft_project_point
+							(t_point origin, t_point direct, t_point point);
+int						ft_pointcmp(t_point pnt_0, t_point pnt_1);
 
 /*
 **	vector.c
@@ -172,6 +177,7 @@ double					ft_planetopoint_dist
 
 t_point					ft_vectornew(t_point origin, t_point direct);
 t_point					ft_unitvectornew(t_point origin, t_point direct);
+t_point					ft_tounitvector(t_point vec);
 t_point					ft_add_vector(t_point vec_1, t_point vec_2);
 t_point					ft_scale_vector(t_point vec, double k);
 double					ft_mul_vector_s(t_point vec_1, t_point vec_2);
@@ -194,7 +200,7 @@ void					ft_parse_scene(char *attr, t_scene *scn);
 */
 
 t_camera				*ft_cameranew(void);
-void					ft_parse_camera(char *attr, t_scene *scn);
+char					*ft_parse_camera(char *attr, t_scene *scn);
 
 /*
 **	image.c
@@ -220,8 +226,8 @@ char					*ft_get_curve(char *attr, char curve);
 **	attribute.c
 */
 
-char					*ft_search_attr(
-							char *content, char *attr, int ftsa_mode);
+char					*ft_search_attr
+							(char *content, char *attr, int ftsa_mode);
 void					ft_read_attr(void *dst, char *attr, int type);
 
 /*
@@ -229,7 +235,7 @@ void					ft_read_attr(void *dst, char *attr, int type);
 */
 
 t_light					*ft_lightnew();
-void					ft_parse_light(char *attr, t_scene *scn);
+char					*ft_parse_light(char *attr, t_scene *scn);
 
 /*
 **	object.c
@@ -242,23 +248,50 @@ void					ft_parse_object(char *attr, t_object *o);
 **	plane.c
 */
 
-void					ft_parse_plane(char *attr, t_scene *scn);
+t_plane					*ft_planenew(void);
+char					*ft_parse_plane(char *attr, t_scene *scn);
 int						ft_is_reachable_plane
-		(void *fig, t_point origin, t_point direct);
+							(void *fig, t_point origin, t_point direct);
 t_point					ft_collide_plane
-		(void *fig, t_point origin, t_point direct);
+							(void *fig, t_point origin, t_point direct);
 t_point					ft_get_norm_plane(void *fig, t_point coll);
 
 /*
 **	sphere.c
 */
 
-void					ft_parse_sphere(char *attr, t_scene *scn);
+char					*ft_parse_sphere(char *attr, t_scene *scn);
 int						ft_is_reachable_sphere
 							(void *fig, t_point origin, t_point direct);
 t_point					ft_collide_sphere
 							(void *fig, t_point origin, t_point direct);
 t_point					ft_get_norm_sphere(void *fig, t_point coll);
+
+/*
+**	cone.c
+*/
+
+char					*ft_parse_cone(char *attr, t_scene *scn);
+int						ft_is_reachable_cone
+							(void *fig, t_point origin, t_point direct);
+t_point					ft_collide_cone
+							(void *fig, t_point origin, t_point direct);
+t_point					ft_get_norm_cone(void *fig, t_point coll);
+
+/*
+**	cone_utils.c
+*/
+
+void					ft_get_angles(t_cone *cone, double (*ang)[2]);
+double					ft_get_t
+							(t_cone *cone, double ang[2],
+							t_point pnt[4], double (*t)[3]);
+void					ft_is_between_planes
+							(t_point (*pnt)[4], t_point base, t_point vert);
+void					ft_collide_cone_planes
+							(t_cone *cone, t_point origin,
+							t_point direct, t_point (*pnt)[4]);
+t_point					ft_get_closest(t_point cam, t_point pnt[4]);
 
 /*
 **	ray.c
@@ -284,7 +317,8 @@ t_coll					ft_find_collision
 */
 
 t_point					ft_rotate_vector
-					(t_point vec, double alpha, double beta, double gamma);
+							(t_point vec,
+							double alpha, double beta, double gamma);
 double					ft_torad(double degrees);
 void					ft_lstpush_sort(t_scene *scn, t_object *obj);
 void					ft_solve_sqr

@@ -12,7 +12,7 @@ t_sphere	*ft_spherenew()
 	return (sph);
 }
 
-void		ft_parse_sphere(char *attr, t_scene *scn)
+char		*ft_parse_sphere(char *attr, t_scene *scn)
 {
 	t_object	*obj;
 	t_sphere	*sph;
@@ -31,6 +31,7 @@ void		ft_parse_sphere(char *attr, t_scene *scn)
 	obj->fig = sph;
 	obj->cam_dist = ft_get_dist(scn->cam->origin, sph->origin) - sph->radius;
 	ft_lstpush_sort(scn, obj);
+	return (ft_get_curve(attr, '}'));
 }
 
 int			ft_is_reachable_sphere(void *fig, t_point origin, t_point direct)
@@ -73,5 +74,5 @@ t_point		ft_collide_sphere(void *fig, t_point origin, t_point direct)
 
 t_point		ft_get_norm_sphere(void *fig, t_point coll)
 {
-	return (ft_vectornew(((t_sphere *)fig)->origin, coll));
+	return (ft_unitvectornew(((t_sphere *)fig)->origin, coll));
 }

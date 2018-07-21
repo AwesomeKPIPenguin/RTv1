@@ -14,7 +14,7 @@ t_plane		*ft_planenew(void)
 	return (pln);
 }
 
-void		ft_parse_plane(char *attr, t_scene *scn)
+char		*ft_parse_plane(char *attr, t_scene *scn)
 {
 	t_object	*obj;
 	t_plane		*pln;
@@ -30,10 +30,12 @@ void		ft_parse_plane(char *attr, t_scene *scn)
 		ft_read_attr((void *)(&(pln->origin)), ptr, POINT);
 	if ((ptr = ft_search_attr(attr, "norm:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)(&(pln->norm)), ptr, POINT);
+	pln->norm = ft_tounitvector(pln->norm);
 	obj->fig = obj;
 	obj->cam_dist =
 		ft_planetopoint_dist(pln->origin, pln->norm, scn->cam->origin);
 	ft_lstpush_sort(scn, obj);
+	return (ft_get_curve(attr, '}'));
 }
 
 int			ft_is_reachable_plane(void *fig, t_point origin, t_point direct)
@@ -49,16 +51,17 @@ t_point		ft_collide_plane(void *fig, t_point origin, t_point direct)
 	t_plane		*pln;
 	t_point		coll;
 	double		t;
+	double		dev;
 
 	pln = (t_plane *)fig;
 	if (!ft_vectors_cos(direct, pln->norm))
 		return (ft_null_pointnew());
-	t = -(pln->norm.x * origin.x + pln->norm.y * origin.y +
-			pln->norm.z * origin.z) /
-		(pln->norm.x * direct.x + pln->norm.y * direct.y +
-			pln->norm.z * direct.z);
-	coll = ft_pointnew(origin.x + t * direct.x, origin.y + t * direct.y,
-		origin.z + t * direct.z);
+	dev = ft_mul_vector_s(pln->norm, direct);
+	if (!dev)
+		return (ft_null_pointnew());
+	t = ft_mul_vector_s(pln->norm, pln->origin) -
+		ft_mul_vector_s(pln->norm, origin) / dev;
+	coll = ft_add_vector(origin, ft_scale_vector(direct, t));
 	return ((ft_vectornew(origin, coll).x * direct.x < 0) ?
 			ft_null_pointnew() : coll);
 }

@@ -57,10 +57,3 @@ void		ft_read_attr(void *dst, char *attr, int type)
 	else
 		(*((t_color *)dst)).val = ft_atoi_base(data, 16);
 }
-
-void		ft_search_all_attr
-				(t_scene *scn, char *content, char *attr, 
-				void (*ft_parse)(char *attr, t_scene *scn), int ftsa_mode)
-{
-
-}
