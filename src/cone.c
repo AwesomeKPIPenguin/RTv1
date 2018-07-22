@@ -18,7 +18,7 @@ char		*ft_parse_cone(char *attr, t_scene *scn)
 	t_cone		*cone;
 	char		*ptr;
 
-	ft_parse_object(attr, obj);
+	obj = ft_parse_object(attr);
 	obj->ft_collide = ft_collide_cone;
 	obj->ft_is_reachable = ft_is_reachable_cone;
 	obj->ft_get_norm = ft_get_norm_cone;

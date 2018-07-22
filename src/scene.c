@@ -30,7 +30,7 @@ void		ft_parse_scene(char *attr, t_scene *scn)
 {
 	char	*ptr;
 
-	attr = ft_get_curve(attr);
+	attr = ft_get_curve(attr, '{');
 	if ((ptr = ft_search_attr(attr, "name:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)&(scn->name), ptr, STRING);
 	if ((ptr = ft_search_attr(attr, "world_color:", FTSA_IN_SCOPE)))

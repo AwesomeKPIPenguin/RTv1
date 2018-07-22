@@ -70,15 +70,13 @@ double		ft_vectors_cos(t_point vec_1, t_point vec_2)
 
 t_point		ft_reflect_vector(t_point origin, t_point coll, t_point norm)
 {
-	t_point		cn;
 	t_point		oc;
 	t_point		on;
 	double		cos;
 
-	cn = ft_unitvectornew(ft_pointnew(0.0, 0.0, 0.0), norm);
 	oc = ft_vectornew(origin, coll);
-	cos = -ft_vectors_cos(oc, cn);
-	on = ft_vectornew(origin, ft_scale_vector(cn, (ft_vector_len(oc) * cos)));
+	cos = -ft_vectors_cos(oc, norm);
+	on = ft_vectornew(origin, ft_scale_vector(norm, (ft_vector_len(oc) * cos)));
 	return (
 		ft_unitvectornew(coll, ft_add_vector(origin, ft_scale_vector(on, 2))));
 }

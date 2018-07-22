@@ -18,7 +18,7 @@ char		*ft_parse_sphere(char *attr, t_scene *scn)
 	t_sphere	*sph;
 	char		*ptr;
 
-	ft_parse_object(attr, obj);
+	obj = ft_parse_object(attr);
 	obj->ft_collide = ft_collide_sphere;
 	obj->ft_is_reachable = ft_is_reachable_sphere;
 	obj->ft_get_norm = ft_get_norm_sphere;

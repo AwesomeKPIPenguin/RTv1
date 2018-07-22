@@ -14,30 +14,6 @@ t_plane		*ft_planenew(void)
 	return (pln);
 }
 
-char		*ft_parse_plane(char *attr, t_scene *scn)
-{
-	t_object	*obj;
-	t_plane		*pln;
-	char		*ptr;
-
-	ft_parse_object(attr, obj);
-	obj->ft_collide = ft_collide_plane;
-	obj->ft_is_reachable = ft_is_reachable_plane;
-	obj->ft_get_norm = ft_get_norm_plane;
-	pln = ft_planenew();
-	attr = ft_get_curve(attr, '{');
-	if ((ptr = ft_search_attr(attr, "origin:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)(&(pln->origin)), ptr, POINT);
-	if ((ptr = ft_search_attr(attr, "norm:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)(&(pln->norm)), ptr, POINT);
-	pln->norm = ft_tounitvector(pln->norm);
-	obj->fig = obj;
-	obj->cam_dist =
-		ft_planetopoint_dist(pln->origin, pln->norm, scn->cam->origin);
-	ft_lstpush_sort(scn, obj);
-	return (ft_get_curve(attr, '}'));
-}
-
 int			ft_is_reachable_plane(void *fig, t_point origin, t_point direct)
 {
 	(void)fig;
@@ -70,4 +46,28 @@ t_point		ft_get_norm_plane(void *fig, t_point coll)
 {
 	(void)coll;
 	return (((t_plane *)fig)->norm);
+}
+
+char		*ft_parse_plane(char *attr, t_scene *scn)
+{
+	t_object	*obj;
+	t_plane		*pln;
+	char		*ptr;
+
+	obj = ft_parse_object(attr);
+	obj->ft_collide = ft_collide_plane;
+	obj->ft_is_reachable = ft_is_reachable_plane;
+	obj->ft_get_norm = ft_get_norm_plane;
+	pln = ft_planenew();
+	attr = ft_get_curve(attr, '{');
+	if ((ptr = ft_search_attr(attr, "origin:", FTSA_IN_SCOPE)))
+		ft_read_attr((void *)(&(pln->origin)), ptr, POINT);
+	if ((ptr = ft_search_attr(attr, "norm:", FTSA_IN_SCOPE)))
+		ft_read_attr((void *)(&(pln->norm)), ptr, POINT);
+	pln->norm = ft_tounitvector(pln->norm);
+	obj->fig = obj;
+	obj->cam_dist =
+			ft_planetopoint_dist(pln->origin, pln->norm, scn->cam->origin);
+	ft_lstpush_sort(scn, obj);
+	return (ft_get_curve(attr, '}'));
 }

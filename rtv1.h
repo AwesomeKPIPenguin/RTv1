@@ -8,7 +8,7 @@
 # include <limits.h>
 # include <float.h>
 # include <pthread.h>
-# include <stdint-gcc.h>
+# include <stdint.h>
 # include "libft/libft.h"
 //# include "minilibx/mlx.h"
 
@@ -223,6 +223,12 @@ void					ft_parse(char *content, t_scene *scn);
 char					*ft_get_curve(char *attr, char curve);
 
 /*
+**	render.c
+*/
+
+void					ft_render(t_env *e);
+
+/*
 **	attribute.c
 */
 
@@ -242,7 +248,7 @@ char					*ft_parse_light(char *attr, t_scene *scn);
 */
 
 t_object				*ft_objectnew();
-void					ft_parse_object(char *attr, t_object *o);
+t_object				*ft_parse_object(char *attr);
 
 /*
 **	plane.c

@@ -7,7 +7,7 @@ scene {
 }
 
 camera {
-	origin: (-500, 0, 0);			# default: (-1000, 0, 0)
+	origin: (-2000, 0, 0);			# default: (-1000, 0, 0)
 	alpha: 0;						# default: 0 (in degrees)
 									# 	angle of camera rotation (near OY)
 	beta: 0;						# default: 0 (in degrees)
@@ -29,15 +29,15 @@ plane {
 	norm: (0, 1, 0)					# default: (0, 1, 0)
 									# 	normal vector of the plane
 	color: 0x0000ff;				# default: 0xffff00 (yellow)
-	spclr: 0;						# default: 0 (0 - 255)
+	spclr: 42;						# default: 0 (0 - 255)
 									# 	specularity koef of the object
-	trans: 0;						# default: 0 (0 - 255)
+	trans: 42;						# default: 0 (0 - 255)
 									# 	transparency koef of the object
 }
 
 sphere {
 	origin: (0, 0, 0);				# default: (0, 0, 0)
-	radius: 500;					# default: 100
+	radius: 100;					# default: 100
 	color: 0xff0000;				# default: 0xffff00 (yellow)
 	spclr: 20;						# default: 25 (0 - 255)
 									# 	specularity koef of the object

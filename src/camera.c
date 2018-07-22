@@ -14,11 +14,11 @@ t_camera	*ft_cameranew(void)
 	return (cam);
 }
 
-void		ft_parse_camera(char *attr, t_scene *scn)
+char		*ft_parse_camera(char *attr, t_scene *scn)
 {
 	char	*ptr;
 
-	attr = ft_get_curve(attr);
+	attr = ft_get_curve(attr, '{');
 	if ((ptr = ft_search_attr(attr, "origin:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)&(scn->cam->origin), ptr, POINT);
 	if ((ptr = ft_search_attr(attr, "alpha:", FTSA_IN_SCOPE)))
@@ -33,4 +33,6 @@ void		ft_parse_camera(char *attr, t_scene *scn)
 		scn->cam->fov = FOV_MIN;
 	else if (scn->cam->fov > FOV_MAX)
 		scn->cam->fov = FOV_MAX;
+	scn->cam->fov = ft_torad(scn->cam->fov);
+	return (ft_get_curve(attr, '}'));
 }

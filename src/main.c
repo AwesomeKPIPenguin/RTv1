@@ -14,6 +14,6 @@ int			main(int ac, char **av)
 	if (ac != 2)
 		return (ft_usage());
 	e = ft_envnew(av[1]);
-
+	ft_render(e);
 	return (0);
 }

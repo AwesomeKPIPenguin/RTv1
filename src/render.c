@@ -22,8 +22,8 @@ void	*ft_section_handle(void *arg)
 	{
 		y_iter = y[0];
 		while (++y_iter < y[1])
-			ft_pixel_put_image(parg->e, x[0], y_iter,
-				ft_trace_ray(parg->e, x[0], y_iter).val);
+//			ft_pixel_put_image(parg->e, x[0], y_iter,
+				ft_trace_ray(parg->e, x[0], y_iter)/*.val)*/;
 	}
 	return (NULL);
 }
@@ -106,5 +106,5 @@ void	ft_render(t_env *e)
 	i = -1;
 	while (++i < THREADS)
 		pthread_join(threads[i], NULL);
-	mlx_put_image_to_window(e->mlx, e->win, e->img->ptr, 0, 0);
+//	mlx_put_image_to_window(e->mlx, e->win, e->img->ptr, 0, 0);
 }
