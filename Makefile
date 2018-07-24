@@ -15,7 +15,7 @@ OBJ = $(patsubst %.c,%.o,$(wildcard src/*.c))
 
 HEAD = rtv1.h
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -pthread
 
 # MacOSX flags
 

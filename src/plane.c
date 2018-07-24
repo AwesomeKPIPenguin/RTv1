@@ -24,6 +24,10 @@ int			ft_is_reachable_plane(void *fig, t_point origin, t_point direct)
 
 t_point		ft_collide_plane(void *fig, t_point origin, t_point direct)
 {
+
+//	printf("in ft_collide_plane: (%f, %f, %f) -> (%f, %f, %f);\n",
+//		origin.x, origin.y, origin.z, direct.x, direct.y, direct.z);
+
 	t_plane		*pln;
 	t_point		coll;
 	double		t;
@@ -35,8 +39,8 @@ t_point		ft_collide_plane(void *fig, t_point origin, t_point direct)
 	dev = ft_mul_vector_s(pln->norm, direct);
 	if (!dev)
 		return (ft_null_pointnew());
-	t = ft_mul_vector_s(pln->norm, pln->origin) -
-		ft_mul_vector_s(pln->norm, origin) / dev;
+	t = (ft_mul_vector_s(pln->norm, pln->origin) -
+		ft_mul_vector_s(pln->norm, origin)) / dev;
 	coll = ft_add_vector(origin, ft_scale_vector(direct, t));
 	return ((ft_vectornew(origin, coll).x * direct.x < 0) ?
 			ft_null_pointnew() : coll);

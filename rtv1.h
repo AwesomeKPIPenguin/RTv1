@@ -3,6 +3,10 @@
 
 # define RTV1_H
 
+
+#include <stdio.h>
+
+
 # include <fcntl.h>
 # include <math.h>
 # include <limits.h>
@@ -289,7 +293,7 @@ t_point					ft_get_norm_cone(void *fig, t_point coll);
 */
 
 void					ft_get_angles(t_cone *cone, double (*ang)[2]);
-double					ft_get_t
+void					ft_get_t
 							(t_cone *cone, double ang[2],
 							t_point pnt[4], double (*t)[3]);
 void					ft_is_between_planes

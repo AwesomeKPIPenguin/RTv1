@@ -11,6 +11,8 @@ int			main(int ac, char **av)
 {
 	t_env		*e;
 
+	printf("START\n\n");
+
 	if (ac != 2)
 		return (ft_usage());
 	e = ft_envnew(av[1]);

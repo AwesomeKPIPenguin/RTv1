@@ -15,7 +15,7 @@ void	ft_get_angles(t_cone *cone, double (*ang)[2])
 								  ft_pointnew(0.0, 1.0, 0.0)));
 }
 
-double	ft_get_t(t_cone *cone, double ang[2], t_point pnt[4], double (*t)[3])
+void	ft_get_t(t_cone *cone, double ang[2], t_point pnt[4], double (*t)[3])
 {
 	double	ctg;
 	double	a[3];

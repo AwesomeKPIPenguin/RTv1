@@ -17,7 +17,14 @@ t_point		ft_unitvectornew(t_point origin, t_point direct)
 
 	vec = ft_vectornew(origin, direct);
 	len = ft_vector_len(vec);
-	ft_scale_vector(vec, 1.0 / len);
+
+//	printf("                     vec = (%f, %f, %f), len = %f;\n",
+//		vec.x, vec.y, vec.z, len);
+
+	vec = ft_scale_vector(vec, 1.0 / len);
+
+//	printf("after scale: (%f, %f, %f);\n", vec.x, vec.y, vec.z);
+
 	return (vec);
 }
 
@@ -64,8 +71,16 @@ double		ft_vector_len(t_point vec)
 
 double		ft_vectors_cos(t_point vec_1, t_point vec_2)
 {
+	double	len_1;
+	double	len_2;
+
+	len_1 = ft_vector_len(vec_1);
+	len_2 = ft_vector_len(vec_2);
+
+//	printf("cosine: len_1 = %f, len_2 = %f;\n", len_1, len_2);
+
 	return ((vec_1.x * vec_2.x + vec_1.y * vec_2.y + vec_1.z * vec_2.z) /
-		  (ft_vector_len(vec_1) * ft_vector_len(vec_2)));
+		  (len_1 * len_2));
 }
 
 t_point		ft_reflect_vector(t_point origin, t_point coll, t_point norm)

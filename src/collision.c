@@ -27,6 +27,11 @@ t_coll			ft_find_collision(t_scene *scn,	t_point origin, t_point direct)
 			// get transparency
 
 			coll.illum = ft_illuminate(scn, coll.coll_pnt, norm);
+
+			printf("collision:\npoint: (%f, %f, %f);\nreflection vector: (%f, %f, %f);\n\n",
+				coll.coll_pnt.x, coll.coll_pnt.y, coll.coll_pnt.z,
+				coll.spclr_vec.x, coll.spclr_vec.y, coll.spclr_vec.z);
+
 			return (coll);
 		}
 		node = node->next;

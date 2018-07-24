@@ -24,7 +24,7 @@ static t_color	ft_apply_koef(t_coll coll, t_color color, t_byte koef)
 	return (res);
 }
 
-static t_color	ft_get_final_color(t_env *e, t_coll coll,
+static t_color	ft_get_final_color(t_coll coll,
 									t_color spclr_col, t_color trans_col)
 {
 	t_object	*o;
@@ -44,6 +44,9 @@ static t_color	ft_get_final_color(t_env *e, t_coll coll,
 
 static t_color	ft_throw_ray(t_env *e, t_point origin, t_point direct)
 {
+//	printf("in ft_throw_ray (%f, %f, %f) -> (%f, %f, %f);\n",
+//		origin.x, origin.y, origin.z, direct.x, direct.y, direct.z);
+
 	t_coll		coll;
 	t_color		spclr_col;
 	t_color		trans_col;
@@ -56,10 +59,10 @@ static t_color	ft_throw_ray(t_env *e, t_point origin, t_point direct)
 		if (coll.o->spclr)
 			spclr_col = ft_apply_koef(coll,
 				ft_throw_ray(e, coll.coll_pnt, coll.spclr_vec), coll.o->spclr);
-		if (coll.o->trans)
-			trans_col = ft_apply_koef(coll,
-				ft_throw_ray(e, coll.coll_pnt, coll.trans_vec), coll.o->trans);
-		return (ft_get_final_color(e, coll, spclr_col, trans_col));
+//		if (coll.o->trans)
+//			trans_col = ft_apply_koef(coll,
+//				ft_throw_ray(e, coll.coll_pnt, coll.trans_vec), coll.o->trans);
+		return (ft_get_final_color(coll, spclr_col, trans_col));
 	}
 }
 
