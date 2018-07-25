@@ -31,39 +31,45 @@ static t_color	ft_get_final_color(t_coll coll,
 	t_color		res;
 
 	o = coll.o;
-	res = ft_apply_a(o->color, coll.illum);
+	res = coll.o->color;
+
+//	printf("spclr: %#8X, trans: %#8X;\nillum: %3d, %#8X -> %#8X;\n\n",
+//		spclr_col.val, trans_col.val, coll.illum, coll.o->color.val, res.val);
+
 	if (o->spclr && o->trans)
-		return (ft_add_color(res, ft_add_color(spclr_col, trans_col)));
+		return (ft_apply_a(
+			ft_add_color(res, ft_add_color(spclr_col, trans_col)), coll.illum));
 	else if (o->spclr)
-		return (ft_add_color(res, spclr_col));
+		return (ft_apply_a(ft_add_color(res, spclr_col), coll.illum));
 	else if (o->trans)
-		return (ft_add_color(res, trans_col));
+		return (ft_apply_a(ft_add_color(res, trans_col), coll.illum));
 	else
-		return (res);
+		return (ft_apply_a(res, coll.illum));
 }
 
-static t_color	ft_throw_ray(t_env *e, t_point origin, t_point direct)
+static t_color	ft_throw_ray(t_env *e, t_object *o,
+							t_point origin, t_point direct)
 {
-//	printf("in ft_throw_ray (%f, %f, %f) -> (%f, %f, %f);\n",
+//	printf("in ft_throw_ray      (%15.6f, %15.6f, %15.6f) -> (%15.6f, %15.6f, %15.6f);\n",
 //		origin.x, origin.y, origin.z, direct.x, direct.y, direct.z);
 
 	t_coll		coll;
 	t_color		spclr_col;
 	t_color		trans_col;
 
-	coll = ft_find_collision(e->scn, origin, direct);
+	spclr_col.val = -1;
+	trans_col.val = 0;
+ 	coll = ft_get_collision(e->scn, origin, direct, o);
 	if (!coll.o)
-		return (e->scn->bg_color);
-	else
-	{
-		if (coll.o->spclr)
-			spclr_col = ft_apply_koef(coll,
-				ft_throw_ray(e, coll.coll_pnt, coll.spclr_vec), coll.o->spclr);
-//		if (coll.o->trans)
-//			trans_col = ft_apply_koef(coll,
-//				ft_throw_ray(e, coll.coll_pnt, coll.trans_vec), coll.o->trans);
-		return (ft_get_final_color(coll, spclr_col, trans_col));
-	}
+		return (spclr_col);
+	spclr_col.val = 0;
+	if (coll.o->spclr)
+		spclr_col = ft_apply_koef(coll, ft_throw_ray(e, coll.o, coll.coll_pnt,
+			coll.spclr_vec), coll.o->spclr);
+
+//	throw transparency ray
+
+	return (ft_get_final_color(coll, spclr_col, trans_col));
 }
 
 t_color			ft_trace_ray(t_env *e, int x, int y)
@@ -77,6 +83,6 @@ t_color			ft_trace_ray(t_env *e, int x, int y)
 	vec = ft_add_vector(vec,
 		ft_scale_vector(e->scn->cam->vs_y_step_vec, y));
 	vec = ft_unitvectornew(e->scn->cam->origin, vec);
-	res = ft_throw_ray(e, e->scn->cam->origin, vec);
+	res = ft_throw_ray(e, NULL, e->scn->cam->origin, vec);
 	return (res);
 }

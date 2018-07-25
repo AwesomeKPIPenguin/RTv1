@@ -42,7 +42,7 @@ t_point		ft_collide_plane(void *fig, t_point origin, t_point direct)
 	t = (ft_mul_vector_s(pln->norm, pln->origin) -
 		ft_mul_vector_s(pln->norm, origin)) / dev;
 	coll = ft_add_vector(origin, ft_scale_vector(direct, t));
-	return ((ft_vectornew(origin, coll).x * direct.x < 0) ?
+	return ((!ft_pointcmp(ft_unitvectornew(origin, coll), direct)) ?
 			ft_null_pointnew() : coll);
 }
 
@@ -69,9 +69,7 @@ char		*ft_parse_plane(char *attr, t_scene *scn)
 	if ((ptr = ft_search_attr(attr, "norm:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)(&(pln->norm)), ptr, POINT);
 	pln->norm = ft_tounitvector(pln->norm);
-	obj->fig = obj;
-	obj->cam_dist =
-			ft_planetopoint_dist(pln->origin, pln->norm, scn->cam->origin);
-	ft_lstpush_sort(scn, obj);
+	obj->fig = pln;
+	ft_lstpush(&(scn->objs), ft_nodenew((void *)obj, sizeof(obj)));
 	return (ft_get_curve(attr, '}'));
 }

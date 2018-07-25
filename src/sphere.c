@@ -29,8 +29,7 @@ char		*ft_parse_sphere(char *attr, t_scene *scn)
 	if ((ptr = ft_search_attr(attr, "radius:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)(&(sph->radius)), ptr, DOUBLE);
 	obj->fig = sph;
-	obj->cam_dist = ft_get_dist(scn->cam->origin, sph->origin) - sph->radius;
-	ft_lstpush_sort(scn, obj);
+	ft_lstpush(&(scn->objs), ft_nodenew((void *)obj, sizeof(obj)));
 	return (ft_get_curve(attr, '}'));
 }
 
@@ -58,18 +57,26 @@ t_point		ft_collide_sphere(void *fig, t_point origin, t_point direct)
 	if (dist > sph->radius)
 		return (ft_null_pointnew());
 	ft_solve_sqr((pow(direct.x, 2) + pow(direct.y, 2) + pow(direct.z, 2)),
-		(origin.x * direct.x + origin.y * direct.y + origin.z * direct.z),
-		(pow(origin.x, 2) + pow(origin.y, 2) + pow(origin.z, 2) -
-			pow(sph->radius, 2)), &sqr_res);
+		2.0 * ((origin.x - sph->origin.x) * direct.x +
+			(origin.y - sph->origin.y) * direct.y +
+			(origin.z - sph->origin.z) * direct.z),
+		(pow((origin.x - sph->origin.x), 2) +
+			pow((origin.y - sph->origin.y), 2) +
+			pow((origin.z - sph->origin.z), 2) - pow(sph->radius, 2)),
+		&sqr_res);
 	if (!sqr_res[0])
 		return (ft_null_pointnew());
-	coll_points[0] = ft_pointnew(direct.x * sqr_res[0] + origin.x,
-		direct.y * sqr_res[0] + origin.y, direct.z * sqr_res[0] + origin.z);
-	coll_points[1] = ft_pointnew(direct.x * sqr_res[1] + origin.x,
+	coll_points[0] = ft_pointnew(direct.x * sqr_res[1] + origin.x,
 		direct.y * sqr_res[1] + origin.y, direct.z * sqr_res[1] + origin.z);
-	return ((ft_get_dist(origin, coll_points[0]) >
-				ft_get_dist(origin, coll_points[1])) ?
-			coll_points[0] : coll_points[1]);
+	coll_points[0] = (ft_pointcmp(ft_unitvectornew(origin, coll_points[0]),
+		direct)) ? coll_points[0] : ft_null_pointnew();
+	coll_points[1] = ft_pointnew(direct.x * sqr_res[2] + origin.x,
+		direct.y * sqr_res[2] + origin.y, direct.z * sqr_res[2] + origin.z);
+	coll_points[1] = (ft_pointcmp(ft_unitvectornew(origin, coll_points[1]),
+		direct)) ? coll_points[1] : ft_null_pointnew();
+	coll_points[0] = (ft_get_dist(origin, coll_points[0]) >
+		ft_get_dist(origin, coll_points[1])) ? coll_points[0] : coll_points[1];
+	return (coll_points[0]);
 }
 
 t_point		ft_get_norm_sphere(void *fig, t_point coll)

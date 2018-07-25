@@ -33,10 +33,7 @@ char		*ft_parse_cone(char *attr, t_scene *scn)
 	if ((ptr = ft_search_attr(attr, "vert_rad:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)(&(cone->vert_rad)), ptr, DOUBLE);
 	obj->fig = cone;
-	obj->cam_dist = ft_get_dist(scn->cam->origin,
-		ft_add_vector(cone->base, ft_scale_vector(
-				ft_vectornew(cone->base, cone->vert), 0.5)));
-	ft_lstpush_sort(scn, obj);
+	ft_lstpush(&(scn->objs), ft_nodenew((void *)obj, sizeof(obj)));
 	return (ft_get_curve(attr, '}'));
 }
 

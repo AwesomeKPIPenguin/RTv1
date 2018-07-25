@@ -34,49 +34,20 @@ double		ft_torad(double degrees)
 	return (degrees * M_PI / 180.0);
 }
 
-void		ft_lstpush_sort(t_scene *scn, t_object *obj)
-{
-	t_list	*prev;
-	t_list	*curr;
-	t_list	*node;
-
-	prev = NULL;
-	curr = scn->objs;
-	node = ft_nodenew((void *)obj, sizeof(t_object));
-	while (curr)
-	{
-		if (obj->cam_dist < ((t_object *)(curr->content))->cam_dist)
-		{
-			if (prev)
-				prev->next = node;
-			else
-				scn->objs = node;
-			node->next = curr;
-			return ;
-		}
-		prev = curr;
-		curr = curr->next;
-	}
-	if (prev)
-		prev->next = node;
-	else
-		ft_lstpush(&(scn->objs), node);
-}
-
 void		ft_solve_sqr(double a, double b, double c, double (*res)[3])
 {
 	double	d;
 
-	d = pow(b, 2) - 4 * a * c;
+	d = pow(b, 2) - 4.0 * a * c;
 	if (d < 0)
 	{
 		*res[0] = 0;
 		return ;
 	}
 	d = sqrt(d);
-	*res[0] = 1;
-	*res[1] = (-b + d) / (2 * a);
-	*res[2] = (-b - d) / (2 * a);
+	(*res)[0] = 1;
+	(*res)[1] = (-b + d) / (2.0 * a);
+	(*res)[2] = (-b - d) / (2.0 * a);
 }
 
 t_color		ft_apply_a(t_color color, t_byte bright)

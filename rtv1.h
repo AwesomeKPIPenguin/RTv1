@@ -14,7 +14,7 @@
 # include <pthread.h>
 # include <stdint.h>
 # include "libft/libft.h"
-//# include "minilibx/mlx.h"
+# include "minilibx/mlx.h"
 
 # define WIN_WIDTH		1200.0
 # define WIN_HEIGHT		700.0
@@ -116,7 +116,6 @@ typedef struct			s_object
 	t_byte				spclr;
 	t_byte				trans;
 	t_color				color;
-	double				cam_dist;
 	void				*fig;
 	int					(*ft_is_reachable)
 							(void *fig, t_point origin, t_point direct);
@@ -319,8 +318,9 @@ t_byte					ft_illuminate(t_scene *scn, t_point coll, t_point norm);
 **	collision.c
 */
 
-t_coll					ft_find_collision
-							(t_scene *scn, t_point origin, t_point direct);
+t_coll					ft_get_collision
+							(t_scene *scn, t_point origin, t_point direct,
+							t_object *except);
 
 /*
 **	utils.c
@@ -330,7 +330,6 @@ t_point					ft_rotate_vector
 							(t_point vec,
 							double alpha, double beta, double gamma);
 double					ft_torad(double degrees);
-void					ft_lstpush_sort(t_scene *scn, t_object *obj);
 void					ft_solve_sqr
 							(double a, double b, double c, double (*res)[3]);
 t_color					ft_apply_a(t_color color, t_byte bright);

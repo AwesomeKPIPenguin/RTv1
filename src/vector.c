@@ -89,6 +89,9 @@ t_point		ft_reflect_vector(t_point origin, t_point coll, t_point norm)
 	t_point		on;
 	double		cos;
 
+//	printf("in ft_reflect_vector (%15.6f, %15.6f, %15.6f) -> (%15.6f, %15.6f, %15.6f), norm = (%15.6f, %15.6f, %15.6f);\n",
+//			origin.x, origin.y, origin.z, coll.x, coll.y, coll.z, norm.x, norm.y, norm.z);
+
 	oc = ft_vectornew(origin, coll);
 	cos = -ft_vectors_cos(oc, norm);
 	on = ft_vectornew(origin, ft_scale_vector(norm, (ft_vector_len(oc) * cos)));
