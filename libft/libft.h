@@ -142,6 +142,8 @@ void				ft_warn(char *msg);
 int					ft_indexof_chr(char *str, int c);
 char				*ft_strcut(char *str, size_t from, size_t to);
 void				ft_strrplc(char *str, char find, char put);
+int					ft_limit(int min, int max, int num);
+double				ft_limitf(double min, double max, double num);
 
 void				ft_write_wctoa(wchar_t wc, char *str);
 char				*ft_ustos(wchar_t *us);

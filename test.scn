@@ -3,7 +3,7 @@
 
 scene {
 	name: Test Scene;				# default: New Scene
-	world_color: 0x0;			# default: 0x0 (black)
+#	world_color: 0x6090c5;			# default: 0x0 (black)
 }
 
 camera {
@@ -20,8 +20,20 @@ camera {
 
 light {
 #	type: point;					# default: point
-	bright: 10;					# default: 255 (1 - 255)
-	origin: (0, 1000, 0);			# default: (0, 3000, 0)
+	bright: 50;					# default: 255.0 (0.0 - 255.0, excluding 0)
+	origin: (-2000, 0, 0);			# default: (0, 3000, 0)
+}
+
+light {
+#	type: point;					# default: point
+	bright: 15;					# default: 255.0 (0.0 - 255.0, excluding 0)
+	origin: (0, 1000, -500);			# default: (0, 3000, 0)
+}
+
+light {
+#	type: point;					# default: point
+	bright: 15;					# default: 255.0 (0.0 - 255.0, excluding 0)
+	origin: (0, 1000, 500);			# default: (0, 3000, 0)
 }
 
 plane {
@@ -29,18 +41,18 @@ plane {
 	norm: (0, 1, 0)					# default: (0, 1, 0)
 									# 	normal vector of the plane
 	color: 0x0000ff;				# default: 0xffff00 (yellow)
-	spclr: 100;						# default: 0 (0 - 255)
+	spclr: 100;						# default: 0.0 (0.0 - 255.0)
 									# 	specularity koef of the object
-	trans: 0;						# default: 0 (0 - 255)
+	trans: 0;						# default: 0.0 (0.0 - 255.0)
 									# 	transparency koef of the object
 }
 
 sphere {
 	origin: (0, 0, 0);				# default: (0, 0, 0)
-	radius: 100;					# default: 100
+	radius: 300;					# default: 100
 	color: 0xff0000;				# default: 0xffff00 (yellow)
-	spclr: 100;						# default: 25 (0 - 255)
+	spclr: 150;						# default: 25.0 (0.0 - 255.0)
 									# 	specularity koef of the object
-	trans: 0;						# default: 0 (0 - 255)
+	trans: 0;						# default: 0.0 (0.0 - 255.0)
 									# 	transparency koef of the object
 }

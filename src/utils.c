@@ -50,14 +50,17 @@ void		ft_solve_sqr(double a, double b, double c, double (*res)[3])
 	(*res)[2] = (-b - d) / (2.0 * a);
 }
 
-t_color		ft_apply_a(t_color color, t_byte bright)
+t_color		ft_apply_a(t_color color, double bright)
 {
 	double	k;
 
-	k = (double)bright / 255.0;
-	color.argb[2] *= k;
-	color.argb[1] *= k;
-	color.argb[0] *= k;
+	k = bright - 127.0;
+	color.argb[2] += (double)((k > 0) ? 255 - color.argb[2] : color.argb[2]) /
+		128.0 * k;
+	color.argb[1] += (double)((k > 0) ? 255 - color.argb[1] : color.argb[1]) /
+		128.0 * k;
+	color.argb[0] += (double)((k > 0) ? 255 - color.argb[0] : color.argb[0]) /
+		128.0 * k;
 	return (color);
 }
 

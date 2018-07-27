@@ -28,11 +28,11 @@ int			ft_iscollide(t_scene *scn, t_point origin, t_point direct,
 	return (0);
 }
 
-t_byte		ft_illuminate(t_scene *scn, t_point coll, t_point norm)
+double		ft_illuminate(t_scene *scn, t_point coll, t_point norm)
 {
 	t_list		*l_node;
 	t_light		*l;
-	t_byte		res[2];
+	double		res[2];
 	double		cos;
 	double		cl_len;
 
@@ -46,11 +46,18 @@ t_byte		ft_illuminate(t_scene *scn, t_point coll, t_point norm)
 			ft_unitvectornew(coll, l->origin), l->origin))
 		{
 			cl_len = ft_get_dist(coll, l->origin);
-			res[1] = (cl_len < l->bright * BRIGHT_UNIT) ?
-				(t_byte)(l->bright * cos / (pow(cl_len / BRIGHT_UNIT, 2))) : 0;
-			res[0] = (res[1] > res[0]) ? res[1] : res[0];
+			res[0] += l->bright * cos / (pow(cl_len / BRIGHT_UNIT, 2));
+
+//			printf("distance: %-16.6f; cosine: %-16.6f; result: %3d;\n",
+//				cl_len, cos, res[1]);
+
+			if (res[0] >= 255)
+			{
+				res[0] = 255;
+				break ;
+			}
 		}
 		l_node = l_node->next;
 	}
-	return (res[0]	);
+	return (res[0]);
 }

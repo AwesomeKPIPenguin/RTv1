@@ -47,7 +47,7 @@ void		ft_read_attr(void *dst, char *attr, int type)
 	data = ft_strtrim(data);
 	free(to_free);
 	if (type == BYTE)
-		*((t_byte *)dst) = (t_byte)ft_atoi(data);
+		*((double *)dst) = ft_limitf(0, 255, ft_atod(data));
 	else if (type == DOUBLE)
 		*((double *)dst) = ft_atod(data);
 	else if (type == STRING)

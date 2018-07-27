@@ -3,6 +3,8 @@
 
 static void	ft_get_vs_params(t_camera *cam)
 {
+	cam->direct = ft_rotate_vector(ft_pointnew(1.0, 0.0, 0.0),
+		cam->alpha, cam->beta, cam->gamma);
 	cam->vs_start_vec = ft_rotate_vector(
 		ft_vectornew(ft_pointnew(0.0, 0.0, 0.0),
 			ft_pointnew(0.0, WIN_HEIGHT / 2.0, -WIN_WIDTH / 2.0)),

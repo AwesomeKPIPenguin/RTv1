@@ -22,7 +22,7 @@
 # define FOV_MIN		60.0
 # define FOV_MAX		120.0
 
-# define BRIGHT_UNIT	1000.0
+# define BRIGHT_UNIT	5000.0
 
 # define THREADS		8
 
@@ -65,8 +65,8 @@ typedef struct			s_point
 
 typedef struct			s_light
 {
-	t_byte				bright;
 	t_color				color;
+	double				bright;
 	t_point				origin;
 }						t_light;
 
@@ -77,6 +77,7 @@ typedef struct			s_camera
 	double				gamma;
 	double				fov;
 	t_point				origin;
+	t_point				direct;
 	t_point				vs_start_point;
 	t_point				vs_start_vec;
 	t_point				vs_x_step_vec;
@@ -113,8 +114,8 @@ typedef struct			s_parg
 
 typedef struct			s_object
 {
-	t_byte				spclr;
-	t_byte				trans;
+	double				spclr;
+	double				trans;
 	t_color				color;
 	void				*fig;
 	int					(*ft_is_reachable)
@@ -150,7 +151,7 @@ typedef struct			s_cone
 
 typedef struct			s_collision
 {
-	t_byte				illum;
+	double				illum;
 	t_object			*o;
 	t_point				coll_pnt;
 	t_point				spclr_vec;
@@ -312,7 +313,7 @@ t_color					ft_trace_ray(t_env *e, int x, int y);
 **	illumination.c
 */
 
-t_byte					ft_illuminate(t_scene *scn, t_point coll, t_point norm);
+double					ft_illuminate(t_scene *scn, t_point coll, t_point norm);
 
 /*
 **	collision.c
@@ -332,7 +333,7 @@ t_point					ft_rotate_vector
 double					ft_torad(double degrees);
 void					ft_solve_sqr
 							(double a, double b, double c, double (*res)[3]);
-t_color					ft_apply_a(t_color color, t_byte bright);
+t_color					ft_apply_a(t_color color, double bright);
 t_color					ft_add_color(t_color c_1, t_color c_2);
 
 #endif
