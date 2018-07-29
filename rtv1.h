@@ -13,6 +13,7 @@
 # include <float.h>
 # include <pthread.h>
 # include <stdint.h>
+# include <time.h>
 # include "libft/libft.h"
 # include "minilibx/mlx.h"
 
@@ -28,7 +29,7 @@
 
 # define PRECISION		1e-3
 
-# define BYTE			0
+# define KOEF			0
 # define DOUBLE			1
 # define STRING			2
 # define POINT			3
@@ -68,6 +69,7 @@ typedef struct			s_light
 	t_color				color;
 	double				bright;
 	t_point				origin;
+	t_point				direct;
 }						t_light;
 
 typedef struct			s_camera
@@ -114,9 +116,14 @@ typedef struct			s_parg
 
 typedef struct			s_object
 {
-	double				spclr;
-	double				trans;
 	t_color				color;
+	double				ambnt;
+	double				diff;
+	double				spclr;
+	double				s_blur;
+	double				trans;
+	double				t_blur;
+	double				phong;
 	void				*fig;
 	int					(*ft_is_reachable)
 							(void *fig, t_point origin, t_point direct);
@@ -154,6 +161,7 @@ typedef struct			s_collision
 	double				illum;
 	t_object			*o;
 	t_point				coll_pnt;
+	t_point				norm;
 	t_point				spclr_vec;
 	t_point				trans_vec;
 }						t_coll;
@@ -190,6 +198,10 @@ double					ft_vector_len(t_point vec);
 double					ft_vectors_cos(t_point vec_1, t_point vec_2);
 t_point					ft_reflect_vector
 							(t_point origin, t_point coll, t_point norm);
+t_point					ft_turn_vector
+							(t_point proj, t_point norm, double angle);
+t_point					ft_project_vector
+							(t_point origin, t_point norm, t_point vec);
 
 /*
 **	scene.c

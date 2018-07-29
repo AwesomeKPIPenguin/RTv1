@@ -98,3 +98,15 @@ t_point		ft_reflect_vector(t_point origin, t_point coll, t_point norm)
 	return (
 		ft_unitvectornew(coll, ft_add_vector(origin, ft_scale_vector(on, 2))));
 }
+
+t_point		ft_turn_vector(t_point proj, t_point norm, double angle)
+{
+	return (ft_add_vector(
+		ft_scale_vector(proj, sin(angle)), ft_scale_vector(norm, cos(angle))));
+}
+
+t_point		ft_project_vector(t_point origin, t_point norm, t_point vec)
+{
+	return (ft_add_vector(vec, ft_scale_vector(norm,
+		-ft_vectors_cos(norm, vec))));
+}

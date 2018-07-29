@@ -40,7 +40,6 @@ t_coll			ft_get_collision(t_scene *scn, t_point origin, t_point direct,
 								t_object *except)
 {
 	t_coll		coll;
-	t_point		norm;
 	t_point		od[2];
 
 	coll.o = NULL;
@@ -49,13 +48,13 @@ t_coll			ft_get_collision(t_scene *scn, t_point origin, t_point direct,
 	if (ft_isnullpoint(coll.coll_pnt =
 			ft_get_collision_point(scn->objs, &(coll.o), od, except)))
 		return (coll);
-	norm = coll.o->ft_get_norm(coll.o->fig, coll.coll_pnt);
+	coll.norm = coll.o->ft_get_norm(coll.o->fig, coll.coll_pnt);
 	if (coll.o->spclr)
-		coll.spclr_vec = ft_reflect_vector(origin, coll.coll_pnt, norm);
+		coll.spclr_vec = ft_reflect_vector(origin, coll.coll_pnt, coll.norm);
 
 	// get transparency
 
-	coll.illum = ft_illuminate(scn, coll.coll_pnt, norm);
+	coll.illum = ft_illuminate(scn, coll.coll_pnt, coll.norm);
 
 //	printf("collision:\npoint: (%f, %f, %f);\nreflection vector: (%f, %f, %f);\n\n",
 //		coll.coll_pnt.x, coll.coll_pnt.y, coll.coll_pnt.z,

@@ -30,31 +30,40 @@ static t_color	ft_get_final_color(t_coll coll,
 	t_color		res;
 
 	o = coll.o;
-	res = coll.o->color;
+	res.val = 0;
 
-//	printf("spclr: %#8X, trans: %#8X;\nillum: %3d, %#8X -> %#8X;\n\n",
-//		spclr_col.val, trans_col.val, coll.illum, coll.o->color.val, res.val);
+}
 
-	if (o->spclr && o->trans)
-		return (ft_apply_a(ft_add_color(
-			ft_apply_koef(coll, res,
-				255 - ft_limitf(0, 255, o->spclr + o->trans)),
-			ft_add_color(
-				ft_apply_koef(coll, spclr_col, o->spclr),
-				ft_apply_koef(coll, trans_col, o->trans))),
-			coll.illum / 255.0 * o->spclr));
-	else if (o->spclr)
-		return (ft_apply_a(ft_add_color(
-			ft_apply_koef(coll, res, 255 - o->spclr),
-			ft_apply_koef(coll, spclr_col, o->spclr)),
-			coll.illum / 255.0 * o->spclr));
-	else if (o->trans)
-		return (ft_apply_a(ft_add_color(
-			ft_apply_koef(coll, res, 255 - o->trans),
-			ft_apply_koef(coll, trans_col, o->trans)),
-			coll.illum / 255.0 * o->spclr));
-	else
-		return (ft_apply_a(res, coll.illum / 255.0 * o->spclr));
+static t_point	ft_change_vec(t_point origin, t_point norm,
+									t_point vec, double angle)
+{
+	t_point	proj;
+
+	proj = ft_project_vector(origin, norm, vec);
+	if (acos(ft_vectors_cos(norm, vec)) + angle <= M_PI_2)
+		return (vec);
+	return (ft_turn_vector(proj, norm, M_PI_2 - angle));
+}
+
+t_color			ft_throw_rays(t_env *e, t_coll coll, t_point *vec, double k)
+{
+	double		max_angle;
+	double		angle;
+	int			rays;
+	int			i;
+	t_color		res;
+
+	max_angle = ft_torad(k * 90.0);
+	rays = ft_limit(1, 10, (int)(k * 10.0));
+	i = -1;
+	res.val = 0;
+	*vec = ft_change_vec(coll.coll_pnt, coll.norm, *vec, max_angle);
+	while (++i < rays)
+	{
+		angle = (double)rand() / (double)RAND_MAX * max_angle;
+
+		res = ft_add_color();
+	}
 }
 
 static t_color	ft_throw_ray(t_env *e, t_object *o,
@@ -67,14 +76,13 @@ static t_color	ft_throw_ray(t_env *e, t_object *o,
 	t_color		spclr_col;
 	t_color		trans_col;
 
-	spclr_col.val = -1;
+	spclr_col.val = 0;
 	trans_col.val = 0;
  	coll = ft_get_collision(e->scn, origin, direct, o);
 	if (!coll.o)
-		return (spclr_col);
-	spclr_col.val = 0;
+		return (e->scn->bg_color);
 	if (coll.o->spclr)
-		spclr_col = ft_throw_ray(e, coll.o, coll.coll_pnt, coll.spclr_vec);
+		ft_throw_rays();
 
 //	throw transparency ray
 

@@ -15,6 +15,7 @@ int			main(int ac, char **av)
 
 	if (ac != 2)
 		return (ft_usage());
+	srand((unsigned int)time(NULL));
 	e = ft_envnew(av[1]);
 	ft_render(e);
 	mlx_loop(e->mlx);
