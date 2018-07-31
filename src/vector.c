@@ -105,8 +105,55 @@ t_point		ft_turn_vector(t_point proj, t_point norm, double angle)
 		ft_scale_vector(proj, sin(angle)), ft_scale_vector(norm, cos(angle))));
 }
 
-t_point		ft_project_vector(t_point origin, t_point norm, t_point vec)
+t_point		ft_project_vector(t_point norm, t_point vec)
 {
 	return (ft_add_vector(vec, ft_scale_vector(norm,
 		-ft_vectors_cos(norm, vec))));
+}
+
+t_point		ft_rotate_vector(t_point vec,
+								double alpha, double beta, double gamma)
+{
+	t_point		rotated;
+	double		sins[3];
+	double		coss[3];
+
+	sins[0] = sin(alpha);
+	sins[1] = sin(beta);
+	sins[2] = sin(gamma);
+	coss[0] = cos(alpha);
+	coss[1] = cos(beta);
+	coss[2] = cos(gamma);
+	rotated.x = vec.x * coss[2] * coss[1] +
+				vec.y * (coss[2] * sins[1] * sins[0] - sins[2] * coss[0]) +
+				vec.z * (sins[2] * sins[0] + coss[0] * coss[2] * sins[1]);
+	rotated.y = vec.x * coss[1] * sins[2] +
+				vec.y * (coss[0] * coss[2] + sins[0] * sins[1] * sins[2]) +
+				vec.z * (coss[0] * sins[1] * sins[2] - sins[0] * coss[2]);
+	rotated.z = vec.x * -(sins[1]) +
+				vec.y * sins[0] * coss[1] +
+				vec.z * coss[0] * coss[1];
+	return (rotated);
+}
+
+t_point		ft_turn_vector_near(t_point vec, t_point axis, double angle)
+{
+	t_point		rotated;
+	double		sin_a;
+	double		cos_a;
+	double		va;
+
+	sin_a = sin(angle);
+	cos_a = cos(angle);
+	va = 1 - cos_a;
+	rotated.x = vec.x * (axis.x * axis.x * va + cos_a) +
+				vec.y * (axis.x * axis.y * va - axis.z * sin_a) +
+				vec.z * (axis.x * axis.z * va + axis.y * sin_a);
+	rotated.y = vec.x * (axis.x * axis.y * va + axis.z * sin_a) +
+				vec.y * (axis.y * axis.y * va + cos_a) +
+				vec.z * (axis.y * axis.z * va - axis.x * sin_a);
+	rotated.z = vec.x * (axis.x * axis.z * va - axis.y * sin_a) +
+				vec.y * (axis.y * axis.z * va + axis.x * sin_a) +
+				vec.z * (axis.z * axis.z * va + cos_a);
+	return (rotated);
 }

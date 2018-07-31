@@ -200,8 +200,12 @@ t_point					ft_reflect_vector
 							(t_point origin, t_point coll, t_point norm);
 t_point					ft_turn_vector
 							(t_point proj, t_point norm, double angle);
-t_point					ft_project_vector
-							(t_point origin, t_point norm, t_point vec);
+t_point					ft_project_vector(t_point norm, t_point vec);
+t_point					ft_rotate_vector
+							(t_point vec,
+							double alpha, double beta, double gamma);
+t_point					ft_turn_vector_near
+							(t_point vec, t_point axis, double angle);
 
 /*
 **	scene.c
@@ -319,7 +323,17 @@ t_point					ft_get_closest(t_point cam, t_point pnt[4]);
 **	ray.c
 */
 
+t_color					ft_throw_rays
+							(t_env *e, t_coll coll, t_point *vec, double k);
 t_color					ft_trace_ray(t_env *e, int x, int y);
+
+/*
+**	ray_utils.c
+*/
+
+t_point					ft_change_blur_vec
+							(t_point norm, t_point vec, double angle);
+t_point					ft_get_blur_proj(t_point origin, t_point norm);
 
 /*
 **	illumination.c
@@ -339,9 +353,6 @@ t_coll					ft_get_collision
 **	utils.c
 */
 
-t_point					ft_rotate_vector
-							(t_point vec,
-							double alpha, double beta, double gamma);
 double					ft_torad(double degrees);
 void					ft_solve_sqr
 							(double a, double b, double c, double (*res)[3]);

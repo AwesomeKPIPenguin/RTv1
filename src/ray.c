@@ -4,70 +4,8 @@
 
 #include "../rtv1.h"
 
-
-/*
-**	k[0] - own color koef
-**	k[1] - specularity koef
-**	k[2] - transparency koef
-*/
-
-static t_color	ft_apply_koef(t_coll coll, t_color color, double koef)
-{
-	t_color	res;
-	int		i;
-
-	i = -1;
-	while (++i < 3)
-		res.argb[i] = (t_byte)((((double)coll.o->color.argb[i]) * koef) /
-			pow(255, 2) * (double)color.argb[i]);
-	return (res);
-}
-
-static t_color	ft_get_final_color(t_coll coll,
-									t_color spclr_col, t_color trans_col)
-{
-	t_object	*o;
-	t_color		res;
-
-	o = coll.o;
-	res.val = 0;
-
-}
-
-static t_point	ft_change_vec(t_point origin, t_point norm,
-									t_point vec, double angle)
-{
-	t_point	proj;
-
-	proj = ft_project_vector(origin, norm, vec);
-	if (acos(ft_vectors_cos(norm, vec)) + angle <= M_PI_2)
-		return (vec);
-	return (ft_turn_vector(proj, norm, M_PI_2 - angle));
-}
-
-t_color			ft_throw_rays(t_env *e, t_coll coll, t_point *vec, double k)
-{
-	double		max_angle;
-	double		angle;
-	int			rays;
-	int			i;
-	t_color		res;
-
-	max_angle = ft_torad(k * 90.0);
-	rays = ft_limit(1, 10, (int)(k * 10.0));
-	i = -1;
-	res.val = 0;
-	*vec = ft_change_vec(coll.coll_pnt, coll.norm, *vec, max_angle);
-	while (++i < rays)
-	{
-		angle = (double)rand() / (double)RAND_MAX * max_angle;
-
-		res = ft_add_color();
-	}
-}
-
 static t_color	ft_throw_ray(t_env *e, t_object *o,
-							t_point origin, t_point direct)
+							   t_point origin, t_point direct)
 {
 //	printf("in ft_throw_ray      (%15.6f, %15.6f, %15.6f) -> (%15.6f, %15.6f, %15.6f);\n",
 //		origin.x, origin.y, origin.z, direct.x, direct.y, direct.z);
@@ -78,15 +16,41 @@ static t_color	ft_throw_ray(t_env *e, t_object *o,
 
 	spclr_col.val = 0;
 	trans_col.val = 0;
- 	coll = ft_get_collision(e->scn, origin, direct, o);
+	coll = ft_get_collision(e->scn, origin, direct, o);
 	if (!coll.o)
 		return (e->scn->bg_color);
 	if (coll.o->spclr)
-		ft_throw_rays();
-
-//	throw transparency ray
-
+		spclr_col = (o->s_blur) ?
+			ft_throw_rays(e, coll, &(coll.spclr_vec), o->s_blur) :
+			ft_throw_ray(e, coll.o, coll.coll_pnt, coll.spclr_vec);
+	if (coll.o->trans)
+		trans_col = (o->t_blur) ?
+			ft_throw_rays(e, coll, &(coll.trans_vec), o->t_blur) :
+			ft_throw_ray(e, coll.o, coll.coll_pnt, coll.trans_vec);
 	return (ft_get_final_color(coll, spclr_col, trans_col));
+}
+
+t_color			ft_throw_rays(t_env *e, t_coll coll, t_point *vec, double k)
+{
+	double		max_angle;
+	int			rays;
+	int			i;
+	t_color		color;
+	t_color		res;
+
+	max_angle = ft_torad(k * 90.0);
+	rays = ft_limit(1, 10, (int)(k * 10.0));
+	i = -1;
+	res.val = 0;
+	*vec = ft_change_blur_vec(coll.norm, *vec, max_angle);
+	while (++i < rays)
+	{
+		color = ft_throw_ray(e, coll.o, coll.coll_pnt,
+			ft_turn_vector(ft_get_blur_proj(coll.coll_pnt, *vec), *vec,
+				(double)rand() / (double)RAND_MAX * max_angle));
+		res = (i) ? ft_add_color(res, color) : color;
+	}
+	return (res);
 }
 
 t_color			ft_trace_ray(t_env *e, int x, int y)
