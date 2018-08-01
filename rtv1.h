@@ -334,6 +334,8 @@ t_color					ft_trace_ray(t_env *e, int x, int y);
 t_point					ft_change_blur_vec
 							(t_point norm, t_point vec, double angle);
 t_point					ft_get_blur_proj(t_point origin, t_point norm);
+t_color					ft_sum_colors
+							(t_coll coll, t_color color_s, t_color color_t);
 
 /*
 **	illumination.c

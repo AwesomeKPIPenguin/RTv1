@@ -1,7 +1,7 @@
 
 scene {
 	name: Test Scene;
-	world_color: 0x6090c5;
+	world_color: 0x0;
 }
 
 camera {

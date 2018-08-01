@@ -27,7 +27,7 @@ static t_color	ft_throw_ray(t_env *e, t_object *o,
 		trans_col = (o->t_blur) ?
 			ft_throw_rays(e, coll, &(coll.trans_vec), o->t_blur) :
 			ft_throw_ray(e, coll.o, coll.coll_pnt, coll.trans_vec);
-	return (ft_get_final_color(coll, spclr_col, trans_col));
+	return (ft_sum_colors(coll, spclr_col, trans_col));
 }
 
 t_color			ft_throw_rays(t_env *e, t_coll coll, t_point *vec, double k)

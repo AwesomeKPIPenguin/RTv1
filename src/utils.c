@@ -39,6 +39,14 @@ t_color		ft_apply_a(t_color color, double bright)
 	return (color);
 }
 
+t_color		ft_color_apply_k(t_color color, double k)
+{
+	color.argb[2] *= k;
+	color.argb[1] *= k;
+	color.argb[0] *= k;
+	return (color);
+}
+
 t_color		ft_add_color(t_color c_1, t_color c_2)
 {
 	c_1.argb[2] += (c_2.argb[2] - c_1.argb[2]) / 2;
