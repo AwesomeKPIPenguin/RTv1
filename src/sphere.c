@@ -1,6 +1,14 @@
-//
-// Created by Dimon on 10.07.2018.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sphere.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/23 13:25:05 by domelche          #+#    #+#             */
+/*   Updated: 2018/08/23 13:25:05 by domelche         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../rtv1.h"
 
@@ -75,7 +83,7 @@ t_point		ft_collide_sphere(void *fig, t_point origin, t_point direct)
 	coll_points[1] = (ft_pointcmp(ft_unitvectornew(origin, coll_points[1]),
 		direct)) ? coll_points[1] : ft_null_pointnew();
 	coll_points[0] = (ft_get_dist(origin, coll_points[0]) >
-		ft_get_dist(origin, coll_points[1])) ? coll_points[0] : coll_points[1];
+		ft_get_dist(origin, coll_points[1])) ? coll_points[1] : coll_points[0];
 	return (coll_points[0]);
 }
 

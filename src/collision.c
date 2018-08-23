@@ -1,6 +1,14 @@
-//
-// Created by Dimon on 14.07.2018.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   collision.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/23 13:21:02 by domelche          #+#    #+#             */
+/*   Updated: 2018/08/23 13:25:52 by domelche         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../rtv1.h"
 
@@ -49,12 +57,21 @@ t_coll			ft_get_collision(t_scene *scn, t_point origin, t_point direct,
 			ft_get_collision_point(scn->objs, &(coll.o), od, except)))
 		return (coll);
 	coll.norm = coll.o->ft_get_norm(coll.o->fig, coll.coll_pnt);
+
+//	if (coll.coll_pnt.y > -400.0)
+//	{
+//		printf("coll: (%-10.4f, %-10.4f, %-10.4f);\n",
+//			   coll.coll_pnt.x, coll.coll_pnt.y, coll.coll_pnt.z);
+//		printf("norm: (%-10.4f, %-10.4f, %-10.4f);\n\n",
+//			   coll.norm.x, coll.norm.y, coll.norm.z);
+//	}
+
 	if (coll.o->spclr)
 		coll.spclr_vec = ft_reflect_vector(origin, coll.coll_pnt, coll.norm);
 
 	// get transparency
 
-	coll.illum = ft_illuminate(scn, coll.coll_pnt, coll.norm);
+	ft_illuminate(scn, &coll);
 
 //	printf("collision:\npoint: (%f, %f, %f);\nreflection vector: (%f, %f, %f);\n\n",
 //		coll.coll_pnt.x, coll.coll_pnt.y, coll.coll_pnt.z,

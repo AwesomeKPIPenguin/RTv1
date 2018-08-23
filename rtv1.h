@@ -23,11 +23,11 @@
 # define FOV_MIN		60.0
 # define FOV_MAX		120.0
 
-# define BRIGHT_UNIT	5000.0
+# define BRIGHT_UNIT	20000.0
 
 # define THREADS		8
 
-# define PRECISION		1e-3
+# define PRECISION		1e-6
 
 # define KOEF			0
 # define DOUBLE			1
@@ -37,6 +37,16 @@
 
 # define FTSA_GLOBALLY	0
 # define FTSA_IN_SCOPE	1
+
+# define ESC            0X35
+# define ARR_UP         0X7E
+# define ARR_DOWN       0X7D
+# define ARR_RIGHT      0X7C
+# define ARR_LEFT       0X7B
+# define R              0X0F
+# define PLUS           0X45
+# define MINUS          0X4E
+# define C              0X08
 
 typedef uint8_t			t_byte;
 
@@ -159,6 +169,7 @@ typedef struct			s_cone
 typedef struct			s_collision
 {
 	double				illum;
+	double				phong;
 	t_object			*o;
 	t_point				coll_pnt;
 	t_point				norm;
@@ -341,7 +352,7 @@ t_color					ft_sum_colors
 **	illumination.c
 */
 
-double					ft_illuminate(t_scene *scn, t_point coll, t_point norm);
+void					ft_illuminate(t_scene *scn, t_coll *coll);
 
 /*
 **	collision.c
@@ -360,5 +371,11 @@ void					ft_solve_sqr
 							(double a, double b, double c, double (*res)[3]);
 t_color					ft_apply_a(t_color color, double bright);
 t_color					ft_add_color(t_color c_1, t_color c_2);
+
+/*
+**	key_hooks.c
+*/
+
+int						ft_key_hook(int key, void *p);
 
 #endif

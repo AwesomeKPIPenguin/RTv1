@@ -10,11 +10,22 @@ camera {
 	beta: 0;
 	gamma: 0;
 	fov: 100;
+}
 
 light {
-#	type: point;
-	bright: 1;
-	origin: (-2000, 0, 0);
+	bright: 0.005;
+	origin: (-1000, 1000, 1000);
+}
+
+light {
+	bright: 0.005;
+	origin: (-1000, 1000, -1000);
+}
+
+light {
+	bright: 0.02;
+	origin: (0, 1000, 0);
+}
 
 plane {
 	origin: (0, -500, 0)
@@ -33,4 +44,6 @@ sphere {
 	origin: (0, 0, 0);
 	radius: 300;
 	color: 0xff0000;
+	ambnt: 0.1;
+	phong: 0.5;
 }

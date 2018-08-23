@@ -1,6 +1,14 @@
-//
-// Created by Dimon on 12.07.2018.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/23 13:25:05 by domelche          #+#    #+#             */
+/*   Updated: 2018/08/23 13:25:05 by domelche         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../rtv1.h"
 
@@ -38,6 +46,11 @@ t_color		ft_apply_a(t_color color, double bright)
 		128.0 * k;
 	return (color);
 }
+
+//t_color		ft_apply_bright(t_color color, double bright)
+//{
+//
+//}
 
 t_color		ft_color_apply_k(t_color color, double k)
 {

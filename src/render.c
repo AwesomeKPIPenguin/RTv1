@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/23 13:25:05 by domelche          #+#    #+#             */
+/*   Updated: 2018/08/23 13:25:05 by domelche         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../rtv1.h"
 
@@ -23,7 +34,7 @@ void	*ft_section_handle(void *arg)
 		y_iter = y[0];
 		while (++y_iter < y[1])
 			ft_pixel_put_image(parg->e, x[0], y_iter,
-				/*printf("%#-10X;\n", */ft_trace_ray(parg->e, x[0], y_iter).val);
+				/*printf("%#.6X;\n", */ft_trace_ray(parg->e, x[0], y_iter).val);
 	}
 	return (NULL);
 }
