@@ -44,7 +44,7 @@ static t_point	ft_get_collision_point(t_list *objs, t_object **obj,
 	return (pnt[0]);
 }
 
-t_coll			ft_get_collision(t_scene *scn, t_point origin, t_point direct,
+t_coll			ft_get_collision(t_parg *parg, t_point origin, t_point direct,
 								t_object *except)
 {
 	t_coll		coll;
@@ -54,7 +54,7 @@ t_coll			ft_get_collision(t_scene *scn, t_point origin, t_point direct,
 	od[0] = origin;
 	od[1] = direct;
 	if (ft_isnullpoint(coll.coll_pnt =
-			ft_get_collision_point(scn->objs, &(coll.o), od, except)))
+			ft_get_collision_point(parg->e->scn->objs, &(coll.o), od, except)))
 		return (coll);
 	coll.norm = coll.o->ft_get_norm(coll.o->fig, coll.coll_pnt);
 
@@ -71,7 +71,7 @@ t_coll			ft_get_collision(t_scene *scn, t_point origin, t_point direct,
 
 	// get transparency
 
-	ft_illuminate(scn, &coll);
+	ft_illuminate(parg, &coll);
 
 //	printf("collision:\npoint: (%f, %f, %f);\nreflection vector: (%f, %f, %f);\n\n",
 //		coll.coll_pnt.x, coll.coll_pnt.y, coll.coll_pnt.z,

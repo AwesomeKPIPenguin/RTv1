@@ -36,40 +36,38 @@ int			ft_iscollide(t_scene *scn, t_point origin, t_point direct,
 	return (0);
 }
 
-void		ft_illuminate(t_scene *scn, t_coll *coll)
+void		ft_illuminate(t_parg *parg, t_coll *coll)
 {
-	t_list	*l_node;
-	t_light	*l;
-	double	cos;
-	double	sin;
-	double	cl_len;
+	t_list			*l_node;
+	t_light_node	*l;
+	double			cos;
+	double			cl_len;
 
-	l_node = scn->lights;
+	l_node = parg->e->scn->lights[parg->section];
 	coll->illum = 0.0;
 	coll->phong = 0.0;
 	while (l_node)
 	{
-		l = (t_light *)(l_node->content);
+		l = (t_light_node *)(l_node->content);
 		cos = ft_vectors_cos(coll->norm,
-			ft_vectornew(coll->coll_pnt, l->origin));
-		sin = sqrt(1.0 - cos * cos);
-		if (cos > 0 && !ft_iscollide(scn, coll->coll_pnt,
-			ft_unitvectornew(coll->coll_pnt, l->origin), l->origin))
+			ft_vectornew(coll->coll_pnt, l->light->origin));
+		if (cos > 0 && !ft_iscollide(parg->e->scn, coll->coll_pnt,
+			ft_unitvectornew(coll->coll_pnt, l->light->origin),
+			l->light->origin))
 		{
-			cl_len = ft_get_dist(coll->coll_pnt, l->origin);
+			l->is_visible = 1;
+			cl_len = ft_get_dist(coll->coll_pnt, l->light->origin);
 			coll->illum += (!cl_len) ?
-				l->bright : l->bright * cos / (pow(cl_len / BRIGHT_UNIT, 2));
-			coll->phong += (sin * cl_len <= 40.0 && coll->o->phong != 0.0) ?
-				((40.0 - sin * cl_len) / 40.0) * coll->o->phong : 0.0;
+				l->light->bright :
+				l->light->bright * cos / (pow(cl_len / BRIGHT_UNIT, 2));
 
 //			printf("distance: %-16.6f; cosine: %-16.6f; result: %3d;\n",
 //				cl_len, cos, res[1]);
 
-			if (coll->illum >= 1.0 && coll->phong >= 1.0)
+			if (coll->illum >= 1.0)
 				break;
 		}
 		l_node = l_node->next;
 	}
 	coll->illum = ft_limitf(0.0, 1.0, coll->illum);
-	coll->phong = ft_limitf(0.0, 1.0, coll->phong);
 }

@@ -82,6 +82,12 @@ typedef struct			s_light
 	t_point				direct;
 }						t_light;
 
+typedef struct			s_light_node
+{
+	char				is_visible;
+	t_light				*light;
+}						t_light_node;
+
 typedef struct			s_camera
 {
 	double				alpha;
@@ -100,7 +106,7 @@ typedef struct			s_scene
 {
 	t_color				bg_color;
 	char				*name;
-	t_list				*lights;
+	t_list				*(lights[THREADS]);
 	t_list				*objs;
 	t_camera			*cam;
 }						t_scene;
@@ -275,6 +281,12 @@ t_light					*ft_lightnew();
 char					*ft_parse_light(char *attr, t_scene *scn);
 
 /*
+**	light_node.c
+*/
+
+t_light_node			ft_light_node_new(t_light *light);
+
+/*
 **	object.c
 */
 
@@ -335,8 +347,8 @@ t_point					ft_get_closest(t_point cam, t_point pnt[4]);
 */
 
 t_color					ft_throw_rays
-							(t_env *e, t_coll coll, t_point *vec, double k);
-t_color					ft_trace_ray(t_env *e, int x, int y);
+							(t_parg *parg, t_coll coll, t_point *vec, double k);
+t_color					ft_trace_ray(t_parg *parg, int x, int y);
 
 /*
 **	ray_utils.c
@@ -352,14 +364,14 @@ t_color					ft_sum_colors
 **	illumination.c
 */
 
-void					ft_illuminate(t_scene *scn, t_coll *coll);
+void					ft_illuminate(t_parg *parg, t_coll *coll);
 
 /*
 **	collision.c
 */
 
 t_coll					ft_get_collision
-							(t_scene *scn, t_point origin, t_point direct,
+							(t_parg *parg, t_point origin, t_point direct,
 							t_object *except);
 
 /*

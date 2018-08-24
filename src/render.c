@@ -34,7 +34,7 @@ void	*ft_section_handle(void *arg)
 		y_iter = y[0];
 		while (++y_iter < y[1])
 			ft_pixel_put_image(parg->e, x[0], y_iter,
-				/*printf("%#.6X;\n", */ft_trace_ray(parg->e, x[0], y_iter).val);
+				/*printf("%#.6X;\n", */ft_trace_ray(parg, x[0], y_iter).val);
 	}
 	return (NULL);
 }
