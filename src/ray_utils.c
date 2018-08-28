@@ -70,16 +70,19 @@ t_color		ft_sum_colors(t_coll coll, t_color color_s, t_color color_t)
 	res.val = 0;
 	o = coll.o;
 	i = -1;
+
+//	if (o->spclr != 0)
+//		printf("color_s: %#6X, spclr: %5.4f, res: %f;\n",
+//			color_s.val, o->spclr, (double)(color_s.argb[2]) * o->spclr);
+
 	while (++i < 3)
 		res.argb[i] = (t_byte)((double)o->color.argb[i] * o->diff *
 			(ft_limitf(0.0, 1.0, coll.illum + o->ambnt)) +
-			(double)color_s.argb[i] * o->spclr +
-			(double)color_t.argb[i] * o->trans);
-	if (coll.phong != 0.0)
-		res = ft_apply_a(res, 255.0 * (coll.phong + coll.illum));
+			(double)(color_s.argb[i]) * o->spclr +
+			(double)(color_t.argb[i]) * o->trans);
 
 //	printf("obj_color:   %#.6X; diffuse: %3.2f; illumination: %3.2f;\nspclr_color: %#.6X; specularity: %3.2f;\ntrans_color: %#.6X; transparency: %3.2f;\nres: %#.6X;\n\n",
-//		o->color.val, o->diff, coll.illum, color_s.val, o->spclr, color_t.val, o->trans, res.val);
+//		o->color.val, o->diff, coll.illum + o->ambnt, color_s.val, o->spclr, color_t.val, o->trans, res.val);
 
 	return (res);
 }

@@ -37,13 +37,20 @@ t_color		ft_apply_a(t_color color, double bright)
 {
 	double	k;
 
+	bright = ft_limitf(0.0, 255.0, bright);
 	k = bright - 127.0;
+
+//	printf("bright: %-4.1f; color: %#6X;\n", bright, color.val);
+
 	color.argb[2] += (double)((k > 0) ? 255 - color.argb[2] : color.argb[2]) /
 		128.0 * k;
 	color.argb[1] += (double)((k > 0) ? 255 - color.argb[1] : color.argb[1]) /
 		128.0 * k;
 	color.argb[0] += (double)((k > 0) ? 255 - color.argb[0] : color.argb[0]) /
 		128.0 * k;
+
+//	printf("color: %#6X;\n\n", color.val);
+
 	return (color);
 }
 

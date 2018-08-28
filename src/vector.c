@@ -97,14 +97,19 @@ t_point		ft_reflect_vector(t_point origin, t_point coll, t_point norm)
 	t_point		on;
 	double		cos;
 
-//	printf("in ft_reflect_vector (%15.6f, %15.6f, %15.6f) -> (%15.6f, %15.6f, %15.6f), norm = (%15.6f, %15.6f, %15.6f);\n",
-//			origin.x, origin.y, origin.z, coll.x, coll.y, coll.z, norm.x, norm.y, norm.z);
+	t_point res;
 
 	oc = ft_vectornew(origin, coll);
 	cos = -ft_vectors_cos(oc, norm);
-	on = ft_vectornew(origin, ft_scale_vector(norm, (ft_vector_len(oc) * cos)));
-	return (
-		ft_unitvectornew(coll, ft_add_vector(origin, ft_scale_vector(on, 2))));
+	on = ft_vectornew(origin,
+		ft_add_vector(coll, ft_scale_vector(norm, (ft_vector_len(oc) * cos))));
+
+	res = ft_unitvectornew(coll, ft_add_vector(origin, ft_scale_vector(on, 2.0)));
+//	if (coll.x >= -100 && coll.x <= 100 && coll.z >= -100 && coll.z <= 100)
+//		printf("in ft_reflect_vector (%12.6f, %12.6f, %12.6f) -> (%12.6f, %12.6f, %12.6f), norm = (%5.4f, %5.4f, %5.4f);\nres: (%12.6f, %12.6f, %12.6f);\n\n",
+//			origin.x, origin.y, origin.z, coll.x, coll.y, coll.z, norm.x, norm.y, norm.z, res.x, res.y, res.z);
+
+	return(res);
 }
 
 t_point		ft_turn_vector(t_point proj, t_point norm, double angle)

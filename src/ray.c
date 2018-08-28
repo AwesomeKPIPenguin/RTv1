@@ -15,6 +15,7 @@
 static double	ft_get_phong(t_parg *parg, t_coll coll)
 {
 	double			phong;
+	double			phong_tmp;
 	t_list			*node;
 	t_light_node	*lnode;
 	double			len;
@@ -31,9 +32,13 @@ static double	ft_get_phong(t_parg *parg, t_coll coll)
 			node = node->next;
 			continue ;
 		}
-		phong = MAX(phong, coll.o->phong * lnode->light->bright *
+		phong_tmp = coll.o->phong * lnode->light->bright *
 			pow((30.0 - len), 2) * BRIGHT_UNIT * /* some_const */ 255.0 /
-			ft_get_dist(coll.coll_pnt, lnode->light->origin));
+			ft_get_dist(coll.coll_pnt, lnode->light->origin);
+
+//		printf("phong_tmp: %12.4f;\n", phong_tmp);
+
+		phong = MAX(phong, phong_tmp);
 		node = node->next;
 	}
 	return (phong);
@@ -55,11 +60,15 @@ static t_color	ft_throw_ray(t_parg *parg, t_object *o,
 	if (!coll.o)
 		return (parg->e->scn->bg_color);
 	if (coll.o->spclr)
-		spclr_col = (o->s_blur) ?
+	{
+		spclr_col = (coll.o->s_blur) ?
 			ft_throw_rays(parg, coll, &(coll.spclr_vec), o->s_blur) :
 			ft_throw_ray(parg, coll.o, coll.coll_pnt, coll.spclr_vec);
+
+//		printf("spclr_col: %#6X;\n", spclr_col.val);
+	}
 	if (coll.o->trans)
-		trans_col = (o->t_blur) ?
+		trans_col = (coll.o->t_blur) ?
 			ft_throw_rays(parg, coll, &(coll.trans_vec), o->t_blur) :
 			ft_throw_ray(parg, coll.o, coll.coll_pnt, coll.trans_vec);
 	if (coll.o->phong != 0.0)

@@ -48,7 +48,7 @@ t_object	*ft_parse_object(char *attr)
 		ft_read_attr((void *)(&(o->color)), ptr, COLOR);
 	if ((ptr = ft_search_attr(attr, "ambnt:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)(&(o->ambnt)), ptr, KOEF);
-	if ((ptr = ft_search_attr(attr, "diff::", FTSA_IN_SCOPE)))
+	if ((ptr = ft_search_attr(attr, "diff:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)(&(o->diff)), ptr, KOEF);
 	if ((ptr = ft_search_attr(attr, "spclr:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)(&(o->spclr)), ptr, KOEF);

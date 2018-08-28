@@ -64,13 +64,12 @@ t_point		ft_collide_sphere(void *fig, t_point origin, t_point direct)
 	dist = ft_linetopoint_dist(origin, direct, sph->origin);
 	if (dist > sph->radius)
 		return (ft_null_pointnew());
-	ft_solve_sqr((pow(direct.x, 2) + pow(direct.y, 2) + pow(direct.z, 2)),
-		2.0 * ((origin.x - sph->origin.x) * direct.x +
-			(origin.y - sph->origin.y) * direct.y +
-			(origin.z - sph->origin.z) * direct.z),
-		(pow((origin.x - sph->origin.x), 2) +
-			pow((origin.y - sph->origin.y), 2) +
-			pow((origin.z - sph->origin.z), 2) - pow(sph->radius, 2)),
+	ft_solve_sqr((pow(direct.x, 2) + pow(direct.y, 2) + pow(direct.z, 2)), 2.0 *
+		(direct.x * (origin.x - sph->origin.x) +
+		direct.y * (origin.y - sph->origin.y) +
+		direct.z * (origin.z - sph->origin.z)),
+		(pow(origin.x - sph->origin.x, 2) + pow(origin.y - sph->origin.y, 2) +
+			pow(origin.z - sph->origin.z, 2) - pow(sph->radius, 2)),
 		&sqr_res);
 	if (!sqr_res[0])
 		return (ft_null_pointnew());

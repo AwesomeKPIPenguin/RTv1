@@ -68,14 +68,11 @@ double		ft_get_dist(t_point pnt_0, t_point pnt_1)
 
 double		ft_linetopoint_dist(t_point origin, t_point direct, t_point point)
 {
-	t_point		od;
 	t_point		po;
 
-	od = ft_pointnew(direct.x - origin.x, direct.y - origin.y,
-					 direct.z - origin.z);
 	po = ft_pointnew(origin.x - point.x, origin.y - point.y,
 					 origin.z - point.z);
-	return (ft_vector_len(ft_mul_vector_v(od, po)) / ft_vector_len(od));
+	return (ft_vector_len(ft_mul_vector_v(direct, po)) / ft_vector_len(direct));
 }
 
 double		ft_planetopoint_dist(t_point origin, t_point norm, t_point point)

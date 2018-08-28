@@ -12,18 +12,18 @@ camera {
 	fov: 100;
 }
 
-light {
-	bright: 0.005;
-	origin: (-1000, 1000, 1000);
-}
+#light {
+#	bright: 0.001;
+#	origin: (-1000, 1000, 1000);
+#}
+
+#light {
+#	bright: 0.001;
+#	origin: (-1000, 1000, -1000);
+#}
 
 light {
-	bright: 0.005;
-	origin: (-1000, 1000, -1000);
-}
-
-light {
-	bright: 0.02;
+	bright: 0.01;
 	origin: (0, 1000, 0);
 }
 
@@ -31,19 +31,33 @@ plane {
 	origin: (0, -500, 0)
 	norm: (0, 1, 0)
 	color: 0x0000ff;
-	ambnt: 0.1;
-	diff: 1;
-	spclr: 0;
+	ambnt: 0;
+	diff: 0.5;
+	spclr: 1;
 	s_blur: 0;
 	trans: 0;
 	t_blur: 0;
-	phong: 0.2;
+	phong: 0;
+}
+
+cone {
+    color: 0x00ff00;
+    ambnt: 0.1;
+    diff: 1;
+    spclr: 0;
+    trans: 0;
+    phong: 0;
+    base: (400, -100, 300);
+    base_rad: 300;
+    vert: (400, 700, 300);
+    vert_rad: 100;
 }
 
 sphere {
-	origin: (0, 0, 0);
-	radius: 300;
+	origin: (3000, 0, -1000);
+	radius: 600;
 	color: 0xff0000;
-	ambnt: 0.1;
-	phong: 0.5;
+	ambnt: 0.2;
+	spclr: 0;
+	phong: 1;
 }
