@@ -62,14 +62,14 @@ static t_color	ft_throw_ray(t_parg *parg, t_object *o,
 	if (coll.o->spclr)
 	{
 		spclr_col = (coll.o->s_blur) ?
-			ft_throw_rays(parg, coll, &(coll.spclr_vec), o->s_blur) :
+			ft_throw_rays(parg, coll, &(coll.spclr_vec), coll.o->s_blur) :
 			ft_throw_ray(parg, coll.o, coll.coll_pnt, coll.spclr_vec);
 
 //		printf("spclr_col: %#6X;\n", spclr_col.val);
 	}
 	if (coll.o->trans)
 		trans_col = (coll.o->t_blur) ?
-			ft_throw_rays(parg, coll, &(coll.trans_vec), o->t_blur) :
+			ft_throw_rays(parg, coll, &(coll.trans_vec), coll.o->t_blur) :
 			ft_throw_ray(parg, coll.o, coll.coll_pnt, coll.trans_vec);
 	if (coll.o->phong != 0.0)
 		spclr_col = ft_apply_a(spclr_col, ft_get_phong(parg, coll));
@@ -85,7 +85,7 @@ t_color			ft_throw_rays(t_parg *parg, t_coll coll, t_point *vec, double k)
 	t_color		res;
 
 	max_angle = ft_torad(k * 90.0);
-	rays = ft_limit(1, 10, (int)(k * 10.0));
+	rays = ft_limit(1, 10, (int)(sin(max_angle) * 10.0));
 	i = -1;
 	res.val = 0;
 	*vec = ft_change_blur_vec(coll.norm, *vec, max_angle);

@@ -104,18 +104,25 @@ void	ft_render(t_env *e)
 	t_parg		pargs[THREADS];
 	int			i;
 
-	i = 1;
-	while (++i < 3)
-	{
-		pargs[i].section = i;
-		pargs[i].e = e;
-	}
-	i = 1;
-	while (++i < 3)
-		pthread_create(&threads[i], NULL,
-			ft_section_handle, (void *)&pargs[i]);
-	i = 1;
-	while (++i < 3)
-		pthread_join(threads[i], NULL);
+//	i = 1;
+//	while (++i < 3)
+//	{
+//		pargs[i].section = i;
+//		pargs[i].e = e;
+//	}
+
+	pargs[4].section = 4;
+	pargs[4].e = e;
+
+//	i = 1;
+//	while (++i < 3)
+//		pthread_create(&threads[i], NULL,
+//			ft_section_handle, (void *)&pargs[i]);
+
+	ft_section_handle((void *)&pargs[4]);
+
+//	i = 1;
+//	while (++i < 3)
+//		pthread_join(threads[i], NULL);
 //	mlx_put_image_to_window(e->mlx, e->win, e->img->ptr, 0, 0);
 }

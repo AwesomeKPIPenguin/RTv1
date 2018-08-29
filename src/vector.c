@@ -121,7 +121,8 @@ t_point		ft_turn_vector(t_point proj, t_point norm, double angle)
 t_point		ft_project_vector(t_point norm, t_point vec)
 {
 	return (ft_add_vector(vec, ft_scale_vector(norm,
-		-ft_vectors_cos(norm, vec))));
+				(ft_vector_len(vec) * -ft_vectors_cos(norm, vec)) /
+					ft_vector_len(norm))));
 }
 
 t_point		ft_rotate_vector(t_point vec,

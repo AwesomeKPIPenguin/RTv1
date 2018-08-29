@@ -17,10 +17,18 @@ void	ft_get_angles(t_cone *cone, double (*ang)[2])
 	t_point		vec;
 
 	vec = ft_vectornew(cone->base, cone->vert);
-	*ang[0] = acos(ft_vectors_cos(ft_pointnew(vec.x, 0, vec.z),
-								  ft_pointnew(1.0, 0.0, 0.0)));
-	*ang[1] = acos(ft_vectors_cos(ft_pointnew(0, vec.y, vec.z),
-								  ft_pointnew(0.0, 1.0, 0.0)));
+	if (vec.x == 0.0 && vec.z == 0.0)
+		(*ang)[0] = M_PI_2;
+	else
+		(*ang)[0] = (vec.z == 0.0) ? 0.0 :
+			acos(ft_vectors_cos(ft_pointnew(vec.x, 0, vec.z),
+								ft_pointnew(1.0, 0.0, 0.0)));
+	if (vec.y == 0.0 && vec.z == 0.0)
+		(*ang)[1] = M_PI_2;
+	else
+		(*ang)[1] = (vec.z == 0.0) ? 0.0 :
+			acos(ft_vectors_cos(ft_pointnew(0, vec.y, vec.z),
+								ft_pointnew(0.0, 1.0, 0.0)));
 }
 
 void	ft_get_t(t_cone *cone, double ang[2], t_point pnt[4], double (*t)[3])
