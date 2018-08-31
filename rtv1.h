@@ -25,6 +25,8 @@
 
 # define BRIGHT_UNIT	20000.0
 
+# define DEPTH			10
+
 # define THREADS		8
 
 # define PRECISION		1e-6
@@ -245,6 +247,7 @@ char					*ft_parse_camera(char *attr, t_scene *scn);
 
 t_img					*ft_imgnew(t_env *e);
 void					ft_pixel_put_image(t_env *e, int x, int y, int colour);
+void					ft_smooth(t_img *base, t_img *res);
 
 /*
 **	environment.c
@@ -347,7 +350,8 @@ t_point					ft_get_closest(t_point cam, t_point pnt[4]);
 */
 
 t_color					ft_throw_rays
-							(t_parg *parg, t_coll coll, t_point *vec, double k);
+							(t_parg *parg, t_coll coll, t_point *vec,
+							double num[2]);
 t_color					ft_trace_ray(t_parg *parg, int x, int y);
 
 /*
