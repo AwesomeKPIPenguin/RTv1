@@ -12,37 +12,37 @@
 
 #include "../rtv1.h"
 
-static double	ft_get_phong(t_parg *parg, t_coll coll)
-{
-	double			phong;
-	double			phong_tmp;
-	t_list			*node;
-	t_light_node	*lnode;
-	double			len;
-
-	phong = 0;
-	node = parg->e->scn->lights[parg->section];
-	len = 0;
-	while (node)
-	{
-		lnode = (t_light_node *)(node->content);
-		if (!lnode->is_visible || (len = ft_linetopoint_dist(coll.coll_pnt,
-			coll.spclr_vec, lnode->light->origin)) > 30.0)
-		{
-			node = node->next;
-			continue ;
-		}
-		phong_tmp = coll.o->phong * lnode->light->bright *
-			pow((30.0 - len), 2) * BRIGHT_UNIT * /* some_const */ 255.0 /
-			ft_get_dist(coll.coll_pnt, lnode->light->origin);
-
-//		printf("phong_tmp: %12.4f;\n", phong_tmp);
-
-		phong = MAX(phong, phong_tmp);
-		node = node->next;
-	}
-	return (phong);
-}
+//static double	ft_get_phong(t_parg *parg, t_coll coll)
+//{
+//	double			phong;
+//	double			phong_tmp;
+//	t_list			*node;
+//	t_light_node	*lnode;
+//	double			cos;
+//
+//	phong = 127.0;
+//	node = parg->e->scn->lights[parg->section];
+//	cos = 1.0;
+//	while (node)
+//	{
+//		lnode = (t_light_node *)(node->content);
+//		if (!lnode->is_visible || (cos = ft_vectors_cos(coll.spclr_vec,
+//			ft_vectornew(coll.coll_pnt, lnode->light->origin))) < 0.9)
+//		{
+//			node = node->next;
+//			continue ;
+//		}
+//		phong_tmp = coll.o->phong *
+//			pow(cos - 0.9, 2)  * 100.0 * /* some_const */ 255.0;
+//
+//		printf("phong_tmp: %12.4f; cos: %4.3f;\n",
+//			phong_tmp, cos);
+//
+//		phong = MAX(phong, phong_tmp);
+//		node = node->next;
+//	}
+//	return (phong);
+//}
 
 static t_color	ft_throw_ray(t_parg *parg, t_object *o,
 							   t_point od[2], int depth)
@@ -81,9 +81,10 @@ static t_color	ft_throw_ray(t_parg *parg, t_object *o,
 			ft_throw_rays(parg, coll, &(coll.trans_vec), num) :
 			ft_throw_ray(parg, coll.o, od, depth + 1);
 	}
-	if (coll.o->phong != 0.0)
-		spclr_col = ft_apply_a(spclr_col, ft_get_phong(parg, coll));
-	return (ft_sum_colors(coll, spclr_col, trans_col));
+	return ((coll.o->phong != 0.0) ?
+		ft_apply_a(ft_sum_colors(coll, spclr_col, trans_col),
+			coll.phong) :
+		ft_sum_colors(coll, spclr_col, trans_col));
 }
 
 t_color			ft_throw_rays(t_parg *parg, t_coll coll, t_point *vec,

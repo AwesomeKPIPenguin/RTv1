@@ -40,32 +40,39 @@ void		ft_illuminate(t_parg *parg, t_coll *coll)
 {
 	t_list			*l_node;
 	t_light_node	*l;
-	double			cos;
+	double			cos[2];
 	double			cl_len;
 
 	l_node = parg->e->scn->lights[parg->section];
 	coll->illum = 0.0;
-	coll->phong = 0.0;
+	coll->phong = 127.0;
 	while (l_node)
 	{
 		l = (t_light_node *)(l_node->content);
-		cos = ft_vectors_cos(coll->norm,
+		cos[0] = ft_vectors_cos(coll->norm,
 			ft_vectornew(coll->coll_pnt, l->light->origin));
-		if (cos > 0 && !ft_iscollide(parg->e->scn, coll->coll_pnt,
+		if (cos[0] > 0 && !ft_iscollide(parg->e->scn, coll->coll_pnt,
 			ft_unitvectornew(coll->coll_pnt, l->light->origin),
 			l->light->origin))
 		{
-			l->is_visible = 1;
+			cos[1] = ft_vectors_cos(coll->spclr_vec,
+				ft_vectornew(coll->coll_pnt, l->light->origin));
 			cl_len = ft_get_dist(coll->coll_pnt, l->light->origin);
 			coll->illum += (!cl_len) ?
 				l->light->bright :
-				l->light->bright * cos / (pow(cl_len / BRIGHT_UNIT, 2));
+				l->light->bright * cos[0] / (pow(cl_len / BRIGHT_UNIT, 2));
+
+
+
+			if (cos[1] > 0.9)
+				coll->phong = MAX(coll->phong, pow(cos[1] - 0.9, 2) *
+					coll->o->phong * 100.0 * 255.0);
+
+
 
 //			printf("distance: %-16.6f; cosine: %-16.6f; result: %3d;\n",
 //				cl_len, cos, res[1]);
 
-			if (coll->illum >= 1.0)
-				break;
 		}
 		l_node = l_node->next;
 	}
