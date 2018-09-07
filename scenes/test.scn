@@ -84,35 +84,37 @@ plane {
 #	phong: 0;
 #}
 
-#cone {
-#    color: 0x00ff00;
-#    ambnt: 0.1;
-#    diff: 1;
-#    spclr: 0;
-#    trans: 0;
-#    phong: 0;
-#    base: (400, -100, 300);
-#    base_rad: 300;
-#    vert: (400, 700, 300);
-#    vert_rad: 100;
+cone {
+    color: 0x00ff00;
+    ambnt: 0.1;
+    diff: 1;
+    spclr: 0;
+    trans: 0;
+    phong: 0;
+    base: (200, -300, 200);
+    base_rad: 300;
+    vert: (0, 500, 0);
+    vert_rad: 300;
+}
+
+#sphere {
+#	origin: (-200, 0, 150);
+#	radius: 300;
+#	color: 0xff0000;
+#	ambnt: 0.1;
+#	diff: 1;
+#	spclr: 1;
+#	s_blur: 1;
+#	phong: 1;
 #}
-
-sphere {
-	origin: (-200, 0, 150);
-	radius: 300;
-	color: 0xff0000;
-	ambnt: 0.1;
-	diff: 1;
-	spclr: 1;
-	phong: 0;
-}
-
-sphere {
-	origin: (-500, 0, 500);
-	radius: 200;
-	color: 0x00ff00;
-	ambnt: 0.1;
-	diff: 1;
-	spclr: 1;
-	phong: 0;
-}
+#
+#sphere {
+#	origin: (-500, 0, 500);
+#	radius: 200;
+#	color: 0x00ff00;
+#	ambnt: 0.1;
+#	diff: 1;
+#	spclr: 1;
+#	s_blur: 1;
+#	phong: 1;
+#}

@@ -84,12 +84,6 @@ typedef struct			s_light
 	t_point				direct;
 }						t_light;
 
-typedef struct			s_light_node
-{
-	char				is_visible;
-	t_light				*light;
-}						t_light_node;
-
 typedef struct			s_camera
 {
 	double				alpha;
@@ -108,7 +102,7 @@ typedef struct			s_scene
 {
 	t_color				bg_color;
 	char				*name;
-	t_list				*(lights[THREADS]);
+	t_list				*lights;
 	t_list				*objs;
 	t_camera			*cam;
 }						t_scene;
@@ -168,6 +162,8 @@ typedef struct			s_cone
 	double				vert_rad;
 	t_point				base;
 	t_point				vert;
+	t_point				bv;
+	double				bv_dist;
 }						t_cone;
 
 /*
@@ -282,12 +278,6 @@ void					ft_read_attr(void *dst, char *attr, int type);
 
 t_light					*ft_lightnew();
 char					*ft_parse_light(char *attr, t_scene *scn);
-
-/*
-**	light_node.c
-*/
-
-t_light_node			ft_light_node_new(t_light *light);
 
 /*
 **	object.c
