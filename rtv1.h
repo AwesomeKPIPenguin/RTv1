@@ -194,6 +194,8 @@ double					ft_linetopoint_dist
 							(t_point origin, t_point direct, t_point point);
 double					ft_planetopoint_dist
 							(t_point origin, t_point norm, t_point point);
+double					ft_linetoline_dist
+							(t_point o1, t_point d1, t_point o2, t_point d2);
 t_point					ft_project_point
 							(t_point origin, t_point direct, t_point point);
 int						ft_pointcmp(t_point pnt_0, t_point pnt_1);
@@ -324,10 +326,9 @@ t_point					ft_get_norm_cone(void *fig, t_point coll);
 **	cone_utils.c
 */
 
-void					ft_get_angles(t_cone *cone, double (*ang)[2]);
 void					ft_get_t
-							(t_cone *cone, double ang[2],
-							t_point pnt[4], double (*t)[3]);
+							(t_cone *cone, t_point pnt[4],
+							double (*t)[3], int is_cyl);
 void					ft_is_between_planes
 							(t_point (*pnt)[4], t_point base, t_point vert);
 void					ft_collide_cone_planes

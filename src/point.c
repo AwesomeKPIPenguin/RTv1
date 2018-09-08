@@ -81,6 +81,15 @@ double		ft_planetopoint_dist(t_point origin, t_point norm, t_point point)
 		norm.z * (point.z - origin.z)) / ft_vector_len(norm);
 }
 
+double		ft_linetoline_dist(t_point o1, t_point d1, t_point o2, t_point d2)
+{
+	t_point	axb;
+
+	axb = ft_mul_vector_v(d1, d2);
+	return (fabs(ft_mul_vector_s(ft_add_vector(o2, ft_scale_vector(o1, -1)),
+		axb)) / ft_vector_len(axb));
+}
+
 t_point		ft_project_point(t_point origin, t_point direct, t_point point)
 {
 	t_plane		*pln;
