@@ -111,15 +111,15 @@ void	ft_render(t_env *e)
 //		pargs[i].e = e;
 //	}
 
-	pargs[6].section = 6;
-	pargs[6].e = e;
+	pargs[2].section = 2;
+	pargs[2].e = e;
 
 //	i = -1;
 //	while (++i < THREADS)
 //		pthread_create(&threads[i], NULL,
 //			ft_section_handle, (void *)&pargs[i]);
 //
-	ft_section_handle((void *)&pargs[6]);
+	ft_section_handle((void *)&pargs[2]);
 
 //	i = -1;
 //	while (++i < THREADS)

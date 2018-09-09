@@ -90,6 +90,22 @@ double		ft_linetoline_dist(t_point o1, t_point d1, t_point o2, t_point d2)
 		axb)) / ft_vector_len(axb));
 }
 
+t_point		ft_line_line_closest(t_point o1, t_point d1, t_point o2, t_point d2)
+{
+	double	t;
+	t_point	den;
+	double	len;
+
+	den = ft_mul_vector_v(d1, d2);
+	if ((len = ft_vector_len(den)) == 0.0)
+		return (ft_null_pointnew());
+	t = ft_det_3(ft_vectornew(o1, o2), d2, den) / pow(len, 2);
+
+//	printf("t = %f;\n", t);
+
+	return (ft_add_vector(o1, ft_scale_vector(d1, -t)));
+}
+
 t_point		ft_project_point(t_point origin, t_point direct, t_point point)
 {
 	t_plane		*pln;

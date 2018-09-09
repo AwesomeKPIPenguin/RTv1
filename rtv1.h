@@ -196,6 +196,8 @@ double					ft_planetopoint_dist
 							(t_point origin, t_point norm, t_point point);
 double					ft_linetoline_dist
 							(t_point o1, t_point d1, t_point o2, t_point d2);
+t_point					ft_line_line_closest
+							(t_point o1, t_point d1, t_point o2, t_point d2);
 t_point					ft_project_point
 							(t_point origin, t_point direct, t_point point);
 int						ft_pointcmp(t_point pnt_0, t_point pnt_1);
@@ -378,6 +380,7 @@ void					ft_solve_sqr
 							(double a, double b, double c, double (*res)[3]);
 t_color					ft_apply_a(t_color color, double bright);
 t_color					ft_add_color(t_color c_1, t_color c_2);
+double					ft_det_3(t_point vec1, t_point vec2, t_point vec3);
 
 /*
 **	key_hooks.c
