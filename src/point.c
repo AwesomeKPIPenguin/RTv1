@@ -99,26 +99,27 @@ t_point		ft_line_line_closest(t_point o1, t_point d1, t_point o2, t_point d2)
 	den = ft_mul_vector_v(d1, d2);
 	if ((len = ft_vector_len(den)) == 0.0)
 		return (ft_null_pointnew());
-	t = ft_det_3(ft_vectornew(o1, o2), d2, den) / pow(len, 2);
+	t = ft_mul_vector_s(ft_mul_vector_v(ft_vectornew(o1, o2), d2), den) /
+		pow(len, 2);
 
 //	printf("t = %f;\n", t);
 
-	return (ft_add_vector(o1, ft_scale_vector(d1, -t)));
+	return (ft_add_vector(o1, ft_scale_vector(d1, t)));
 }
 
 t_point		ft_project_point(t_point origin, t_point direct, t_point point)
 {
 	t_plane		*pln;
+	t_point		res;
 
 	pln = ft_planenew();
 	pln->origin = point;
 	pln->norm = direct;
-	return (ft_collide_plane((void *)pln, origin, direct));
+	res = ft_collide_plane((void *)pln, origin, direct);
+	return ((ft_isnullpoint(res)) ? origin : res);
 }
 
-int			ft_pointcmp(t_point pnt_0, t_point pnt_1)
+int			ft_pointcmp(t_point pnt_0, t_point pnt_1, double prec)
 {
-	return (fabs(pnt_0.x - pnt_1.x) < PRECISION &&
-			fabs(pnt_0.y - pnt_1.y) < PRECISION &&
-			fabs(pnt_0.z - pnt_1.z) < PRECISION);
+	return (ft_get_dist(pnt_0, pnt_1) < prec);
 }

@@ -60,8 +60,8 @@ double		ft_mul_vector_s(t_point vec_1, t_point vec_2)
 t_point		ft_mul_vector_v(t_point vec_1, t_point vec_2)
 {
 	return (ft_pointnew(vec_1.y * vec_2.z - vec_1.z * vec_2.y,
-						-(vec_1.x * vec_2.z - vec_1.z * vec_2.x),
-						vec_1.y * vec_2.x - vec_1.x * vec_2.y));
+						vec_1.z * vec_2.x - vec_1.x * vec_2.z,
+						vec_1.x * vec_2.y - vec_1.y * vec_2.x));
 }
 
 t_point		ft_scale_vector(t_point vec, double k)

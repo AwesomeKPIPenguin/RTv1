@@ -74,10 +74,3 @@ t_color		ft_add_color(t_color c_1, t_color c_2)
 	c_1.argb[0] += (c_2.argb[0] - c_1.argb[0]) / 2;
 	return (c_1);
 }
-
-double		ft_det_3(t_point vec1, t_point vec2, t_point vec3)
-{
-	return (vec1.x * vec2.y * vec3.z + vec2.x * vec3.y * vec1.z +
-			vec1.y * vec2.z * vec3.x - vec1.z * vec2.y * vec1.x -
-			vec2.z * vec3.y * vec1.x - vec1.y * vec2.x * vec3.z);
-}

@@ -17,8 +17,8 @@
 **	(specularity and transparency will be taken into account latter)
 */
 
-int			ft_iscollide(t_scene *scn, t_point origin, t_point direct,
-							t_point light)
+int			ft_iscollide(t_scene *scn, t_object *except, t_point origin,
+							t_point direct, t_point light)
 {
 	t_list		*o_node;
 	t_object	*o;
@@ -28,8 +28,15 @@ int			ft_iscollide(t_scene *scn, t_point origin, t_point direct,
 	while (o_node)
 	{
 		o = (t_object *)(o_node->content);
+		if (o == except)
+		{
+			o_node = o_node->next;
+			continue ;
+		}
 		coll = o->ft_collide(o->fig, origin, direct);
-		if (ft_pointcmp(direct, ft_unitvectornew(coll, light)))
+		if (!ft_isnullpoint(coll) &&
+			ft_pointcmp(ft_unitvectornew(coll, origin),
+				ft_scale_vector(ft_unitvectornew(coll, light), -1), 1e-6))
 			return (1);
 		o_node = o_node->next;
 	}
@@ -51,8 +58,9 @@ void		ft_illuminate(t_parg *parg, t_coll *coll)
 		l = (t_light *)(node->content);
 		cos[0] = ft_vectors_cos(coll->norm,
 			ft_vectornew(coll->coll_pnt, l->origin));
-		if (cos[0] > 0 && !ft_iscollide(parg->e->scn, coll->coll_pnt,
-			ft_unitvectornew(coll->coll_pnt, l->origin), l->origin))
+		if (cos[0] >= 0 && !ft_iscollide(parg->e->scn, coll->o,
+			coll->coll_pnt,	ft_unitvectornew(coll->coll_pnt, l->origin),
+			l->origin))
 		{
 			cos[1] = ft_vectors_cos(coll->spclr_vec,
 				ft_vectornew(coll->coll_pnt, l->origin));

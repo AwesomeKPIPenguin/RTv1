@@ -118,7 +118,7 @@ void	ft_render(t_env *e)
 //	while (++i < THREADS)
 //		pthread_create(&threads[i], NULL,
 //			ft_section_handle, (void *)&pargs[i]);
-//
+
 	ft_section_handle((void *)&pargs[2]);
 
 //	i = -1;

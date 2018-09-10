@@ -76,11 +76,11 @@ t_point		ft_collide_sphere(void *fig, t_point origin, t_point direct)
 	coll_points[0] = ft_pointnew(direct.x * sqr_res[1] + origin.x,
 		direct.y * sqr_res[1] + origin.y, direct.z * sqr_res[1] + origin.z);
 	coll_points[0] = (ft_pointcmp(ft_unitvectornew(origin, coll_points[0]),
-		direct)) ? coll_points[0] : ft_null_pointnew();
+		direct, 1e-6)) ? coll_points[0] : ft_null_pointnew();
 	coll_points[1] = ft_pointnew(direct.x * sqr_res[2] + origin.x,
 		direct.y * sqr_res[2] + origin.y, direct.z * sqr_res[2] + origin.z);
 	coll_points[1] = (ft_pointcmp(ft_unitvectornew(origin, coll_points[1]),
-		direct)) ? coll_points[1] : ft_null_pointnew();
+		direct, 1e-6)) ? coll_points[1] : ft_null_pointnew();
 	coll_points[0] = (ft_get_dist(origin, coll_points[0]) >
 		ft_get_dist(origin, coll_points[1])) ? coll_points[1] : coll_points[0];
 	return (coll_points[0]);

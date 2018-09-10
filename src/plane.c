@@ -50,7 +50,7 @@ t_point		ft_collide_plane(void *fig, t_point origin, t_point direct)
 	t = (ft_mul_vector_s(pln->norm, pln->origin) -
 		ft_mul_vector_s(pln->norm, origin)) / dev;
 	coll = ft_add_vector(origin, ft_scale_vector(direct, t));
-	return ((!ft_pointcmp(ft_unitvectornew(origin, coll), direct)) ?
+	return ((!ft_pointcmp(ft_unitvectornew(origin, coll), direct, 1e-6)) ?
 			ft_null_pointnew() : coll);
 }
 

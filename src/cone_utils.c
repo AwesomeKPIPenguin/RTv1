@@ -24,7 +24,7 @@ void	ft_get_t_cyl(t_cone *cone, t_point pnt[4], double (*t)[3])
 //	printf("a: (%f, %f, %f);\n", a.x, a.y, a.z);
 
 	if ((dist = ft_linetopoint_dist(cone->base, cone->bv, a)) >
-		cone->base_rad)
+		cone->base_rad || ft_vectors_cos(pnt[1], ft_vectornew(pnt[0], a)) < 0)
 	{
 		(*t)[0] = 0.0;
 		return ;
@@ -93,12 +93,12 @@ void	ft_is_between_planes(t_point (*pnt)[4], t_point base, t_point vert)
 
 	bv = ft_vectornew(base, vert);
 	vb = ft_scale_vector(bv, -1);
-	if (ft_vectors_cos(bv, ft_vectornew(base, *pnt[0])) < 0 ||
-		ft_vectors_cos(vb, ft_vectornew(vert, *pnt[0])) < 0)
-		*pnt[0] = ft_null_pointnew();
-	if (ft_vectors_cos(bv, ft_vectornew(base, *pnt[1])) < 0 ||
-		ft_vectors_cos(vb, ft_vectornew(vert, *pnt[1])) < 0)
-		*pnt[1] = ft_null_pointnew();
+	if (ft_vectors_cos(bv, ft_vectornew(base, (*pnt)[0])) < 0 ||
+		ft_vectors_cos(vb, ft_vectornew(vert, (*pnt)[0])) < 0)
+		(*pnt)[0] = ft_null_pointnew();
+	if (ft_vectors_cos(bv, ft_vectornew(base, (*pnt)[1])) < 0 ||
+		ft_vectors_cos(vb, ft_vectornew(vert, (*pnt)[1])) < 0)
+		(*pnt)[1] = ft_null_pointnew();
 }
 
 void	ft_collide_cone_planes(t_cone *cone, t_point origin, t_point direct,
@@ -115,7 +115,11 @@ void	ft_collide_cone_planes(t_cone *cone, t_point origin, t_point direct,
 	pln[1]->norm = norm;
 	pln[1]->origin = cone->vert;
 	(*pnt)[2] = ft_collide_plane((void *)(pln[0]), origin, direct);
+	if (ft_linetopoint_dist(cone->base, cone->bv, (*pnt)[2]) > cone->base_rad)
+		(*pnt)[2] = ft_null_pointnew();
 	(*pnt)[3] = ft_collide_plane((void *)(pln[1]), origin, direct);
+	if (ft_linetopoint_dist(cone->base, cone->bv, (*pnt)[3]) > cone->vert_rad)
+		(*pnt)[3] = ft_null_pointnew();
 }
 
 t_point	ft_get_closest(t_point cam, t_point pnt[4])

@@ -29,8 +29,6 @@
 
 # define THREADS		8
 
-# define PRECISION		1e-6
-
 # define KOEF			0
 # define DOUBLE			1
 # define STRING			2
@@ -200,7 +198,7 @@ t_point					ft_line_line_closest
 							(t_point o1, t_point d1, t_point o2, t_point d2);
 t_point					ft_project_point
 							(t_point origin, t_point direct, t_point point);
-int						ft_pointcmp(t_point pnt_0, t_point pnt_1);
+int						ft_pointcmp(t_point pnt_0, t_point pnt_1, double prec);
 
 /*
 **	vector.c
@@ -380,7 +378,6 @@ void					ft_solve_sqr
 							(double a, double b, double c, double (*res)[3]);
 t_color					ft_apply_a(t_color color, double bright);
 t_color					ft_add_color(t_color c_1, t_color c_2);
-double					ft_det_3(t_point vec1, t_point vec2, t_point vec3);
 
 /*
 **	key_hooks.c

@@ -91,23 +91,17 @@ t_point		ft_get_norm_cone(void *fig, t_point coll)
 {
 	t_cone		*cone;
 	t_point		proj;
-	t_point		norm;
-	t_plane		*pln;
+	double		angle;
 
 	cone = (t_cone *)fig;
-	proj = ft_project_point(cone->base, cone->vert, coll);
-	if (ft_pointcmp(proj, cone->base))
-		return (ft_unitvectornew(cone->base, coll));
-	if (ft_pointcmp(proj, cone->vert))
-		return (ft_unitvectornew(cone->vert, coll));
-	proj = ft_tounitvector(proj);
-	norm = ft_unitvectornew(
-		ft_add_vector(cone->base, ft_scale_vector(proj, cone->base_rad)),
-		ft_add_vector(cone->vert, ft_scale_vector(proj, cone->vert_rad)));
-	pln = ft_planenew();
-	pln->origin = coll;
-	pln->norm = norm;
-	return (ft_unitvectornew(
-		ft_collide_plane((void *)pln, cone->base,
-			ft_unitvectornew(cone->base, cone->vert)), coll));
+	proj = ft_project_point(cone->base, cone->bv, coll);
+	if (ft_pointcmp(proj, cone->base, 1e-3))
+		return (ft_scale_vector(cone->bv, -1));
+	if (ft_pointcmp(proj, cone->vert, 1e-3))
+		return (cone->bv);
+	if (cone->base_rad == cone->vert_rad)
+		return (ft_unitvectornew(proj, coll));
+	angle = atan(cone->bv_dist /
+		(cone->vert_rad * (1 - cone->base_rad / cone->vert_rad)));
+	return (ft_turn_vector(cone->bv, ft_unitvectornew(proj, coll), -angle));
 }
