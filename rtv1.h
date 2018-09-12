@@ -327,7 +327,7 @@ t_point					ft_get_norm_cone(void *fig, t_point coll);
 */
 
 void					ft_get_t
-							(t_cone *cone, t_point pnt[4],
+							(t_cone *cone, t_point (*pnt)[4],
 							double (*t)[3], int is_cyl);
 void					ft_is_between_planes
 							(t_point (*pnt)[4], t_point base, t_point vert);

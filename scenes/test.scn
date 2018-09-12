@@ -37,8 +37,8 @@ plane {
 	norm: (0, 1, 0)
 	color: 0x0000ff;
 	ambnt: 0.2;
-	diff: 0.2;
-	spclr: 0.8;
+	diff: 1;
+	spclr: 0;
 	s_blur: 0;
 	trans: 0;
 	t_blur: 0;
@@ -91,10 +91,10 @@ cone {
     spclr: 0;
     trans: 0;
     phong: 0;
-    base: (500, 200, 310);
-    base_rad: 300;
-    vert: (800, 800, 310);
-    vert_rad: 100;
+    base: (200, -200, 800);
+    base_rad: 400;
+    vert: (-200, 200, 800);
+    vert_rad: 0.1;
 }
 
 #sphere {

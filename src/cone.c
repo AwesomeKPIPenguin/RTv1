@@ -77,12 +77,12 @@ t_point		ft_collide_cone(void *fig, t_point origin, t_point direct)
 	cone = (t_cone *)fig;
 	pnt[0] = origin;
 	pnt[1] = direct;
-	ft_get_t(cone, pnt, &t, cone->base_rad == cone->vert_rad);
+	ft_get_t(cone, &pnt, &t, cone->base_rad == cone->vert_rad);
 	if (!t[0])
 		return (ft_null_pointnew());
 	pnt[0] = ft_add_vector(origin, ft_scale_vector(direct, t[1]));
 	pnt[1] = ft_add_vector(origin, ft_scale_vector(direct, t[2]));
-	ft_is_between_planes(&pnt, cone->base, cone->vert);
+	//ft_is_between_planes(&pnt, cone->base, cone->vert);
 	ft_collide_cone_planes(cone, origin, direct, &pnt);
 	return (ft_get_closest(origin, pnt));
 }

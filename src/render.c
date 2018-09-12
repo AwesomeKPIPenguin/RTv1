@@ -102,24 +102,24 @@ void	ft_render(t_env *e)
 {
 //	pthread_t	threads[THREADS];
 	t_parg		pargs[THREADS];
-//	int			i;
+	int			i;
 
-//	i = -1;
+	i = 7;
 //	while (++i < THREADS)
 //	{
 //		pargs[i].section = i;
 //		pargs[i].e = e;
 //	}
 
-	pargs[2].section = 2;
-	pargs[2].e = e;
+	pargs[i].section = i;
+	pargs[i].e = e;
 
 //	i = -1;
 //	while (++i < THREADS)
 //		pthread_create(&threads[i], NULL,
 //			ft_section_handle, (void *)&pargs[i]);
 
-	ft_section_handle((void *)&pargs[2]);
+	ft_section_handle((void *)&pargs[i]);
 
 //	i = -1;
 //	while (++i < THREADS)
