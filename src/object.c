@@ -60,6 +60,10 @@ t_object	*ft_parse_object(char *attr)
 		ft_read_attr((void *)(&(o->t_blur)), ptr, KOEF);
 	if ((ptr = ft_search_attr(attr, "phong:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)(&(o->phong)), ptr, KOEF);
+	if ((ptr = ft_search_attr(attr, "translate:", FTSA_IN_SCOPE)))
+		ft_read_attr((void *)(&(o->phong)), ptr, POINT);
+	if ((ptr = ft_search_attr(attr, "rotate:", FTSA_IN_SCOPE)))
+		ft_read_attr((void *)(&(o->phong)), ptr, POINT);
 	ft_balance_koefs(o);
 	return (o);
 }

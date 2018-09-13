@@ -77,6 +77,9 @@ char		*ft_parse_plane(char *attr, t_scene *scn)
 	if ((ptr = ft_search_attr(attr, "norm:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)(&(pln->norm)), ptr, POINT);
 	pln->norm = ft_tounitvector(pln->norm);
+	pln->norm = ft_tounitvector(ft_rotate_vector(pln->norm,
+		obj->rotate.x, obj->rotate.y, obj->rotate.z));
+	pln->origin = ft_add_vector(pln->origin, obj->translate);
 	obj->fig = pln;
 	ft_lstpush(&(scn->objs), ft_nodenew((void *)obj, sizeof(obj)));
 	return (ft_get_curve(attr, '}'));

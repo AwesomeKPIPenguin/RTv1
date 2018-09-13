@@ -36,6 +36,7 @@ char		*ft_parse_sphere(char *attr, t_scene *scn)
 		ft_read_attr((void *)(&(sph->origin)), ptr, POINT);
 	if ((ptr = ft_search_attr(attr, "radius:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)(&(sph->radius)), ptr, DOUBLE);
+	sph->origin = ft_add_vector(sph->origin, obj->translate);
 	obj->fig = sph;
 	ft_lstpush(&(scn->objs), ft_nodenew((void *)obj, sizeof(obj)));
 	return (ft_get_curve(attr, '}'));

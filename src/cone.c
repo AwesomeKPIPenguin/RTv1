@@ -41,8 +41,12 @@ char		*ft_parse_cone(char *attr, t_scene *scn)
 	if ((ptr = ft_search_attr(attr, "vert_rad:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)(&(cone->vert_rad)), ptr, DOUBLE);
 	obj->fig = cone;
-	cone->bv = ft_unitvectornew(cone->base, cone->vert);
 	cone->bv_dist = ft_get_dist(cone->base, cone->vert);
+	cone->base = ft_add_vector(cone->base, obj->translate);
+	cone->bv = ft_rotate_vector(ft_unitvectornew(cone->base, cone->vert),
+		obj->rotate.x, obj->rotate.y, obj->rotate.z);
+	cone->vert = ft_add_vector(cone->base,
+		ft_scale_vector(cone->bv, cone->bv_dist));
 	ft_lstpush(&(scn->objs), ft_nodenew((void *)obj, sizeof(obj)));
 	return (ft_get_curve(attr, '}'));
 }

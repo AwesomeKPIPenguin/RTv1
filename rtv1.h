@@ -140,6 +140,8 @@ typedef struct			s_object
 	t_point				(*ft_collide)
 							(void *fig, t_point origin, t_point direct);
 	t_point				(*ft_get_norm)(void *fig, t_point coll);
+	t_point				translate;
+	t_point				rotate;
 }						t_object;
 
 typedef struct			s_plane
