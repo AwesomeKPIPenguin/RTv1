@@ -328,9 +328,8 @@ t_point					ft_get_norm_cone(void *fig, t_point coll);
 **	cone_utils.c
 */
 
-void					ft_get_t
-							(t_cone *cone, t_point (*pnt)[4],
-							double (*t)[3], int is_cyl);
+void					ft_get_coll_pnts
+							(t_cone *cone, t_point (*pnt)[4], int is_cyl);
 void					ft_is_between_planes
 							(t_point (*pnt)[4], t_point base, t_point vert);
 void					ft_collide_cone_planes

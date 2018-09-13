@@ -69,37 +69,11 @@ void	ft_get_t_cyl(t_cone *cone, t_point (*pnt)[4], double (*t)[3])
 **	tmp_pnt[2] - vb;
 */
 
-void	ft_get_t(t_cone *cone, t_point (*pnt)[4], double (*t)[3], int is_cyl)
+void	ft_get_coll_pnts(t_cone *cone, t_point (*pnt)[4], int is_cyl)
 {
-//	t_point		tmp_pnt[3];
-//	double		cos_t;
-//	double		tan_[2];
-//
-//	if (is_cyl)
-//		return (ft_get_t_cyl(cone, pnt, t));
-//	tmp_pnt[1] = ft_add_vector(cone->base, ft_scale_vector(
-//		cone->bv, -(cone->base_rad * cone->bv_dist) /
-//			(cone->vert_rad * (1.0 - cone->base_rad / cone->vert_rad))));
-//	tmp_pnt[0] = ft_tounitvector(ft_mul_vector_v((*pnt)[1], ft_vectornew((*pnt)[0],
-//		tmp_pnt[1])));
-//	tmp_pnt[2] = ft_scale_vector(cone->bv, -1.0);
-//	cos_t = sqrt(1 - pow(ft_mul_vector_s(tmp_pnt[0], tmp_pnt[2]), 2));
-//	tan_[0] = cone->base_rad / ft_get_dist(tmp_pnt[1], cone->base);
-//	tan_[1] = tan(acos(cos_t));
-//	if (cos_t < cos(atan(tan_[0])))
-//	{
-//		(*t)[0] = 0.0;
-//		return ;
-//	}
-//
-//	cos_t = cos(atan(tan_[0]));
-//
-//	ft_get_t_cone(tmp_pnt, pnt, t, tan_);
-
-
 	t_point		c;
 	t_point		c_proj;
-	t_point		n;
+	t_point		v;
 	double		dist;
 	double		r;
 	double		shift;
@@ -111,18 +85,23 @@ void	ft_get_t(t_cone *cone, t_point (*pnt)[4], double (*t)[3], int is_cyl)
 	dist = ft_get_dist(c, c_proj);
 	if (dist > r)
 	{
-		(*t)[0] = 0.0;
+		(*pnt)[0] = ft_null_pointnew();
+		(*pnt)[1] = (*pnt)[0];
 		return ;
 	}
 	else if (dist == r)
 	{
-		(*t)[0] = 1.0;
-		(*t)[1] = ft_get_dist((*pnt)[0], c);
-		(*t)[2] = (*t)[1];
+		(*pnt)[0] = c;
+		(*pnt)[1] = ft_null_pointnew();
+		return ;
 	}
-	n = ft_tounitvector(ft_mul_vector_v(ft_vectornew(c, c_proj), cone->bv));
 	shift = r * sqrt(1 - pow(dist / cone->base_rad, 2)) /
 			sqrt(1 - pow(ft_vectors_cos(cone->bv, (*pnt)[1]), 2));
+	(*pnt)[0] = ft_add_vector(c, ft_scale_vector((*pnt)[1], -shift));
+	(*pnt)[1] = ft_add_vector(c, ft_scale_vector((*pnt)[1], shift));
+	if (is_cyl)
+		return ;
+
 }
 
 void	ft_is_between_planes(t_point (*pnt)[4], t_point base, t_point vert)
@@ -132,10 +111,12 @@ void	ft_is_between_planes(t_point (*pnt)[4], t_point base, t_point vert)
 
 	bv = ft_vectornew(base, vert);
 	vb = ft_scale_vector(bv, -1);
-	if (ft_vectors_cos(bv, ft_vectornew(base, (*pnt)[0])) < 0 ||
+	if (ft_isnullpoint((*pnt)[0]) ||
+		ft_vectors_cos(bv, ft_vectornew(base, (*pnt)[0])) < 0 ||
 		ft_vectors_cos(vb, ft_vectornew(vert, (*pnt)[0])) < 0)
 		(*pnt)[0] = ft_null_pointnew();
-	if (ft_vectors_cos(bv, ft_vectornew(base, (*pnt)[1])) < 0 ||
+	if (ft_isnullpoint((*pnt)[1]) ||
+		ft_vectors_cos(bv, ft_vectornew(base, (*pnt)[1])) < 0 ||
 		ft_vectors_cos(vb, ft_vectornew(vert, (*pnt)[1])) < 0)
 		(*pnt)[1] = ft_null_pointnew();
 }
