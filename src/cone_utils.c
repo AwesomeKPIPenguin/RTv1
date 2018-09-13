@@ -74,6 +74,8 @@ void	ft_get_coll_pnts(t_cone *cone, t_point (*pnt)[4], int is_cyl)
 	t_point		c;
 	t_point		c_proj;
 	t_point		v;
+	t_point		vc;
+	t_point		direct;
 	double		dist;
 	double		r;
 	double		shift;
@@ -83,6 +85,7 @@ void	ft_get_coll_pnts(t_cone *cone, t_point (*pnt)[4], int is_cyl)
 	r = (is_cyl) ? cone->base_rad : (cone->base_rad - cone->vert_rad) /
 			cone->bv_dist * ft_get_dist(c_proj, cone->base);
 	dist = ft_get_dist(c, c_proj);
+	direct = (*pnt)[1];
 	if (dist > r)
 	{
 		(*pnt)[0] = ft_null_pointnew();
@@ -101,7 +104,22 @@ void	ft_get_coll_pnts(t_cone *cone, t_point (*pnt)[4], int is_cyl)
 	(*pnt)[1] = ft_add_vector(c, ft_scale_vector((*pnt)[1], shift));
 	if (is_cyl)
 		return ;
-
+	v = ft_add_vector(cone->base, ft_scale_vector(cone->bv,
+		cone->base_rad * cone->bv_dist / (cone->base_rad - cone->vert_rad)));
+	if (ft_get_dist(v, (*pnt)[0]) > ft_get_dist(v, (*pnt)[1]))
+	{
+		(*pnt)[2] = (*pnt)[0];
+		(*pnt)[0] = (*pnt)[1];
+		(*pnt)[1] = (*pnt)[2];
+	}
+	shift = sqrt(pow(shift, 2) - pow(r, 2));
+	vc = ft_unitvectornew(v, c);
+	(*pnt)[0] = ft_add_vector((*pnt)[0], ft_scale_vector(vc, shift));
+	(*pnt)[1] = ft_add_vector((*pnt)[1], ft_scale_vector(vc, -shift));
+	(*pnt)[0] = ft_line_line_closest(c, direct,
+		v, ft_unitvectornew(v, (*pnt)[0]));
+	(*pnt)[1] = ft_line_line_closest(c, direct,
+		v, ft_unitvectornew(v, (*pnt)[1]));
 }
 
 void	ft_is_between_planes(t_point (*pnt)[4], t_point base, t_point vert)
