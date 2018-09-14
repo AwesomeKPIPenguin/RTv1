@@ -100,7 +100,7 @@ t_point		ft_get_norm_cone(void *fig, t_point coll)
 		return (cone->bv);
 	if (cone->base_rad == cone->vert_rad)
 		return (ft_unitvectornew(proj, coll));
-	angle = atan(cone->bv_dist /
-		(cone->vert_rad * (1 - cone->base_rad / cone->vert_rad)));
+	angle = acos(pow(cone->bv_dist / sqrt(pow(cone->base_rad - cone->vert_rad, 2) +
+		pow(cone->bv_dist, 2)), 2));
 	return (ft_turn_vector(cone->bv, ft_unitvectornew(proj, coll), -angle));
 }

@@ -88,25 +88,25 @@ cone {
     color: 0x00ff00;
     ambnt: 0.1;
     diff: 1;
-    spclr: 0;
+    spclr: 1;
     trans: 0;
-    phong: 0;
-    base: (-500, -200, 800);
+    phong: 1;
+    base: (500, -400, 0);
     base_rad: 400;
-    vert: (500, 700, -600);
+    vert: (800, 500, -2000);
     vert_rad: 100;
 }
 
-#sphere {
-#	origin: (-200, 0, -400);
-#	radius: 300;
-#	color: 0xff0000;
-#	ambnt: 0.1;
-#	diff: 1;
-#	spclr: 1;
-#	s_blur: 0;
-#	phong: 1;
-#}
+sphere {
+	origin: (-200, 0, -700);
+	radius: 300;
+	color: 0xff0000;
+	ambnt: 0.1;
+	diff: 0;
+	spclr: 1;
+	s_blur: 0;
+	phong: 1;
+}
 
 #sphere {
 #	origin: (-500, 0, 500);
