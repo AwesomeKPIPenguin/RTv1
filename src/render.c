@@ -100,32 +100,36 @@ t_img	*ft_smooth_img(t_env *e)
 
 void	ft_render(t_env *e)
 {
-//	pthread_t	threads[THREADS];
+	pthread_t	threads[THREADS];
 	t_parg		pargs[THREADS];
 	int			i;
 
-	i = 7;
-//	while (++i < THREADS)
-//	{
-//		pargs[i].section = i;
-//		pargs[i].e = e;
-//	}
+	i = -1;
+	while (++i < THREADS)
+	{
+		pargs[i].section = i;
+		pargs[i].e = e;
+	}
 
-	pargs[i].section = i;
-	pargs[i].e = e;
+//	pargs[i].section = i;
+//	pargs[i].e = e;
 
-//	i = -1;
-//	while (++i < THREADS)
-//		pthread_create(&threads[i], NULL,
-//			ft_section_handle, (void *)&pargs[i]);
+	i = -1;
+	while (++i < THREADS)
+		pthread_create(&threads[i], NULL,
+			ft_section_handle, (void *)&pargs[i]);
 
-	ft_section_handle((void *)&pargs[i]);
+//	ft_section_handle((void *)&pargs[i]);
 
-//	i = -1;
-//	while (++i < THREADS)
-//		pthread_join(threads[i], NULL);
+	i = -1;
+	while (++i < THREADS)
+		pthread_join(threads[i], NULL);
 //	ft_smooth(e->img, e->smooth_img);
 //	ft_smooth(e->smooth_img, e->img);
 //	ft_smooth(e->img, e->smooth_img);
-//	mlx_put_image_to_window(e->mlx, e->win, e->img->ptr, 0, 0);
+
+	*(int *)(e->img->data + ((int)WIN_HEIGHT / 2 * (int)WIN_WIDTH +
+		(int)WIN_WIDTH / 2) * e->img->bpp) = 0xff0000;
+
+	mlx_put_image_to_window(e->mlx, e->win, e->img->ptr, 0, 0);
 }

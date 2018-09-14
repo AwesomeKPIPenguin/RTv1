@@ -116,6 +116,9 @@ t_point		ft_project_point(t_point origin, t_point direct, t_point point)
 	pln->origin = point;
 	pln->norm = direct;
 	res = ft_collide_plane((void *)pln, origin, direct);
+	if (ft_isnullpoint(res))
+		res = ft_collide_plane((void *)pln, origin,
+			ft_scale_vector(direct, -1.0));
 	return ((ft_isnullpoint(res)) ? origin : res);
 }
 
