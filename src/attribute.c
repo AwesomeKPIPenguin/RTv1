@@ -26,7 +26,10 @@ char		*ft_search_attr(char *content, char *attr, int ftsa_mode)
 		if (*content == '{')
 			++curve_count;
 		else if (*content == '}')
-			--curve_count;
+			if (ftsa_mode == FTSA_IN_SCOPE)
+				return (NULL);
+			else
+				--curve_count;
 		else if (*content == '#')
 			is_comment = 1;
 		else if (is_comment && *content == '\n')
@@ -56,12 +59,28 @@ void		ft_read_attr(void *dst, char *attr, int type)
 	free(to_free);
 	if (type == KOEF)
 		*((double *)dst) = ft_limitf(0, 1, ft_atod(data));
-	else if (type == DOUBLE)
+	else if (type == DBL)
 		*((double *)dst) = ft_atod(data);
-	else if (type == STRING)
+	else if (type == STR)
 		*((char **)dst) = ft_strdup(data);
-	else if (type == POINT)
-		*((t_point *)dst) = ft_atopoint(data);
+	else if (type == PNT)
+		*((t_point3 *)dst) = ft_atopoint3(data);
 	else
-		(*((t_color *)dst)).val = ft_atoi_base(data, 16);
+		(*((t_color *)dst)).val = ft_limit(0, 0xffffff, ft_atoi_base(data, 16));
+}
+
+void		ft_get_attr_globally(char *start, char *name, void *where, int what)
+{
+	char	*ptr;
+
+	if ((ptr = ft_search_attr(start, name, FTSA_GLOBALLY)))
+		ft_read_attr(where, ptr, what);
+}
+
+void		ft_get_attr_in_scope(char *start, char *name, void *where, int what)
+{
+	char	*ptr;
+
+	if ((ptr = ft_search_attr(start, name, FTSA_IN_SCOPE)))
+		ft_read_attr(where, ptr, what);
 }

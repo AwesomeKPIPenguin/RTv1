@@ -20,7 +20,7 @@ t_object	*ft_objectnew(void)
 	obj->color.val = 0xffff00;
 	obj->ambnt = 0.1;
 	obj->diff = 1.0;
-	obj->phong = 0.2;
+	obj->phong = 0;
 	return (obj);
 }
 
@@ -40,30 +40,22 @@ static void	ft_balance_koefs(t_object *o)
 t_object	*ft_parse_object(char *attr)
 {
 	t_object	*o;
-	char		*ptr;
 
 	o = ft_objectnew();
 	attr = ft_get_curve(attr, '{');
-	if ((ptr = ft_search_attr(attr, "color:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)(&(o->color)), ptr, COLOR);
-	if ((ptr = ft_search_attr(attr, "ambnt:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)(&(o->ambnt)), ptr, KOEF);
-	if ((ptr = ft_search_attr(attr, "diff:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)(&(o->diff)), ptr, KOEF);
-	if ((ptr = ft_search_attr(attr, "spclr:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)(&(o->spclr)), ptr, KOEF);
-	if ((ptr = ft_search_attr(attr, "s_blur:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)(&(o->s_blur)), ptr, KOEF);
-	if ((ptr = ft_search_attr(attr, "trans:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)(&(o->trans)), ptr, KOEF);
-	if ((ptr = ft_search_attr(attr, "t_blur:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)(&(o->t_blur)), ptr, KOEF);
-	if ((ptr = ft_search_attr(attr, "phong:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)(&(o->phong)), ptr, KOEF);
-	if ((ptr = ft_search_attr(attr, "translate:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)(&(o->phong)), ptr, POINT);
-	if ((ptr = ft_search_attr(attr, "rotate:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)(&(o->phong)), ptr, POINT);
+	ft_get_attr_in_scope(attr, "color:", (void *)(&(o->color)), COLOR);
+	ft_get_attr_in_scope(attr, "ambnt:", (void *)(&(o->ambnt)), KOEF);
+	ft_get_attr_in_scope(attr, "diff:", (void *)(&(o->diff)), KOEF);
+	ft_get_attr_in_scope(attr, "spclr:", (void *)(&(o->spclr)), KOEF);
+	ft_get_attr_in_scope(attr, "s_blur:", (void *)(&(o->s_blur)), KOEF);
+	ft_get_attr_in_scope(attr, "trans:", (void *)(&(o->trans)), KOEF);
+	ft_get_attr_in_scope(attr, "t_blur:", (void *)(&(o->t_blur)), KOEF);
+	ft_get_attr_in_scope(attr, "phong:", (void *)(&(o->phong)), KOEF);
+	ft_get_attr_in_scope(attr, "translate:", (void *)(&(o->translate)), PNT);
+	ft_get_attr_in_scope(attr, "rotate:", (void *)(&(o->rotate)), PNT);
 	ft_balance_koefs(o);
+	o->rotate.x = ft_torad(o->rotate.x);
+	o->rotate.y = ft_torad(o->rotate.y);
+	o->rotate.z = ft_torad(o->rotate.z);
 	return (o);
 }

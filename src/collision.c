@@ -12,28 +12,23 @@
 
 #include "../rtv1.h"
 
-static t_point	ft_get_collision_point(t_list *objs, t_object **obj,
-										t_point od[2], t_object *except)
+static t_point3	ft_get_collision_point
+				(t_list *objs, t_object **obj, t_point3 od[2])
 {
 	t_list		*node;
-	t_point		pnt[2];
+	t_point3		pnt[2];
 	double		dist[2];
 	t_object	*o;
 
 	node = objs;
-	pnt[0] = ft_null_pointnew();
+	pnt[0] = ft_null_point3new();
 	dist[0] = DBL_MAX;
 	while (node)
 	{
 		o = (t_object *)(node->content);
-		if (o == except)
-		{
-			node = node->next;
-			continue ;
-		}
 		if (o->ft_is_reachable(o->fig, od[0], od[1]) &&
-			!ft_isnullpoint(pnt[1] = o->ft_collide(o->fig, od[0], od[1])) &&
-			(dist[1] = ft_get_dist(od[0], pnt[1]))	< dist[0])
+			!ft_isnullpoint3(pnt[1] = o->ft_collide(o->fig, od[0], od[1])) &&
+			(dist[1] = ft_3_point_point_dist(od[0], pnt[1])) < dist[0])
 		{
 			pnt[0] = pnt[1];
 			dist[0] = dist[1];
@@ -44,17 +39,17 @@ static t_point	ft_get_collision_point(t_list *objs, t_object **obj,
 	return (pnt[0]);
 }
 
-t_coll			ft_get_collision(t_parg *parg, t_point origin, t_point direct,
-								t_object *except)
+t_coll			ft_get_collision(t_parg *parg, t_point3 origin, t_point3 direct)
 {
 	t_coll		coll;
-	t_point		od[2];
+	t_point3		od[2];
 
 	coll.o = NULL;
-	od[0] = origin;
+	od[0] = ft_3_add_vector(origin, direct);
 	od[1] = direct;
-	if (ft_isnullpoint(coll.coll_pnt =
-			ft_get_collision_point(parg->e->scn->objs, &(coll.o), od, except)))
+	if (ft_isnullpoint3(coll.coll_pnt =
+								ft_get_collision_point(parg->e->scn->objs,
+													   &(coll.o), od)))
 		return (coll);
 	coll.norm = coll.o->ft_get_norm(coll.o->fig, coll.coll_pnt);
 
@@ -67,7 +62,7 @@ t_coll			ft_get_collision(t_parg *parg, t_point origin, t_point direct,
 //	}
 
 	if (coll.o->spclr)
-		coll.spclr_vec = ft_reflect_vector(origin, coll.coll_pnt, coll.norm);
+		coll.spclr_vec = ft_3_reflect_vector(origin, coll.coll_pnt, coll.norm);
 
 	// get transparency
 

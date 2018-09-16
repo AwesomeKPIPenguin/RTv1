@@ -17,7 +17,7 @@ t_camera	*ft_cameranew(void)
 	t_camera	*cam;
 
 	cam = ft_smemalloc(sizeof(t_camera), "ft_cameranew");
-	cam->origin = ft_pointnew(-500.0, 0.0, 0.0);
+	cam->origin = ft_point3new(-500.0, 0.0, 0.0);
 	cam->fov = ft_torad(100.0);
 	return (cam);
 }
@@ -28,19 +28,19 @@ char		*ft_parse_camera(char *attr, t_scene *scn)
 
 	attr = ft_get_curve(attr, '{');
 	if ((ptr = ft_search_attr(attr, "origin:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)&(scn->cam->origin), ptr, POINT);
+		ft_read_attr((void *)&(scn->cam->origin), ptr, PNT);
 	if ((ptr = ft_search_attr(attr, "alpha:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)&(scn->cam->alpha), ptr, DOUBLE);
+		ft_read_attr((void *)&(scn->cam->alpha), ptr, DBL);
 	if ((ptr = ft_search_attr(attr, "beta:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)&(scn->cam->beta), ptr, DOUBLE);
+		ft_read_attr((void *)&(scn->cam->beta), ptr, DBL);
 	if ((ptr = ft_search_attr(attr, "gamma:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)&(scn->cam->gamma), ptr, DOUBLE);
+		ft_read_attr((void *)&(scn->cam->gamma), ptr, DBL);
 	if ((ptr = ft_search_attr(attr, "fov:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)&(scn->cam->fov), ptr, DOUBLE);
-	if (scn->cam->fov < FOV_MIN)
-		scn->cam->fov = FOV_MIN;
-	else if (scn->cam->fov > FOV_MAX)
-		scn->cam->fov = FOV_MAX;
+		ft_read_attr((void *)&(scn->cam->fov), ptr, DBL);
+	scn->cam->fov = ft_limitf(FOV_MIN, FOV_MAX, scn->cam->fov);
 	scn->cam->fov = ft_torad(scn->cam->fov);
+	scn->cam->alpha = ft_torad(scn->cam->alpha);
+	scn->cam->beta = ft_torad(scn->cam->beta);
+	scn->cam->gamma = ft_torad(scn->cam->gamma);
 	return (ft_get_curve(attr, '}'));
 }

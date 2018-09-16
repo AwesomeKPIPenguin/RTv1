@@ -17,12 +17,12 @@ t_plane		*ft_planenew(void)
 	t_plane	*pln;
 
 	pln = ft_smemalloc(sizeof(t_plane), "ft_planenew");
-	pln->origin = ft_pointnew(0.0, -1000.0, 0.0);
-	pln->norm = ft_pointnew(0.0, 1.0, 0.0);
+	pln->origin = ft_point3new(0.0, -1000.0, 0.0);
+	pln->norm = ft_point3new(0.0, 1.0, 0.0);
 	return (pln);
 }
 
-int			ft_is_reachable_plane(void *fig, t_point origin, t_point direct)
+int			ft_is_reachable_plane(void *fig, t_point3 origin, t_point3 direct)
 {
 	(void)fig;
 	(void)origin;
@@ -30,31 +30,31 @@ int			ft_is_reachable_plane(void *fig, t_point origin, t_point direct)
 	return (1);
 }
 
-t_point		ft_collide_plane(void *fig, t_point origin, t_point direct)
+t_point3		ft_collide_plane(void *fig, t_point3 origin, t_point3 direct)
 {
 
 //	printf("in ft_collide_plane: (%f, %f, %f) -> (%f, %f, %f);\n",
 //		origin.x, origin.y, origin.z, direct.x, direct.y, direct.z);
 
 	t_plane		*pln;
-	t_point		coll;
+	t_point3		coll;
 	double		t;
 	double		dev;
 
 	pln = (t_plane *)fig;
-	if (!ft_vectors_cos(direct, pln->norm))
-		return (ft_null_pointnew());
-	dev = ft_mul_vector_s(pln->norm, direct);
+	if (!ft_3_vector_cos(direct, pln->norm))
+		return (ft_null_point3new());
+	dev = ft_3_vector_dot(pln->norm, direct);
 	if (!dev)
-		return (ft_null_pointnew());
-	t = (ft_mul_vector_s(pln->norm, pln->origin) -
-		ft_mul_vector_s(pln->norm, origin)) / dev;
-	coll = ft_add_vector(origin, ft_scale_vector(direct, t));
-	return ((!ft_pointcmp(ft_unitvectornew(origin, coll), direct, 1e-6)) ?
-			ft_null_pointnew() : coll);
+		return (ft_null_point3new());
+	t = (ft_3_vector_dot(pln->norm, pln->origin) -
+			ft_3_vector_dot(pln->norm, origin)) / dev;
+	coll = ft_3_add_vector(origin, ft_3_vector_scale(direct, t));
+	return ((!ft_point3cmp(ft_unitvector3new(origin, coll), direct, 1e-6)) ?
+			ft_null_point3new() : coll);
 }
 
-t_point		ft_get_norm_plane(void *fig, t_point coll)
+t_point3		ft_get_norm_plane(void *fig, t_point3 coll)
 {
 	(void)coll;
 	return (((t_plane *)fig)->norm);
@@ -64,7 +64,6 @@ char		*ft_parse_plane(char *attr, t_scene *scn)
 {
 	t_object	*obj;
 	t_plane		*pln;
-	char		*ptr;
 
 	obj = ft_parse_object(attr);
 	obj->ft_collide = ft_collide_plane;
@@ -72,14 +71,16 @@ char		*ft_parse_plane(char *attr, t_scene *scn)
 	obj->ft_get_norm = ft_get_norm_plane;
 	pln = ft_planenew();
 	attr = ft_get_curve(attr, '{');
-	if ((ptr = ft_search_attr(attr, "origin:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)(&(pln->origin)), ptr, POINT);
-	if ((ptr = ft_search_attr(attr, "norm:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)(&(pln->norm)), ptr, POINT);
-	pln->norm = ft_tounitvector(pln->norm);
-	pln->norm = ft_tounitvector(ft_rotate_vector(pln->norm,
-		obj->rotate.x, obj->rotate.y, obj->rotate.z));
-	pln->origin = ft_add_vector(pln->origin, obj->translate);
+	ft_get_attr_in_scope(attr, "origin:", (void *)(&(pln->origin)), PNT);
+	ft_get_attr_in_scope(attr, "norm:", (void *)(&(pln->norm)), PNT);
+	if (ft_vector_len(pln->norm) == 0.0)
+		pln->norm = ft_point3new(0.0, 1.0, 0.0);
+	pln->norm = ft_tounitvector3(pln->norm);
+	pln->norm = ft_tounitvector3(ft_3_rotate_vector(pln->norm,
+													obj->rotate.x,
+													obj->rotate.y,
+													obj->rotate.z));
+	pln->origin = ft_3_add_vector(pln->origin, obj->translate);
 	obj->fig = pln;
 	ft_lstpush(&(scn->objs), ft_nodenew((void *)obj, sizeof(obj)));
 	return (ft_get_curve(attr, '}'));

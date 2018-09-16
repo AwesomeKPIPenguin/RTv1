@@ -31,7 +31,7 @@ char		*ft_parse_light(char *attr, t_scene *scn)
 	light = ft_lightnew();
 	ft_lstpush(&(scn->lights), ft_nodenew((void *)light, sizeof(t_light)));
 	if ((ptr = ft_search_attr(attr, "origin:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)&(light->origin), ptr, POINT);
+		ft_read_attr((void *)&(light->origin), ptr, PNT);
 	if ((ptr = ft_search_attr(attr, "bright:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)&(light->bright), ptr, KOEF);
 	return (ft_get_curve(attr, '}'));

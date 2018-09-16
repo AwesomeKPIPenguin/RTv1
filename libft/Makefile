@@ -29,7 +29,7 @@ CC = gcc
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@ar rc $(NAME) *.o
+	@ar rc $(NAME) $(OBJ)
 
 clean:
 	@/bin/rm -f *.o

@@ -12,39 +12,37 @@
 
 #include "../rtv1.h"
 
-t_point		ft_vectornew(t_point origin, t_point direct)
+t_point3		ft_vector3new(t_point3 origin, t_point3 direct)
 {
-	return (ft_pointnew(direct.x - origin.x, direct.y - origin.y,
-						direct.z - origin.z));
+	return (ft_point3new(direct.x - origin.x, direct.y - origin.y,
+						 direct.z - origin.z));
 }
 
-t_point		ft_unitvectornew(t_point origin, t_point direct)
+t_point3		ft_unitvector3new(t_point3 origin, t_point3 direct)
 {
-	t_point	vec;
-	double	len;
+	t_point3	vec;
+	double		len;
 
-	vec = ft_vectornew(origin, direct);
+	vec = ft_vector3new(origin, direct);
 	len = ft_vector_len(vec);
-
-//	printf("                     vec = (%f, %f, %f), len = %f;\n",
-//		vec.x, vec.y, vec.z, len);
-
-	vec = ft_scale_vector(vec, 1.0 / len);
-
-//	printf("after scale: (%f, %f, %f);\n", vec.x, vec.y, vec.z);
-
+	vec = ft_3_vector_scale(vec, 1.0 / len);
 	return (vec);
 }
 
-t_point		ft_tounitvector(t_point vec)
+double			ft_vector_len(t_point3 vec)
+{
+	return (sqrt(pow(vec.x, 2) + pow(vec.y, 2) + pow(vec.z, 2)));
+}
+
+t_point3		ft_tounitvector3(t_point3 vec)
 {
 	double	len;
 
 	len = ft_vector_len(vec);
-	return (ft_pointnew(vec.x / len, vec.y / len, vec.z / len));
+	return (ft_point3new(vec.x / len, vec.y / len, vec.z / len));
 }
 
-t_point		ft_add_vector(t_point vec_1, t_point vec_2)
+t_point3		ft_3_add_vector(t_point3 vec_1, t_point3 vec_2)
 {
 	vec_1.x += vec_2.x;
 	vec_1.y += vec_2.y;
@@ -52,19 +50,19 @@ t_point		ft_add_vector(t_point vec_1, t_point vec_2)
 	return (vec_1);
 }
 
-double		ft_mul_vector_s(t_point vec_1, t_point vec_2)
+double			ft_3_vector_dot(t_point3 vec_1, t_point3 vec_2)
 {
 	return (vec_1.x * vec_2.x + vec_1.y * vec_2.y + vec_1.z * vec_2.z);
 }
 
-t_point		ft_mul_vector_v(t_point vec_1, t_point vec_2)
+t_point3		ft_3_vector_cross(t_point3 vec_1, t_point3 vec_2)
 {
-	return (ft_pointnew(vec_1.y * vec_2.z - vec_1.z * vec_2.y,
-						vec_1.z * vec_2.x - vec_1.x * vec_2.z,
-						vec_1.x * vec_2.y - vec_1.y * vec_2.x));
+	return (ft_point3new(vec_1.y * vec_2.z - vec_1.z * vec_2.y,
+						 vec_1.z * vec_2.x - vec_1.x * vec_2.z,
+						 vec_1.x * vec_2.y - vec_1.y * vec_2.x));
 }
 
-t_point		ft_scale_vector(t_point vec, double k)
+t_point3		ft_3_vector_scale(t_point3 vec, double k)
 {
 	vec.x *= k;
 	vec.y *= k;
@@ -72,87 +70,65 @@ t_point		ft_scale_vector(t_point vec, double k)
 	return (vec);
 }
 
-double		ft_vector_len(t_point vec)
+double			ft_3_vector_cos(t_point3 vec_1, t_point3 vec_2)
 {
-	return (sqrt(pow(vec.x, 2) + pow(vec.y, 2) + pow(vec.z, 2)));
-}
-
-double		ft_vectors_cos(t_point vec_1, t_point vec_2)
-{
-	double	len_1;
-	double	len_2;
-
-	len_1 = ft_vector_len(vec_1);
-	len_2 = ft_vector_len(vec_2);
-
-//	printf("cosine: len_1 = %f, len_2 = %f;\n", len_1, len_2);
-
 	return ((vec_1.x * vec_2.x + vec_1.y * vec_2.y + vec_1.z * vec_2.z) /
-		  (len_1 * len_2));
+		  (ft_vector_len(vec_1) * ft_vector_len(vec_2)));
 }
 
-t_point		ft_reflect_vector(t_point origin, t_point coll, t_point norm)
+t_point3		ft_3_reflect_vector
+					(t_point3 origin, t_point3 coll, t_point3 norm)
 {
-	t_point		oc;
-	t_point		on;
-	double		cos;
+	t_point3		oc;
 
-	t_point res;
-
-	oc = ft_vectornew(origin, coll);
-	cos = -ft_vectors_cos(oc, norm);
-	on = ft_vectornew(origin,
-		ft_add_vector(coll, ft_scale_vector(norm, (ft_vector_len(oc) * cos))));
-
-	res = ft_unitvectornew(coll, ft_add_vector(origin, ft_scale_vector(on, 2.0)));
-//	if (coll.x >= -100 && coll.x <= 100 && coll.z >= -100 && coll.z <= 100)
-//		printf("in ft_reflect_vector (%12.6f, %12.6f, %12.6f) -> (%12.6f, %12.6f, %12.6f), norm = (%5.4f, %5.4f, %5.4f);\nres: (%12.6f, %12.6f, %12.6f);\n\n",
-//			origin.x, origin.y, origin.z, coll.x, coll.y, coll.z, norm.x, norm.y, norm.z, res.x, res.y, res.z);
-
-	return(res);
+	oc = ft_vector3new(origin, coll);
+	return(ft_unitvector3new(coll, ft_3_add_vector(origin,
+		ft_3_vector_scale(ft_vector3new(origin,	ft_3_add_vector(coll,
+			ft_3_vector_scale(norm, (ft_vector_len(oc) *
+				-ft_3_vector_cos(oc, norm))))), 2.0))));
 }
 
-t_point		ft_turn_vector(t_point proj, t_point norm, double angle)
+t_point3		ft_3_turn_vector(t_point3 proj, t_point3 norm, double angle)
 {
-	return (ft_add_vector(
-		ft_scale_vector(proj, sin(angle)), ft_scale_vector(norm, cos(angle))));
+	return (ft_3_add_vector(
+			ft_3_vector_scale(proj, sin(angle)),
+			ft_3_vector_scale(norm, cos(angle))));
 }
 
-t_point		ft_project_vector(t_point norm, t_point vec)
+t_point3		ft_3_project_vector(t_point3 norm, t_point3 vec)
 {
-	return (ft_add_vector(vec, ft_scale_vector(norm,
-				(ft_vector_len(vec) * -ft_vectors_cos(norm, vec)) /
-					ft_vector_len(norm))));
+	return (ft_3_add_vector(vec, ft_3_vector_scale(norm, (ft_vector_len(vec) *
+		-ft_3_vector_cos(norm, vec)) / ft_vector_len(norm))));
 }
 
-t_point		ft_rotate_vector(t_point vec,
-								double alpha, double beta, double gamma)
+t_point3		ft_3_rotate_vector
+					(t_point3 vec, double alpha, double beta, double gamma)
 {
-	t_point		rotated;
-	double		sins[3];
-	double		coss[3];
+	t_point3		rotated;
+	double		sin_[3];
+	double		cos_[3];
 
-	sins[0] = sin(alpha);
-	sins[1] = sin(beta);
-	sins[2] = sin(gamma);
-	coss[0] = cos(alpha);
-	coss[1] = cos(beta);
-	coss[2] = cos(gamma);
-	rotated.x = vec.x * coss[2] * coss[1] +
-				vec.y * (coss[2] * sins[1] * sins[0] - sins[2] * coss[0]) +
-				vec.z * (sins[2] * sins[0] + coss[0] * coss[2] * sins[1]);
-	rotated.y = vec.x * coss[1] * sins[2] +
-				vec.y * (coss[0] * coss[2] + sins[0] * sins[1] * sins[2]) +
-				vec.z * (coss[0] * sins[1] * sins[2] - sins[0] * coss[2]);
-	rotated.z = vec.x * -(sins[1]) +
-				vec.y * sins[0] * coss[1] +
-				vec.z * coss[0] * coss[1];
+	sin_[0] = sin(alpha);
+	sin_[1] = sin(beta);
+	sin_[2] = sin(gamma);
+	cos_[0] = cos(alpha);
+	cos_[1] = cos(beta);
+	cos_[2] = cos(gamma);
+	rotated.x = vec.x * cos_[2] * cos_[1] +
+				vec.y * (cos_[2] * sin_[1] * sin_[0] - sin_[2] * cos_[0]) +
+				vec.z * (sin_[2] * sin_[0] + cos_[0] * cos_[2] * sin_[1]);
+	rotated.y = vec.x * cos_[1] * sin_[2] +
+				vec.y * (cos_[0] * cos_[2] + sin_[0] * sin_[1] * sin_[2]) +
+				vec.z * (cos_[0] * sin_[1] * sin_[2] - sin_[0] * cos_[2]);
+	rotated.z = vec.x * -(sin_[1]) +
+				vec.y * sin_[0] * cos_[1] +
+				vec.z * cos_[0] * cos_[1];
 	return (rotated);
 }
 
-t_point		ft_turn_vector_near(t_point vec, t_point axis, double angle)
+t_point3		ft_3_turn_vector_near(t_point3 vec, t_point3 axis, double angle)
 {
-	t_point		rotated;
+	t_point3		rotated;
 	double		sin_a;
 	double		cos_a;
 	double		va;

@@ -36,7 +36,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@$(MAKE) -C libft
 	@$(MAKE) -C minilibx
-	@$(CC) $(CFLAGS) $(SRCS) -o $(NAME) $(LIBFT_PATH) $(FLAGS)
+	@$(CC) $(CFLAGS) $(SRCS) -Ilibft -Iminilibx -o $(NAME) $(LIBFT_PATH) $(FLAGS)
 
 clean:
 	@/bin/rm -f src/*.o
