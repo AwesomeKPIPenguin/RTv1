@@ -9,9 +9,11 @@ LIBMLX_NAME = libmlx.a
 
 LIBMLX_PATH = minilibx/$(LIBMLX_NAME)
 
-SRCS = src/*.c
+LIBPNT_NAME = libpnt.a
 
-OBJ = $(patsubst %.c,%.o,$(wildcard src/*.c))
+LIBPNT_PATH = libpnt/$(LIBPNT_NAME)
+
+SRCS = src/*.c
 
 HEAD = rtv1.h
 
@@ -33,10 +35,12 @@ CC = gcc
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME):
 	@$(MAKE) -C libft
 	@$(MAKE) -C minilibx
-	@$(CC) $(CFLAGS) $(SRCS) -Ilibft -Iminilibx -o $(NAME) $(LIBFT_PATH) $(FLAGS)
+	@$(MAKE) -C libpnt
+	@$(CC) $(CFLAGS) $(SRCS) -Ilibft -Iminilibx -Ilibpnt -o $(NAME) \
+		$(LIBFT_PATH) $(LIBMLX_PATH) $(LIBPNT_PATH) $(FLAGS)
 
 clean:
 	@/bin/rm -f src/*.o

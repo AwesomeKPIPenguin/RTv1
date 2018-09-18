@@ -13,8 +13,8 @@
 #include "../rtv1.h"
 
 /*
-**	x/y[0] - start point, iterator;
-**	x/y[1] - end point;
+**	x/y[0] - start libpnt, iterator;
+**	x/y[1] - end libpnt;
 */
 
 void	*ft_section_handle(void *arg)

@@ -32,24 +32,11 @@ int			ft_is_reachable_plane(void *fig, t_point3 origin, t_point3 direct)
 
 t_point3		ft_collide_plane(void *fig, t_point3 origin, t_point3 direct)
 {
-
-//	printf("in ft_collide_plane: (%f, %f, %f) -> (%f, %f, %f);\n",
-//		origin.x, origin.y, origin.z, direct.x, direct.y, direct.z);
-
 	t_plane		*pln;
-	t_point3		coll;
-	double		t;
-	double		dev;
+	t_point3	coll;
 
 	pln = (t_plane *)fig;
-	if (!ft_3_vector_cos(direct, pln->norm))
-		return (ft_null_point3new());
-	dev = ft_3_vector_dot(pln->norm, direct);
-	if (!dev)
-		return (ft_null_point3new());
-	t = (ft_3_vector_dot(pln->norm, pln->origin) -
-			ft_3_vector_dot(pln->norm, origin)) / dev;
-	coll = ft_3_add_vector(origin, ft_3_vector_scale(direct, t));
+	coll = ft_3_line_plane_inter(pln->origin, pln->norm, origin, direct);
 	return ((!ft_point3cmp(ft_unitvector3new(origin, coll), direct, 1e-6)) ?
 			ft_null_point3new() : coll);
 }

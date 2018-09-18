@@ -83,6 +83,21 @@ double		ft_3_plane_point_dist
 		norm.z * (point.z - origin.z)) / ft_vector_len(norm);
 }
 
+t_point3	ft_line_plane_inter
+				(t_point3 pln_o, t_point3 pln_norm,
+				 t_point3 ln_o, t_point3 ln_d)
+{
+	double		t;
+	double		dev;
+
+	dev = ft_3_vector_dot(pln_norm, ln_d);
+	if (!dev)
+		return (ft_null_point3new());
+	t = (ft_3_vector_dot(pln_norm, pln_o) -
+		 ft_3_vector_dot(pln_norm, ln_o)) / dev;
+	return (ft_3_add_vector(ln_o, ft_3_vector_scale(ln_d, t)));
+}
+
 double		ft_3_line_line_dist
 				(t_point3 o1, t_point3 d1, t_point3 o2, t_point3 d2)
 {

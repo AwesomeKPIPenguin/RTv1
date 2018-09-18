@@ -28,6 +28,9 @@ double					ft_3_line_line_dist
 t_point3				ft_3_line_line_inter
 							(t_point3 o1, t_point3 d1,
 							t_point3 o2, t_point3 d2);
+t_point3				ft_3_line_plane_inter
+							(t_point3 pln_o, t_point3 pln_norm,
+							t_point3 ln_o, t_point3 ln_d);
 t_point3				ft_3_line_point_proj
 							(t_point3 origin, t_point3 direct, t_point3 point);
 int						ft_point3cmp

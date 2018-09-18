@@ -1,10 +1,10 @@
-NAME = libpoint.a
+NAME = libpnt.a
 
 SRCS = $(wildcard *.c)
 
 OBJ = $(SRCS:.c=.o)
 
-HEAD = point.h
+HEAD = libpnt.h
 
 CFLAGS = -Wall -Wextra -Werror
 
