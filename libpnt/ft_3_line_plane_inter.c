@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_3_line_plane_inter.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/23 13:20:12 by domelche          #+#    #+#             */
-/*   Updated: 2018/08/23 13:27:00 by domelche         ###   ########.fr       */
+/*   Created: 2018/09/19 11:30:44 by domelche          #+#    #+#             */
+/*   Updated: 2018/09/19 11:32:01 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libpnt.h"
 
-int 		ft_usage()
+t_point3	ft_3_line_plane_inter
+				(t_point3 pln_o, t_point3 pln_norm,
+				 t_point3 ln_o, t_point3 ln_d)
 {
-	ft_putendl("Usage: ./RTv1 scene_file");
-	return (1);
-}
+	double		t;
+	double		dev;
 
-int			main(int ac, char **av)
-{
-	t_env		*e;
-
-	if (ac != 2)
-		return (ft_usage());
-	srand((unsigned int)time(NULL));
-	e = ft_envnew(av[1]);
-	ft_render(e);
-	mlx_key_hook(e->win, ft_key_hook, (void *)e);
-	mlx_loop(e->mlx);
-	return (0);
+	dev = ft_3_vector_dot(pln_norm, ln_d);
+	if (!dev)
+		return (ft_3_nullpointnew());
+	t = (ft_3_vector_dot(pln_norm, pln_o) -
+		ft_3_vector_dot(pln_norm, ln_o)) / dev;
+	return (ft_3_add_vector(ln_o, ft_3_vector_scale(ln_d, t)));
 }

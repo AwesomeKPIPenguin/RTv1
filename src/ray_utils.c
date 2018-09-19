@@ -24,23 +24,18 @@ t_point3		ft_change_blur_vec(t_point3 norm, t_point3 vec, double angle)
 
 t_point3		ft_get_blur_proj(t_point3 origin, t_point3 norm)
 {
-	t_point3		zero_proj;
+	t_point3	zero_proj;
 	double		angle;
 
 	zero_proj = ft_3_project_vector(norm,
-									ft_vector3new(origin,
-												  ft_point3new(0.0, 0.0, 0.0)));
-	if (ft_vector_len(zero_proj) == 0.0)
-		zero_proj = ft_3_project_vector(norm,
-										ft_vector3new(origin,
-													  ft_point3new(42.0, 0.0,
-																   0.0)));
-	if (ft_vector_len(zero_proj) == 0.0)
-		zero_proj = ft_3_project_vector(norm,
-										ft_vector3new(origin,
-													  ft_point3new(0.0, 42.0,
-																   0.0)));
-	zero_proj = ft_tounitvector3(zero_proj);
+		ft_3_vectornew(origin, ft_3_pointnew(0.0, 0.0, 0.0)));
+	if (ft_3_vector_len(zero_proj) == 0.0)
+		zero_proj = ft_3_project_vector(norm, ft_3_vectornew(origin,
+			ft_3_pointnew(42.0, 0.0, 0.0)));
+	if (ft_3_vector_len(zero_proj) == 0.0)
+		zero_proj = ft_3_project_vector(norm, ft_3_vectornew(origin,
+			ft_3_pointnew(0.0, 42.0, 0.0)));
+	zero_proj = ft_3_tounitvector(zero_proj);
 	angle = (double)rand() / (double)RAND_MAX * M_2_PI;
 	return (ft_3_turn_vector_near(zero_proj, norm, angle));
 }

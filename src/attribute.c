@@ -12,6 +12,32 @@
 
 #include "../rtv1.h"
 
+t_point3	ft_atopoint3(char *str)
+{
+	t_point3		point;
+
+	while (*str && *str != '(')
+		++str;
+	if (!*str)
+		ft_error("invalid scene file");
+	point.x = ft_atod(++str);
+	while (*str && *str != ',')
+		++str;
+	if (!*str)
+		ft_error("invalid scene file");
+	point.y = ft_atod(++str);
+	while (*str && *str != ',')
+		++str;
+	if (!*str)
+		ft_error("invalid scene file");
+	point.z = ft_atod(++str);
+	while (*str && *str != ')')
+		++str;
+	if (!*str)
+		ft_error("invalid scene file");
+	return (point);
+}
+
 char		*ft_search_attr(char *content, char *attr, int ftsa_mode)
 {
 	int		curve_count;
@@ -67,14 +93,7 @@ void		ft_read_attr(void *dst, char *attr, int type)
 		*((t_point3 *)dst) = ft_atopoint3(data);
 	else
 		(*((t_color *)dst)).val = ft_limit(0, 0xffffff, ft_atoi_base(data, 16));
-}
-
-void		ft_get_attr_globally(char *start, char *name, void *where, int what)
-{
-	char	*ptr;
-
-	if ((ptr = ft_search_attr(start, name, FTSA_GLOBALLY)))
-		ft_read_attr(where, ptr, what);
+	free(data);
 }
 
 void		ft_get_attr_in_scope(char *start, char *name, void *where, int what)

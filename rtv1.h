@@ -1,21 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rtv1.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/19 11:57:36 by domelche          #+#    #+#             */
+/*   Updated: 2018/09/19 11:57:39 by domelche         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef RTV1_H
 
 # define RTV1_H
 
-// ---- DELETE ME ---- //
-#include <stdio.h> /*  */
-// ------------------- //
+# include <stdio.h>
 
 # include <fcntl.h>
-# include <math.h>
 # include <limits.h>
-# include <float.h>
 # include <pthread.h>
 # include <stdint.h>
 # include <time.h>
 # include "libft.h"
-# include "point.h"
+# include "libpnt.h"
 # include "mlx.h"
 
 # define WIN_WIDTH		1200.0
@@ -68,13 +75,6 @@ typedef struct			s_img
 	int					endian;
 }						t_img;
 
-typedef struct			s_point3
-{
-	double				x;
-	double				y;
-	double				z;
-}						t_point3;
-
 typedef struct			s_light
 {
 	t_color				color;
@@ -111,7 +111,6 @@ typedef struct			s_env
 	void				*mlx;
 	void				*win;
 	t_img				*img;
-	t_img				*smooth_img;
 	t_scene				*scn;
 }						t_env;
 
@@ -205,7 +204,6 @@ char					*ft_parse_camera(char *attr, t_scene *scn);
 
 t_img					*ft_imgnew(t_env *e);
 void					ft_pixel_put_image(t_env *e, int x, int y, int colour);
-void					ft_smooth(t_img *base, t_img *res);
 
 /*
 **	environment.c
@@ -233,8 +231,6 @@ void					ft_render(t_env *e);
 char					*ft_search_attr
 							(char *content, char *attr, int ftsa_mode);
 void					ft_read_attr(void *dst, char *attr, int type);
-void					ft_get_attr_globally
-							(char *start, char *name, void *where, int what);
 void					ft_get_attr_in_scope
 							(char *start, char *name, void *where, int what);
 
@@ -335,11 +331,8 @@ t_coll					ft_get_collision
 **	utils.c
 */
 
-double					ft_torad(double degrees);
-void					ft_solve_sqr
-							(double a, double b, double c, double (*res)[3]);
 t_color					ft_apply_a(t_color color, double bright);
-t_color					ft_add_color(t_color c_1, t_color c_2);
+t_color					ft_add_colors(t_color c_1, t_color c_2);
 
 /*
 **	key_hooks.c

@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_solve_sqr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/23 13:20:12 by domelche          #+#    #+#             */
-/*   Updated: 2018/08/23 13:27:00 by domelche         ###   ########.fr       */
+/*   Created: 2018/09/19 12:14:48 by domelche          #+#    #+#             */
+/*   Updated: 2018/09/19 12:15:28 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-int 		ft_usage()
+void		ft_solve_sqr(double a, double b, double c, double (*res)[3])
 {
-	ft_putendl("Usage: ./RTv1 scene_file");
-	return (1);
-}
+	double	d;
 
-int			main(int ac, char **av)
-{
-	t_env		*e;
-
-	if (ac != 2)
-		return (ft_usage());
-	srand((unsigned int)time(NULL));
-	e = ft_envnew(av[1]);
-	ft_render(e);
-	mlx_key_hook(e->win, ft_key_hook, (void *)e);
-	mlx_loop(e->mlx);
-	return (0);
+	d = pow(b, 2) - 4.0 * a * c;
+	if (d < 0)
+	{
+		*res[0] = 0;
+		return ;
+	}
+	d = sqrt(d);
+	(*res)[0] = 1;
+	(*res)[1] = (-b + d) / (2.0 * a);
+	(*res)[2] = (-b - d) / (2.0 * a);
 }

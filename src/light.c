@@ -17,6 +17,8 @@ t_light		*ft_lightnew()
 	t_light		*light;
 
 	light = ft_smemalloc(sizeof(t_light), "ft_lightnew");
+	light->bright = 0.15;
+	light->origin = ft_3_pointnew(0.0, 10000.0, 0.0);
 	return (light);
 }
 

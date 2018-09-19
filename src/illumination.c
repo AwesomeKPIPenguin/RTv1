@@ -22,7 +22,7 @@ int			ft_iscollide
 {
 	t_list		*o_node;
 	t_object	*o;
-	t_point3		coll;
+	t_point3	coll;
 
 	origin = ft_3_add_vector(origin, direct);
 	o_node = scn->objs;
@@ -30,11 +30,9 @@ int			ft_iscollide
 	{
 		o = (t_object *)(o_node->content);
 		coll = o->ft_collide(o->fig, origin, direct);
-		if (!ft_isnullpoint3(coll) &&
-				ft_point3cmp(ft_unitvector3new(coll, origin),
-							 ft_3_vector_scale(ft_unitvector3new(coll, light),
-											   -1),
-							 1e-6))
+		if (!ft_3_isnullpoint(coll) &&
+			ft_3_pointcmp(ft_3_unitvectornew(coll, origin),
+				ft_3_vector_scale(ft_3_unitvectornew(coll, light), -1), 1e-6))
 			return (1);
 		o_node = o_node->next;
 	}
@@ -55,23 +53,19 @@ void		ft_illuminate(t_parg *parg, t_coll *coll)
 	{
 		l = (t_light *)(node->content);
 		cos[0] = ft_3_vector_cos(coll->norm,
-								 ft_vector3new(coll->coll_pnt, l->origin));
+								 ft_3_vectornew(coll->coll_pnt, l->origin));
 		if (cos[0] >= 0 && !ft_iscollide(parg->e->scn,
-			coll->coll_pnt, ft_unitvector3new(coll->coll_pnt, l->origin),
+			coll->coll_pnt, ft_3_unitvectornew(coll->coll_pnt, l->origin),
 			l->origin))
 		{
 			cos[1] = ft_3_vector_cos(coll->spclr_vec,
-									 ft_vector3new(coll->coll_pnt, l->origin));
+				ft_3_vectornew(coll->coll_pnt, l->origin));
 			cl_len = ft_3_point_point_dist(coll->coll_pnt, l->origin);
 			coll->illum += (!cl_len) ? l->bright :
 				l->bright * cos[0] / (pow(cl_len / BRIGHT_UNIT, 2));
 			if (cos[1] > 0.9)
 				coll->phong = MAX(coll->phong, pow(cos[1] - 0.9, 2) *
 					coll->o->phong * 100.0 * 255.0);
-
-//			printf("distance: %-16.6f; cosine: %-16.6f; result: %3d;\n",
-//				cl_len, cos, res[1]);
-
 		}
 		node = node->next;
 	}

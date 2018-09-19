@@ -17,7 +17,7 @@ t_camera	*ft_cameranew(void)
 	t_camera	*cam;
 
 	cam = ft_smemalloc(sizeof(t_camera), "ft_cameranew");
-	cam->origin = ft_point3new(-500.0, 0.0, 0.0);
+	cam->origin = ft_3_pointnew(-500.0, 0.0, 0.0);
 	cam->fov = ft_torad(100.0);
 	return (cam);
 }

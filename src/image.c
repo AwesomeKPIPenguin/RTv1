@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../rtv1.h"
+#include "rtv1.h"
 
 t_img	*ft_imgnew(t_env *e)
 {
@@ -29,57 +29,10 @@ t_img	*ft_imgnew(t_env *e)
 void	ft_pixel_put_image(t_env *e, int x, int y, int color)
 {
 
-	//printf("%#.6X;\n", color);
-
 //	(void)e;
 //	(void)color;
 
 	if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
 		return ;
 	*(int *)(e->img->data + (y * (int)WIN_WIDTH + x) * e->img->bpp) = color;
-}
-
-void	ft_smooth(t_img *base, t_img *res)
-{
-	int		x;
-	int		y;
-	int 	i;
-	t_color	color;
-
-	color.val = 0;
-	x = 0;
-	while (++x < WIN_WIDTH - 1)
-	{
-		y = 0;
-		while (++y < WIN_HEIGHT - 1)
-		{
-			//printf("%d\n", (*(int *)(base->data + ((y) * (int)WIN_WIDTH + x) * base->bpp)));
-
-			i = -1;
-			while (++i < 3)
-				color.argb[i] = (t_byte)((
-					(double)((*(t_color *)(base->data +
-						((y - 1) * (int)WIN_WIDTH + x - 1) * base->bpp)).argb[i]) +
-					(double)((*(t_color *)(base->data +
-						((y - 1) * (int)WIN_WIDTH + x) * base->bpp)).argb[i]) +
-					(double)((*(t_color *)(base->data +
-						((y - 1) * (int)WIN_WIDTH + x + 1) * base->bpp)).argb[i]) +
-					(double)((*(t_color *)(base->data +
-						((y) * (int)WIN_WIDTH + x + 1) * base->bpp)).argb[i]) +
-					(double)((*(t_color *)(base->data +
-						((y + 1) * (int)WIN_WIDTH + x + 1) * base->bpp)).argb[i]) +
-					(double)((*(t_color *)(base->data +
-						((y + 1) * (int)WIN_WIDTH + x) * base->bpp)).argb[i]) +
-					(double)((*(t_color *)(base->data +
-						((y + 1) * (int)WIN_WIDTH + x - 1) * base->bpp)).argb[i]) +
-					(double)((*(t_color *)(base->data +
-						((y) * (int)WIN_WIDTH + x - 1) * base->bpp)).argb[i]) +
-					(double)((*(t_color *)(base->data +
-						((y) * (int)WIN_WIDTH + x) * base->bpp)).argb[i])) / 9.0);
-
-			//printf("%#6X;\n", color.val);
-
-			*(int *)(res->data + (y * (int)WIN_WIDTH + x) * res->bpp) = color.val;
-		}
-	}
 }

@@ -1,3 +1,14 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: domelche <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2018/09/19 11:58:45 by domelche          #+#    #+#              #
+#    Updated: 2018/09/19 11:58:48 by domelche         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 NAME = RTv1
 
@@ -13,11 +24,13 @@ LIBPNT_NAME = libpnt.a
 
 LIBPNT_PATH = libpnt/$(LIBPNT_NAME)
 
-SRCS = src/*.c
+SRCS = $(wildcard src/*.c)
+
+OBJ = $(SRCS:.c=.o)
 
 HEAD = rtv1.h
 
-CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS = -Wall -Wextra -Werror -pthread -Ilibft -Iminilibx -Ilibpnt -I.
 
 # MacOSX flags
 
@@ -35,21 +48,23 @@ CC = gcc
 
 all: $(NAME)
 
-$(NAME):
+$(NAME): $(OBJ)
 	@$(MAKE) -C libft
 	@$(MAKE) -C minilibx
 	@$(MAKE) -C libpnt
-	@$(CC) $(CFLAGS) $(SRCS) -Ilibft -Iminilibx -Ilibpnt -o $(NAME) \
+	@$(CC) $(CFLAGS) $(SRCS) -o $(NAME) \
 		$(LIBFT_PATH) $(LIBMLX_PATH) $(LIBPNT_PATH) $(FLAGS)
 
 clean:
 	@/bin/rm -f src/*.o
 	@$(MAKE) clean -C libft
 	@$(MAKE) clean -C minilibx
+	@$(MAKE) clean -C libpnt
 
 fclean: clean
 	@/bin/rm -f $(NAME)
-	@$(MAKE) fclean -C libft
+	@/bin/rm -f $(LIBFT_PATH)
 	@/bin/rm -f $(LIBMLX_PATH)
+	@/bin/rm -f $(LIBPNT_PATH)
 
 re: fclean all

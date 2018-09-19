@@ -1,6 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libpnt.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/19 10:53:06 by domelche          #+#    #+#             */
+/*   Updated: 2018/09/19 10:53:13 by domelche         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef POINT_H
 
-#define POINT_H
+# define POINT_H
+
+# include <math.h>
+# include <float.h>
 
 typedef struct			s_point3
 {
@@ -13,10 +28,9 @@ typedef struct			s_point3
 **	point
 */
 
-t_point3				ft_point3new(double x, double y, double z);
-t_point3				ft_null_point3new(void);
-int						ft_isnullpoint3(t_point3 point);
-t_point3				ft_atopoint3(char *str);
+t_point3				ft_3_pointnew(double x, double y, double z);
+t_point3				ft_3_nullpointnew(void);
+int						ft_3_isnullpoint(t_point3 point);
 double					ft_3_point_point_dist(t_point3 pnt_0, t_point3 pnt_1);
 double					ft_3_line_point_dist
 							(t_point3 origin, t_point3 direct, t_point3 point);
@@ -33,21 +47,21 @@ t_point3				ft_3_line_plane_inter
 							t_point3 ln_o, t_point3 ln_d);
 t_point3				ft_3_line_point_proj
 							(t_point3 origin, t_point3 direct, t_point3 point);
-int						ft_point3cmp
+int						ft_3_pointcmp
 							(t_point3 pnt_0, t_point3 pnt_1, double prec);
 
 /*
 **	vector
 */
 
-t_point3				ft_vector3new(t_point3 origin, t_point3 direct);
-t_point3				ft_unitvector3new(t_point3 origin, t_point3 direct);
-t_point3				ft_tounitvector3(t_point3 vec);
+t_point3				ft_3_vectornew(t_point3 origin, t_point3 direct);
+t_point3				ft_3_unitvectornew(t_point3 origin, t_point3 direct);
+t_point3				ft_3_tounitvector(t_point3 vec);
 t_point3				ft_3_add_vector(t_point3 vec_1, t_point3 vec_2);
 t_point3				ft_3_vector_scale(t_point3 vec, double k);
 double					ft_3_vector_dot(t_point3 vec_1, t_point3 vec_2);
 t_point3				ft_3_vector_cross(t_point3 vec_1, t_point3 vec_2);
-double					ft_vector_len(t_point3 vec);
+double					ft_3_vector_len(t_point3 vec);
 double					ft_3_vector_cos(t_point3 vec_1, t_point3 vec_2);
 t_point3				ft_3_reflect_vector
 							(t_point3 origin, t_point3 coll, t_point3 norm);

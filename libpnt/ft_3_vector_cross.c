@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_3_vector_cross.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/23 13:20:12 by domelche          #+#    #+#             */
-/*   Updated: 2018/08/23 13:27:00 by domelche         ###   ########.fr       */
+/*   Created: 2018/09/19 11:41:33 by domelche          #+#    #+#             */
+/*   Updated: 2018/09/19 11:41:53 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libpnt.h"
 
-int 		ft_usage()
+t_point3		ft_3_vector_cross(t_point3 vec_1, t_point3 vec_2)
 {
-	ft_putendl("Usage: ./RTv1 scene_file");
-	return (1);
-}
-
-int			main(int ac, char **av)
-{
-	t_env		*e;
-
-	if (ac != 2)
-		return (ft_usage());
-	srand((unsigned int)time(NULL));
-	e = ft_envnew(av[1]);
-	ft_render(e);
-	mlx_key_hook(e->win, ft_key_hook, (void *)e);
-	mlx_loop(e->mlx);
-	return (0);
+	return (ft_3_pointnew(vec_1.y * vec_2.z - vec_1.z * vec_2.y,
+						  vec_1.z * vec_2.x - vec_1.x * vec_2.z,
+						  vec_1.x * vec_2.y - vec_1.y * vec_2.x));
 }

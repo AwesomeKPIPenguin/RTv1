@@ -18,7 +18,7 @@ t_scene		*ft_scenenew(void)
 
 	scn = ft_smemalloc(sizeof(t_scene), "ft_scenenew");
 	scn->bg_color.val = 0;
-	scn->name = ft_strdup("New Scene");
+	scn->name = NULL;
 	scn->cam = ft_cameranew();
 	return (scn);
 }
@@ -44,6 +44,8 @@ void		ft_parse_scene(char *attr, t_scene *scn)
 	attr = ft_get_curve(attr, '{');
 	if ((ptr = ft_search_attr(attr, "name:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)&(scn->name), ptr, STR);
+	if (!scn->name)
+		scn->name = ft_strdup("New Scene");
 	if ((ptr = ft_search_attr(attr, "world_color:", FTSA_IN_SCOPE)))
 		ft_read_attr((void *)&(scn->bg_color), ptr, COLOR);
 }
