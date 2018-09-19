@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../rtv1.h"
+#include "rtv1.h"
 
 /*
 **	by now, the searching ray would stop if any object will be found

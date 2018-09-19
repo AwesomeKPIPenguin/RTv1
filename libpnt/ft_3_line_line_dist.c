@@ -6,14 +6,14 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 11:32:20 by domelche          #+#    #+#             */
-/*   Updated: 2018/09/19 11:33:51 by domelche         ###   ########.fr       */
+/*   Updated: 2018/09/19 18:50:28 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libpnt.h"
 
 double		ft_3_line_line_dist
-				(t_point3 o1, t_point3 d1, t_point3 o2, t_point3 d2)
+	(t_point3 o1, t_point3 d1, t_point3 o2, t_point3 d2)
 {
 	t_point3	axb;
 

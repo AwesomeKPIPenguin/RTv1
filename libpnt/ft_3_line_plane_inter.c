@@ -13,8 +13,7 @@
 #include "libpnt.h"
 
 t_point3	ft_3_line_plane_inter
-				(t_point3 pln_o, t_point3 pln_norm,
-				 t_point3 ln_o, t_point3 ln_d)
+	(t_point3 pln_o, t_point3 pln_norm, t_point3 ln_o, t_point3 ln_d)
 {
 	double		t;
 	double		dev;

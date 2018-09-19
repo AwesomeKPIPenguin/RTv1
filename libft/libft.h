@@ -6,7 +6,7 @@
 /*   By: domelche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/25 15:12:40 by domelche          #+#    #+#             */
-/*   Updated: 2018/09/19 12:17:55 by domelche         ###   ########.fr       */
+/*   Updated: 2018/09/19 19:05:37 by domelche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ size_t				ft_get_filesize(char *file_name);
 char				*ft_readfile(char *file_name);
 
 double				ft_torad(double degrees);
-void				ft_solve_sqr(double a, double b, double c, double (*res)[3]);
+void				ft_solve_sqr
+						(double a, double b, double c, double (*res)[3]);
 
 #endif

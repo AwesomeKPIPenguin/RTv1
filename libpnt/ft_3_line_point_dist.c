@@ -13,8 +13,8 @@
 #include "libpnt.h"
 
 double		ft_3_line_point_dist
-				(t_point3 origin, t_point3 direct, t_point3 point)
+	(t_point3 origin, t_point3 direct, t_point3 point)
 {
 	return (ft_3_vector_len(ft_3_vector_cross(direct,
-											  ft_3_vectornew(point, origin))));
+		ft_3_vectornew(point, origin))));
 }

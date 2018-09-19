@@ -14,7 +14,7 @@
 
 t_point3		ft_3_turn_vector_near(t_point3 vec, t_point3 axis, double angle)
 {
-	t_point3		rotated;
+	t_point3	rotated;
 	double		sin_a;
 	double		cos_a;
 	double		va;

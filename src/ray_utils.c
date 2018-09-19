@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../rtv1.h"
+#include "rtv1.h"
 
 t_point3		ft_change_blur_vec(t_point3 norm, t_point3 vec, double angle)
 {

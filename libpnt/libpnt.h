@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef POINT_H
+#ifndef LIBPNT_H
 
-# define POINT_H
+# define LIBPNT_H
 
 # include <math.h>
 # include <float.h>

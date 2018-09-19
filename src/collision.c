@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../rtv1.h"
+#include "rtv1.h"
 
 static t_point3	ft_get_collision_point
 				(t_list *objs, t_object **obj, t_point3 od[2])

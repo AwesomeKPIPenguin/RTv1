@@ -15,7 +15,7 @@
 t_point3	ft_3_pointnew(double x, double y, double z)
 {
 	t_point3	point;
-	
+
 	point.x = x;
 	point.y = y;
 	point.z = z;

@@ -13,7 +13,7 @@
 #include "libpnt.h"
 
 t_point3	ft_3_line_line_inter
-				(t_point3 o1, t_point3 d1, t_point3 o2, t_point3 d2)
+	(t_point3 o1, t_point3 d1, t_point3 o2, t_point3 d2)
 {
 	double		t;
 	double		len;
