@@ -23,7 +23,7 @@ t_scene		*ft_scenenew(void)
 	return (scn);
 }
 
-t_scene			*ft_get_scene(char *file_name)
+t_scene		*ft_get_scene(char *file_name)
 {
 	t_scene		*scn;
 	int			fd;
@@ -39,15 +39,13 @@ t_scene			*ft_get_scene(char *file_name)
 
 void		ft_parse_scene(char *attr, t_scene *scn)
 {
-	char	*ptr;
+	char *ptr;
 
 	attr = ft_get_curve(attr, '{');
 	if ((ptr = ft_search_attr(attr, "name:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)&(scn->name), ptr, STR);
+		ft_read_attr((void *) &(scn->name), ptr, STR);
 	if (!scn->name)
 		scn->name = ft_strdup("New Scene");
 	if ((ptr = ft_search_attr(attr, "world_color:", FTSA_IN_SCOPE)))
-		ft_read_attr((void *)&(scn->bg_color), ptr, COLOR);
+		ft_read_attr((void *) &(scn->bg_color), ptr, COLOR);
 }
-
-

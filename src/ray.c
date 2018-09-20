@@ -12,15 +12,12 @@
 
 #include "rtv1.h"
 
-
-
 static t_color	ft_throw_ray(t_parg *parg, t_point3 od[2], int depth)
 {
 	t_coll		coll;
 	t_color		spclr_col;
 	t_color		trans_col;
 	double		num[2];
-
 
 	spclr_col.val = 0;
 	trans_col.val = 0;
@@ -37,17 +34,8 @@ static t_color	ft_throw_ray(t_parg *parg, t_point3 od[2], int depth)
 			ft_throw_rays(parg, coll, &(coll.spclr_vec), num) :
 			ft_throw_ray(parg, od, depth + 1);
 	}
-	if (coll.o->trans && depth < DEPTH)
-	{
-		od[1] = coll.trans_vec;
-		num[0] = coll.o->t_blur;
-		trans_col = (coll.o->t_blur) ?
-			ft_throw_rays(parg, coll, &(coll.trans_vec), num) :
-			ft_throw_ray(parg, od, depth + 1);
-	}
 	return ((coll.o->phong != 0.0) ?
-		ft_apply_a(ft_sum_colors(coll, spclr_col, trans_col),
-			coll.phong) :
+		ft_apply_a(ft_sum_colors(coll, spclr_col, trans_col), coll.phong) :
 		ft_sum_colors(coll, spclr_col, trans_col));
 }
 
@@ -65,7 +53,7 @@ t_color			ft_add_blur_colors(t_color sum, int num, t_color new)
 }
 
 t_color			ft_throw_rays
-					(t_parg *parg, t_coll coll, t_point3 *vec, double num[2])
+	(t_parg *parg, t_coll coll, t_point3 *vec, double num[2])
 {
 	double		max_angle;
 	int			rays;
@@ -92,7 +80,7 @@ t_color			ft_throw_rays
 t_color			ft_trace_ray(t_parg *parg, int x, int y)
 {
 	t_color		res;
-	t_point3		od[2];
+	t_point3	od[2];
 
 	od[0] = parg->e->scn->cam->origin;
 	od[1] = parg->e->scn->cam->vs_start_point;

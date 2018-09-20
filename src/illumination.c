@@ -17,8 +17,8 @@
 **	(specularity and transparency will be taken into account latter)
 */
 
-int			ft_iscollide
-				(t_scene *scn, t_point3 origin, t_point3 direct, t_point3 light)
+int				ft_iscollide
+	(t_scene *scn, t_point3 origin, t_point3 direct, t_point3 light)
 {
 	t_list		*o_node;
 	t_object	*o;
@@ -39,12 +39,31 @@ int			ft_iscollide
 	return (0);
 }
 
-void		ft_illuminate(t_parg *parg, t_coll *coll)
+static void		ft_check_coll(t_parg *parg, t_coll *coll, t_light *l)
+{
+	double			cos[2];
+	double			cl_len;
+
+	cos[0] = ft_3_vector_cos(coll->norm,
+		ft_3_vectornew(coll->coll_pnt, l->origin));
+	if (cos[0] >= 0 && !ft_iscollide(parg->e->scn, coll->coll_pnt,
+		ft_3_unitvectornew(coll->coll_pnt, l->origin), l->origin))
+	{
+		cos[1] = ft_3_vector_cos(coll->spclr_vec,
+			ft_3_vectornew(coll->coll_pnt, l->origin));
+		cl_len = ft_3_point_point_dist(coll->coll_pnt, l->origin);
+		coll->illum += (!cl_len) ? l->bright :
+			l->bright * cos[0] / (pow(cl_len / BRIGHT_UNIT, 2));
+		if (cos[1] > 0.9)
+			coll->phong = MAX(coll->phong, pow(cos[1] - 0.9, 2) *
+				coll->o->phong * 100.0 * 255.0);
+	}
+}
+
+void			ft_illuminate(t_parg *parg, t_coll *coll)
 {
 	t_list			*node;
 	t_light			*l;
-	double			cos[2];
-	double			cl_len;
 
 	coll->illum = 0.0;
 	coll->phong = 127.0;
@@ -52,21 +71,7 @@ void		ft_illuminate(t_parg *parg, t_coll *coll)
 	while (node)
 	{
 		l = (t_light *)(node->content);
-		cos[0] = ft_3_vector_cos(coll->norm,
-								 ft_3_vectornew(coll->coll_pnt, l->origin));
-		if (cos[0] >= 0 && !ft_iscollide(parg->e->scn,
-			coll->coll_pnt, ft_3_unitvectornew(coll->coll_pnt, l->origin),
-			l->origin))
-		{
-			cos[1] = ft_3_vector_cos(coll->spclr_vec,
-				ft_3_vectornew(coll->coll_pnt, l->origin));
-			cl_len = ft_3_point_point_dist(coll->coll_pnt, l->origin);
-			coll->illum += (!cl_len) ? l->bright :
-				l->bright * cos[0] / (pow(cl_len / BRIGHT_UNIT, 2));
-			if (cos[1] > 0.9)
-				coll->phong = MAX(coll->phong, pow(cos[1] - 0.9, 2) *
-					coll->o->phong * 100.0 * 255.0);
-		}
+		ft_check_coll(parg, coll, l);
 		node = node->next;
 	}
 	coll->illum = ft_limitf(0.0, 1.0, coll->illum);

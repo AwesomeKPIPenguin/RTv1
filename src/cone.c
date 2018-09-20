@@ -12,7 +12,7 @@
 
 #include "../rtv1.h"
 
-t_cone		*ft_conenew()
+t_cone		*ft_conenew(void)
 {
 	t_cone	*cone;
 
@@ -39,17 +39,7 @@ char		*ft_parse_cone(char *attr, t_scene *scn)
 	ft_get_attr_in_scope(attr, "base_rad:", (void *)(&(cone->base_rad)), DBL);
 	ft_get_attr_in_scope(attr, "vert:", (void *)(&(cone->vert)), PNT);
 	ft_get_attr_in_scope(attr, "vert_rad:", (void *)(&(cone->vert_rad)), DBL);
-	obj->fig = cone;
-	cone->bv_dist = ft_3_point_point_dist(cone->base, cone->vert);
-	cone->base = ft_3_add_vector(cone->base, obj->translate);
-	cone->bv = ft_3_rotate_vector(ft_3_unitvectornew(cone->base, cone->vert),
-		obj->rotate.x, obj->rotate.y, obj->rotate.z);
-	cone->vert = ft_3_add_vector(cone->base,
-		ft_3_vector_scale(cone->bv, cone->bv_dist));
-	cone->side_norm_angle = acos((cone->bv_dist * sin(atan((cone->base_rad -
-		cone->vert_rad) / cone->bv_dist))) / (cone->base_rad - cone->vert_rad));
-	cone->main_vert = ft_3_add_vector(cone->base, ft_3_vector_scale(cone->bv,
-		cone->base_rad * cone->bv_dist / (cone->base_rad - cone->vert_rad)));
+	ft_cone_init(obj, cone);
 	ft_lstpush(&(scn->objs), ft_nodenew((void *)obj, sizeof(obj)));
 	return (ft_get_curve(attr, '}'));
 }

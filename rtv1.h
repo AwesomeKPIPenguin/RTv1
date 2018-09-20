@@ -296,6 +296,13 @@ void					ft_collide_cone_planes
 t_point3				ft_get_closest(t_point3 cam, t_point3 pnt[4]);
 
 /*
+**	cone_utils_2.c
+*/
+
+void					ft_set_coll_pnts_null(t_point3 (*pnt)[4]);
+void					ft_cone_init(t_object *obj, t_cone *cone);
+
+/*
 **	ray.c
 */
 

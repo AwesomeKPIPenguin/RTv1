@@ -54,42 +54,33 @@ int			ft_is_reachable_sphere(void *fig, t_point3 origin, t_point3 direct)
 	return ((cos > 0) ? 1 : 0);
 }
 
-t_point3		ft_collide_sphere(void *fig, t_point3 origin, t_point3 direct)
+t_point3	ft_collide_sphere(void *fig, t_point3 origin, t_point3 direct)
 {
 	t_sphere	*sph;
 	double		dist;
-	double		sqr_res[3];
-	t_point3		coll_points[2];
+	double		res[3];
+	t_point3	coll_points[2];
 
 	sph = (t_sphere *)fig;
 	dist = ft_3_line_point_dist(origin, direct, sph->origin);
 	if (dist > sph->radius)
 		return (ft_3_nullpointnew());
 	ft_solve_sqr((pow(direct.x, 2) + pow(direct.y, 2) + pow(direct.z, 2)), 2.0 *
-		(direct.x * (origin.x - sph->origin.x) +
-		direct.y * (origin.y - sph->origin.y) +
-		direct.z * (origin.z - sph->origin.z)),
+		(direct.x * (origin.x - sph->origin.x) + direct.y * (origin.y -
+			sph->origin.y) + direct.z * (origin.z - sph->origin.z)),
 		(pow(origin.x - sph->origin.x, 2) + pow(origin.y - sph->origin.y, 2) +
-			pow(origin.z - sph->origin.z, 2) - pow(sph->radius, 2)),
-		&sqr_res);
-	if (!sqr_res[0])
+			pow(origin.z - sph->origin.z, 2) - pow(sph->radius, 2)), &res);
+	if (!res[0])
 		return (ft_3_nullpointnew());
-	coll_points[0] = ft_3_pointnew(direct.x * sqr_res[1] + origin.x,
-								   direct.y * sqr_res[1] + origin.y,
-								   direct.z * sqr_res[1] + origin.z);
-	coll_points[0] = (ft_3_pointcmp(ft_3_unitvectornew(origin, coll_points[0]),
-									direct, 1e-6)) ? coll_points[0] : ft_3_nullpointnew();
-	coll_points[1] = ft_3_pointnew(direct.x * sqr_res[2] + origin.x,
-								   direct.y * sqr_res[2] + origin.y,
-								   direct.z * sqr_res[2] + origin.z);
-	coll_points[1] = (ft_3_pointcmp(ft_3_unitvectornew(origin, coll_points[1]),
-									direct, 1e-6)) ? coll_points[1] : ft_3_nullpointnew();
-	coll_points[0] = (ft_3_point_point_dist(origin, coll_points[0]) >
-			ft_3_point_point_dist(origin, coll_points[1])) ? coll_points[1] : coll_points[0];
+	coll_points[0] = (res[1] > 0) ? ft_3_add_vector(origin,
+		ft_3_vector_scale(direct, res[1])) : ft_3_nullpointnew();
+	coll_points[1] = (res[2] > 0) ? ft_3_add_vector(origin,
+		ft_3_vector_scale(direct, res[2])) : ft_3_nullpointnew();
+	coll_points[0] = (res[1] > res[2]) ? coll_points[1] : coll_points[0];
 	return (coll_points[0]);
 }
 
-t_point3		ft_get_norm_sphere(void *fig, t_point3 coll)
+t_point3	ft_get_norm_sphere(void *fig, t_point3 coll)
 {
-	return (ft_3_unitvectornew(((t_sphere *) fig)->origin, coll));
+	return (ft_3_unitvectornew(((t_sphere *)fig)->origin, coll));
 }

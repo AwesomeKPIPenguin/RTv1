@@ -12,7 +12,7 @@
 
 #include "../rtv1.h"
 
-t_light		*ft_lightnew()
+t_light		*ft_lightnew(void)
 {
 	t_light		*light;
 

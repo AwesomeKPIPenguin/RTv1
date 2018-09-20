@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-int 		ft_usage()
+int			ft_usage(void)
 {
 	ft_putendl("Usage: ./RTv1 scene_file");
 	return (1);

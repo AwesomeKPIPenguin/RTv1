@@ -12,15 +12,9 @@
 
 #include "rtv1.h"
 
-void	ft_set_coll_pnts_null(t_point3 (*pnt)[4])
-{
-	(*pnt)[0] = ft_3_nullpointnew();
-	(*pnt)[1] = (*pnt)[0];
-}
-
 void	ft_get_coll_pnts_cyl(t_cone *cone, t_point3 (*pnt)[4])
 {
-	t_point3		a;
+	t_point3	a;
 	double		s;
 	double		dist;
 
@@ -38,7 +32,7 @@ void	ft_get_coll_pnts_cyl(t_cone *cone, t_point3 (*pnt)[4])
 void	ft_get_coll_pnts(t_cone *cone, t_point3 (*pnt)[4], int is_cyl)
 {
 	double		cos_t_2;
-	t_point3		v_co[2];
+	t_point3	v_co[2];
 	double		dv_dot;
 	double		cov_dot;
 	double		res[3];

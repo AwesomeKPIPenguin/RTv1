@@ -12,8 +12,8 @@
 
 #include "rtv1.h"
 
-static t_point3	ft_get_collision_point
-				(t_list *objs, t_object **obj, t_point3 od[2])
+static t_point3		ft_get_collision_point
+	(t_list *objs, t_object **obj, t_point3 od[2])
 {
 	t_list		*node;
 	t_point3	pnt[2];
@@ -39,7 +39,8 @@ static t_point3	ft_get_collision_point
 	return (pnt[0]);
 }
 
-t_coll			ft_get_collision(t_parg *parg, t_point3 origin, t_point3 direct)
+t_coll				ft_get_collision
+	(t_parg *parg, t_point3 origin, t_point3 direct)
 {
 	t_coll		coll;
 	t_point3	od[2];
@@ -51,25 +52,8 @@ t_coll			ft_get_collision(t_parg *parg, t_point3 origin, t_point3 direct)
 		ft_get_collision_point(parg->e->scn->objs, &(coll.o), od)))
 		return (coll);
 	coll.norm = coll.o->ft_get_norm(coll.o->fig, coll.coll_pnt);
-
-//	if (coll.coll_pnt.y > -400.0)
-//	{
-//		printf("coll: (%-10.4f, %-10.4f, %-10.4f);\n",
-//			   coll.coll_pnt.x, coll.coll_pnt.y, coll.coll_pnt.z);
-//		printf("norm: (%-10.4f, %-10.4f, %-10.4f);\n\n",
-//			   coll.norm.x, coll.norm.y, coll.norm.z);
-//	}
-
 	if (coll.o->spclr)
 		coll.spclr_vec = ft_3_reflect_vector(origin, coll.coll_pnt, coll.norm);
-
-	// get transparency
-
 	ft_illuminate(parg, &coll);
-
-//	printf("collision:\npoint: (%f, %f, %f);\nreflection vector: (%f, %f, %f);\n\n",
-//		coll.coll_pnt.x, coll.coll_pnt.y, coll.coll_pnt.z,
-//		coll.spclr_vec.x, coll.spclr_vec.y, coll.spclr_vec.z);
-
 	return (coll);
 }

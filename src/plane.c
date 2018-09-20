@@ -30,7 +30,7 @@ int			ft_is_reachable_plane(void *fig, t_point3 origin, t_point3 direct)
 	return (1);
 }
 
-t_point3		ft_collide_plane(void *fig, t_point3 origin, t_point3 direct)
+t_point3	ft_collide_plane(void *fig, t_point3 origin, t_point3 direct)
 {
 	t_plane		*pln;
 	t_point3	coll;
@@ -41,7 +41,7 @@ t_point3		ft_collide_plane(void *fig, t_point3 origin, t_point3 direct)
 			ft_3_nullpointnew() : coll);
 }
 
-t_point3		ft_get_norm_plane(void *fig, t_point3 coll)
+t_point3	ft_get_norm_plane(void *fig, t_point3 coll)
 {
 	(void)coll;
 	return (((t_plane *)fig)->norm);
