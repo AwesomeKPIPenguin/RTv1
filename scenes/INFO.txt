@@ -19,8 +19,8 @@ camera {
 }
 
 light {
-	bright: 1;						# default: 0.15 (0.0 - 1.0, excluding 0)
-	origin: (-2000, 0, 0);			# default: (0, 10000, 0)
+	bright: 0.25;					# default: 0.15 (0.0 - 1.0, excluding 0)
+	origin: (0, 10000, 0);			# default: (0, 10000, 0)
 }
 
 #

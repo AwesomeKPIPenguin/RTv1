@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../rtv1.h"
+#include "rtv1.h"
 
 t_cone		*ft_conenew(void)
 {
@@ -39,6 +39,11 @@ char		*ft_parse_cone(char *attr, t_scene *scn)
 	ft_get_attr_in_scope(attr, "base_rad:", (void *)(&(cone->base_rad)), DBL);
 	ft_get_attr_in_scope(attr, "vert:", (void *)(&(cone->vert)), PNT);
 	ft_get_attr_in_scope(attr, "vert_rad:", (void *)(&(cone->vert_rad)), DBL);
+	if (cone->base_rad < 0 && cone->vert_rad < 0)
+	{
+		cone->base_rad *= -1.0;
+		cone->vert_rad *= -1.0;
+	}
 	ft_cone_init(obj, cone);
 	ft_lstpush(&(scn->objs), ft_nodenew((void *)obj, sizeof(obj)));
 	return (ft_get_curve(attr, '}'));

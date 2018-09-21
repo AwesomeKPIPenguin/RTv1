@@ -52,6 +52,8 @@ t_coll				ft_get_collision
 		ft_get_collision_point(parg->e->scn->objs, &(coll.o), od)))
 		return (coll);
 	coll.norm = coll.o->ft_get_norm(coll.o->fig, coll.coll_pnt);
+	if (ft_3_vector_cos(coll.norm, direct) > 0)
+		coll.norm = ft_3_vector_scale(coll.norm, -1);
 	if (coll.o->spclr)
 		coll.spclr_vec = ft_3_reflect_vector(origin, coll.coll_pnt, coll.norm);
 	ft_illuminate(parg, &coll);

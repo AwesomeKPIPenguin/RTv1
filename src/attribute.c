@@ -43,8 +43,6 @@ char		*ft_search_attr(char *content, char *attr, int ftsa_mode)
 	int		curve_count;
 	int		is_comment;
 
-//	if (!ft_strcmp(attr, ""))
-//		return (content);
 	curve_count = ftsa_mode;
 	is_comment = 0;
 	while (*content)

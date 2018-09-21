@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../rtv1.h"
+#include "rtv1.h"
 
-t_sphere	*ft_spherenew()
+t_sphere	*ft_spherenew(void)
 {
 	t_sphere	*sph;
 
@@ -57,13 +57,11 @@ int			ft_is_reachable_sphere(void *fig, t_point3 origin, t_point3 direct)
 t_point3	ft_collide_sphere(void *fig, t_point3 origin, t_point3 direct)
 {
 	t_sphere	*sph;
-	double		dist;
 	double		res[3];
 	t_point3	coll_points[2];
 
 	sph = (t_sphere *)fig;
-	dist = ft_3_line_point_dist(origin, direct, sph->origin);
-	if (dist > sph->radius)
+	if (ft_3_line_point_dist(origin, direct, sph->origin) > sph->radius)
 		return (ft_3_nullpointnew());
 	ft_solve_sqr((pow(direct.x, 2) + pow(direct.y, 2) + pow(direct.z, 2)), 2.0 *
 		(direct.x * (origin.x - sph->origin.x) + direct.y * (origin.y -
@@ -76,7 +74,8 @@ t_point3	ft_collide_sphere(void *fig, t_point3 origin, t_point3 direct)
 		ft_3_vector_scale(direct, res[1])) : ft_3_nullpointnew();
 	coll_points[1] = (res[2] > 0) ? ft_3_add_vector(origin,
 		ft_3_vector_scale(direct, res[2])) : ft_3_nullpointnew();
-	coll_points[0] = (res[1] > res[2]) ? coll_points[1] : coll_points[0];
+	coll_points[0] = (ft_3_isnullpoint(coll_points[0]) ||
+		(res[1] > res[2] && res[2] > 0)) ? coll_points[1] : coll_points[0];
 	return (coll_points[0]);
 }
 

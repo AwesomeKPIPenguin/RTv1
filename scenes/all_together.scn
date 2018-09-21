@@ -1,7 +1,7 @@
 
 scene {
 	name: All Together;
-	world_color: 0x0;
+	world_color: 0x00;
 }
 
 camera {
@@ -37,7 +37,6 @@ plane {
     norm: (0, 1, 0);
     color: 0x808080;
     spclr: 1;
-    s_blur: 0.5;
 }
 
 cone {
@@ -69,13 +68,14 @@ cone {
 }
 
 cone {
-    base: (-500, -400, 1700);
+    base: (-500, -400, 1500);
     base_rad: 100;
-    vert: (-1000, -400, 700);
+    vert: (-1300, -400, 1500);
     vert_rad: 100;
     color: 0xffff00;
-    spclr: 1;
-    phong: 1;
+
+    rotate: (0, -60, 0);
+    translate: (-200, 0, -300);
 }
 
 sphere {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../rtv1.h"
+#include "rtv1.h"
 
 t_color		ft_apply_a(t_color color, double bright)
 {
@@ -25,12 +25,4 @@ t_color		ft_apply_a(t_color color, double bright)
 	color.argb[0] += (double)((k > 0) ? 255 - color.argb[0] : color.argb[0]) /
 		128.0 * k;
 	return (color);
-}
-
-t_color		ft_add_colors(t_color c_1, t_color c_2)
-{
-	c_1.argb[2] += (c_2.argb[2] - c_1.argb[2]) / 2;
-	c_1.argb[1] += (c_2.argb[1] - c_1.argb[1]) / 2;
-	c_1.argb[0] += (c_2.argb[0] - c_1.argb[0]) / 2;
-	return (c_1);
 }

@@ -32,7 +32,7 @@ int				ft_iscollide
 		coll = o->ft_collide(o->fig, origin, direct);
 		if (!ft_3_isnullpoint(coll) &&
 			ft_3_pointcmp(ft_3_unitvectornew(coll, origin),
-				ft_3_vector_scale(ft_3_unitvectornew(coll, light), -1), 1e-6))
+				ft_3_unitvectornew(light, coll), 1e-6))
 			return (1);
 		o_node = o_node->next;
 	}

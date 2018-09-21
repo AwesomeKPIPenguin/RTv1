@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-void	ft_get_coll_pnts_cyl(t_cone *cone, t_point3 (*pnt)[4])
+void		ft_get_coll_pnts_cyl(t_cone *cone, t_point3 (*pnt)[4])
 {
 	t_point3	a;
 	double		s;
@@ -22,14 +22,14 @@ void	ft_get_coll_pnts_cyl(t_cone *cone, t_point3 (*pnt)[4])
 	if ((dist = ft_3_line_point_dist(cone->base, cone->bv, a)) >
 		cone->base_rad ||
 			ft_3_vector_cos((*pnt)[1], ft_3_vectornew((*pnt)[0], a)) < 0)
-		return (ft_set_coll_pnts_null(pnt));
+		return (ft_set_coll_pnts_null(&((*pnt)[0]), &((*pnt)[1])));
 	s = cone->base_rad * sqrt(1 - pow(dist / cone->base_rad, 2)) /
 		sqrt(1 - pow(ft_3_vector_cos(cone->bv, (*pnt)[1]), 2));
 	(*pnt)[0] = ft_3_add_vector(a, ft_3_vector_scale((*pnt)[1], -s));
 	(*pnt)[1] = ft_3_add_vector(a, ft_3_vector_scale((*pnt)[1], s));
 }
 
-void	ft_get_coll_pnts(t_cone *cone, t_point3 (*pnt)[4], int is_cyl)
+void		ft_get_coll_pnts(t_cone *cone, t_point3 (*pnt)[4], int is_cyl)
 {
 	double		cos_t_2;
 	t_point3	v_co[2];
@@ -49,7 +49,7 @@ void	ft_get_coll_pnts(t_cone *cone, t_point3 (*pnt)[4], int is_cyl)
 		2 * (dv_dot * cov_dot - ft_3_vector_dot((*pnt)[1], v_co[1]) * cos_t_2),
 		pow(cov_dot, 2) - ft_3_vector_dot(v_co[1], v_co[1]) * cos_t_2, &res);
 	if (res[0] == 0.0)
-		return (ft_set_coll_pnts_null(pnt));
+		return (ft_set_coll_pnts_null(&((*pnt)[0]), &((*pnt)[1])));
 	v_co[0] = (*pnt)[0];
 	(*pnt)[0] = (res[1] < 0.0) ? ft_3_nullpointnew() :
 				ft_3_add_vector(v_co[0], ft_3_vector_scale((*pnt)[1], res[1]));
@@ -57,7 +57,8 @@ void	ft_get_coll_pnts(t_cone *cone, t_point3 (*pnt)[4], int is_cyl)
 				ft_3_add_vector(v_co[0], ft_3_vector_scale((*pnt)[1], res[2]));
 }
 
-void	ft_is_between_planes(t_point3 (*pnt)[4], t_point3 base, t_point3 vert)
+void		ft_is_between_planes
+	(t_point3 (*pnt)[4], t_point3 base, t_point3 vert)
 {
 	t_point3	bv;
 	t_point3	vb;
@@ -74,8 +75,8 @@ void	ft_is_between_planes(t_point3 (*pnt)[4], t_point3 base, t_point3 vert)
 		(*pnt)[1] = ft_3_nullpointnew();
 }
 
-void	ft_collide_cone_planes(t_cone *cone, t_point3 origin, t_point3 direct,
-							t_point3 (*pnt)[4])
+void		ft_collide_cone_planes
+	(t_cone *cone, t_point3 origin, t_point3 direct, t_point3 (*pnt)[4])
 {
 	(*pnt)[2] = ft_3_line_plane_inter(cone->base, cone->bv, origin, direct);
 	if (ft_3_vector_cos(direct, ft_3_vectornew(origin, (*pnt)[2])) < 0 ||
