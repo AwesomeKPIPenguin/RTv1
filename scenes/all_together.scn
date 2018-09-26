@@ -1,7 +1,7 @@
 
 scene {
-	name: All Together;
-	world_color: 0x00;
+	name:;
+	world_color: 0x0;
 }
 
 camera {
@@ -37,6 +37,7 @@ plane {
     norm: (0, 1, 0);
     color: 0x808080;
     spclr: 1;
+	s_blur: 0.3;
 }
 
 cone {
