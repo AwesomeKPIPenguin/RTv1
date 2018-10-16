@@ -134,18 +134,18 @@ cone {
 
 ## Output
 
-Plane:
+plane.scn:
 
 <img width="1201" alt="screen shot 2018-09-26 at 2 52 39 pm" src="https://user-images.githubusercontent.com/22004388/46985603-f7edfe80-d0f3-11e8-9599-1916538266be.png">
 
-Sphere:
+sphere.scn:
 
 <img width="1199" alt="screen shot 2018-09-26 at 2 53 04 pm" src="https://user-images.githubusercontent.com/22004388/46985604-f7edfe80-d0f3-11e8-87c3-25b054414c0e.png">
 
-Cone:
+cone.scn:
 
 <img width="1200" alt="screen shot 2018-09-26 at 2 53 21 pm" src="https://user-images.githubusercontent.com/22004388/46985607-f8869500-d0f3-11e8-9cb4-624a31d8b9b6.png">
 
-All together:
+all_together.scn:
 
 <img width="1200" alt="screen shot 2018-09-26 at 2 54 02 pm" src="https://user-images.githubusercontent.com/22004388/46985602-f7edfe80-d0f3-11e8-9d25-db16466901c7.png">
